@@ -7,9 +7,11 @@ struct IdeaTodayScreen: View {
     let onNext: () -> Void
 
     var body: some View {
-        Screen {
+        IllustratedScreen(artTop: 8) {
             TopBar(back: onBack) { StepLabel("1 of 3") }
-            DayNightScene().padding(.top, 8)
+        } art: {
+            DayNightScene()
+        } content: {
             H1("Only today.").padding(.top, 18)
             Para("“Do this every day for the rest of your life” is too heavy to carry. So a yogi doesn't carry it. Each morning they ask a single question.")
                 .padding(.top, 12)

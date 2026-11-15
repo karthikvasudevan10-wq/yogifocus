@@ -7,9 +7,11 @@ struct HowHelpsScreen: View {
     let onNext: () -> Void
 
     var body: some View {
-        Screen {
+        IllustratedScreen(artTop: 6) {
             TopBar(back: onBack)
-            HelpArt().padding(.top, 6)
+        } art: {
+            HelpArt()
+        } content: {
             H1("How Yogi Focus helps you build a routine", size: 31).padding(.top, 14)
             VStack(alignment: .leading, spacing: 13) {
                 row(YF.sunny, "widget", "A gentle nudge, right on time",

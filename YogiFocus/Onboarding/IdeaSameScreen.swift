@@ -7,9 +7,11 @@ struct IdeaSameScreen: View {
     let onNext: () -> Void
 
     var body: some View {
-        Screen {
+        IllustratedScreen(artTop: 8) {
             TopBar(back: onBack) { StepLabel("2 of 3") }
-            SameScene().padding(.top, 8)
+        } art: {
+            SameScene()
+        } content: {
             H1("Same time.\nSame place.\nSame things.").padding(.top, 18)
             Para("A yogi practises at the exact hour, in the exact spot, with the same mat and the same clothes.")
                 .padding(.top, 12)

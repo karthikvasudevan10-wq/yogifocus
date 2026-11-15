@@ -10,12 +10,16 @@ struct WelcomeScreen: View {
             if geo.size.width >= 600 {
                 // The open iPhone Duo: graphic on one side, text and button on the other.
                 HStack(spacing: 0) {
+                    // The halo spreads wider than the 390 pt scene, so keep a margin round it.
                     hero(extraTop: 0, anchor: .center, alignment: .center)
+                        .padding(.vertical, ScreenMetrics.edge)
+                        .padding(.leading, YF.margin * 2)
+                        .padding(.trailing, YF.margin)
                     VStack(alignment: .leading, spacing: 0) {
-                        Spacer(minLength: 0)
+                        Spacer(minLength: ScreenMetrics.edge)
                         words
                         PrimaryButton("Begin", kind: .hero, action: onBegin).padding(.top, 28)
-                        Spacer(minLength: 0)
+                        Spacer(minLength: ScreenMetrics.edge)
                     }
                     .padding(.horizontal, YF.margin)
                     .frame(width: min(YF.maxColumn, geo.size.width * 0.5))
@@ -32,7 +36,7 @@ struct WelcomeScreen: View {
                     Spacer(minLength: 12)
                     PrimaryButton("Begin", kind: .hero, action: onBegin)
                         .padding(.horizontal, YF.margin)
-                        .padding(.bottom, geo.safeAreaInsets.bottom > 0 ? 0 : 16)
+                        .padding(.bottom, max(0, ScreenMetrics.edge - geo.safeAreaInsets.bottom))
                 }
             }
         }
@@ -56,7 +60,6 @@ struct WelcomeScreen: View {
                 .font(YFFont.heading(19, .semibold))
             Text("Yogi Focus")
                 .font(YFFont.heading(50))
-                .designLineHeight(50, 1.0)
                 .foregroundStyle(YF.textGreen)
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)

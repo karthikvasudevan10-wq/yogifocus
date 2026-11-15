@@ -120,6 +120,10 @@ struct RootView: View {
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { model.refresh() }
         }
+        #if DEBUG
+        .onAppear { if let r = DebugSeed.route(model.routines.first?.id) { path = r } }
+        .modifier(DebugFrame())
+        #endif
     }
 
     @ViewBuilder private var root: some View {

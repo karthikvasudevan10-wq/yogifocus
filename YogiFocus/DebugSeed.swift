@@ -12,6 +12,28 @@ import YogiKit
 /// - hour / minute: the routine's time (defaults to 7:00).
 /// - reset: 1 removes everything and shows the introduction again.
 enum DebugSeed {
+    /// `YF_SCREEN` opens one screen directly: welcome, ideaToday, ideaSame, ideaMandala, howHelps, choose, anchor,
+    /// widgetSetup, reflect, kept, routines, edit, mandala. (today, day30 and complete come from YF_SEED.)
+    static func route(_ id: UUID?) -> [Route]? {
+        guard let s = ProcessInfo.processInfo.environment["YF_SCREEN"], !s.isEmpty else { return nil }
+        let rid = id ?? UUID()
+        switch s {
+        case "ideaToday": return [.ideaToday]
+        case "ideaSame": return [.ideaSame]
+        case "ideaMandala": return [.ideaMandala]
+        case "howHelps": return [.howHelps]
+        case "choose": return [.choose]
+        case "anchor": return [.anchor(.meditate)]
+        case "widgetSetup": return [.widgetSetup(rid)]
+        case "reflect": return [.reflect(rid)]
+        case "kept": return [.kept(rid)]
+        case "routines": return [.routines]
+        case "edit": return [.edit(rid)]
+        case "mandala": return [.mandala(rid)]
+        default: return nil
+        }
+    }
+
     static func applyIfAsked() {
         guard let raw = ProcessInfo.processInfo.environment["YF_SEED"], !raw.isEmpty else { return }
         var opts: [String: String] = [:]
@@ -42,6 +64,32 @@ enum DebugSeed {
             store.markKept(id, on: date, feeling: feelings[d % feelings.count])
         }
         store.hasOnboarded = true
+    }
+}
+
+import SwiftUI
+
+/// `YF_FRAME=466x678` lays the app out in a window of that size, to check the iPhone Duo's outer display
+/// (or any other size) on whatever simulator is running.
+struct DebugFrame: ViewModifier {
+    func body(content: Content) -> some View {
+        let raw = ProcessInfo.processInfo.environment["YF_FRAME"] ?? ""
+        let p = raw.split(separator: "x").compactMap { Double($0) }
+        if p.count == 2 {
+            // Laid out at the requested size, then scaled to fit the real screen so all of it can be seen.
+            GeometryReader { geo in
+                let k = min(1, geo.size.width / p[0], geo.size.height / p[1])
+                content
+                    .frame(width: p[0], height: p[1])
+                    .clipped()
+                    .scaleEffect(k)
+                    .frame(width: geo.size.width, height: geo.size.height)
+            }
+            .ignoresSafeArea()
+            .background(Color.black.ignoresSafeArea())
+        } else {
+            content
+        }
     }
 }
 #endif

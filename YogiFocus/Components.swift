@@ -3,8 +3,13 @@ import YogiKit
 
 // MARK: - Screen scaffold
 
-/// The common layout: 28 pt side margins, content that scrolls if it must, and one primary button pinned to the bottom.
-/// On the open iPhone Duo the content stays in a column no wider than about 430 pt.
+/// The common layout: 28 pt side margins, content that scrolls if it must, and one primary button.
+///
+/// - On a tall iPhone (as drawn, 390 × 844) the button is pinned to the bottom.
+/// - On the iPhone Duo, whose displays are much squarer (outer about 466 × 678, inner about 951 × 669),
+///   the content and its button sit together as one group in the middle of the screen, in a column no wider
+///   than about 430 pt, and scroll if they do not fit.
+/// - Content never sits closer than 24 pt to the top or bottom edge, even where there is no status bar above it.
 struct Screen<Content: View, Bottom: View>: View {
     var background: Color = YF.ground
     var scrolls = true
@@ -14,30 +19,69 @@ struct Screen<Content: View, Bottom: View>: View {
     var body: some View {
         GeometryReader { geo in
             let column = min(geo.size.width, YF.maxColumn)
-            VStack(spacing: 0) {
-                if scrolls {
-                    ScrollView(.vertical, showsIndicators: false) {
-                        VStack(alignment: .leading, spacing: 0) { content() }
+            let top = max(8, ScreenMetrics.edge - geo.safeAreaInsets.top)
+            let bottomPad = max(0, ScreenMetrics.edge - geo.safeAreaInsets.bottom)
+            Group {
+                if ScreenMetrics.isTall(geo.size) {
+                    VStack(spacing: 0) {
+                        if scrolls {
+                            ScrollView(.vertical, showsIndicators: false) {
+                                VStack(alignment: .leading, spacing: 0) { content() }
+                                    .padding(.horizontal, YF.margin)
+                                    .padding(.top, top)
+                                    .padding(.bottom, 16)
+                                    .frame(width: column, alignment: .leading)
+                                    .frame(maxWidth: .infinity)
+                            }
+                            .scrollBounceBehavior(.basedOnSize)
+                        } else {
+                            VStack(alignment: .leading, spacing: 0) { content() }
+                                .padding(.horizontal, YF.margin)
+                                .padding(.top, top)
+                                .frame(width: column, alignment: .leading)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                        }
+                        VStack(spacing: 8) { bottom() }
                             .padding(.horizontal, YF.margin)
                             .padding(.top, 8)
-                            .padding(.bottom, 16)
-                            .frame(width: column, alignment: .leading)
+                            .padding(.bottom, bottomPad)
+                            .frame(width: column)
                             .frame(maxWidth: .infinity)
                     }
-                    .scrollBounceBehavior(.basedOnSize)
                 } else {
-                    VStack(alignment: .leading, spacing: 0) { content() }
+                    // Short or wide displays: the words and button as one group in the middle. If that group is
+                    // taller than the screen, the words scroll and the button stays pinned at the bottom instead.
+                    ViewThatFits(in: .vertical) {
+                        VStack(alignment: .leading, spacing: 0) {
+                            content()
+                            VStack(spacing: 8) { bottom() }
+                                .padding(.top, 28)
+                        }
                         .padding(.horizontal, YF.margin)
-                        .padding(.top, 8)
+                        .padding(.top, top)
+                        .padding(.bottom, max(8, bottomPad))
                         .frame(width: column, alignment: .leading)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+
+                        VStack(spacing: 0) {
+                            ScrollView(.vertical, showsIndicators: false) {
+                                VStack(alignment: .leading, spacing: 0) { content() }
+                                    .padding(.horizontal, YF.margin)
+                                    .padding(.top, top)
+                                    .padding(.bottom, 16)
+                                    .frame(width: column, alignment: .leading)
+                                    .frame(maxWidth: .infinity)
+                            }
+                            .scrollBounceBehavior(.basedOnSize)
+                            VStack(spacing: 8) { bottom() }
+                                .padding(.horizontal, YF.margin)
+                                .padding(.top, 8)
+                                .padding(.bottom, max(8, bottomPad))
+                                .frame(width: column)
+                                .frame(maxWidth: .infinity)
+                        }
+                    }
                 }
-                VStack(spacing: 8) { bottom() }
-                    .padding(.horizontal, YF.margin)
-                    .padding(.top, 8)
-                    .padding(.bottom, geo.safeAreaInsets.bottom > 0 ? 0 : 16)
-                    .frame(width: column)
-                    .frame(maxWidth: .infinity)
             }
             .frame(width: geo.size.width, height: geo.size.height)
         }
@@ -45,6 +89,13 @@ struct Screen<Content: View, Bottom: View>: View {
         .foregroundStyle(YF.ink)
         .toolbar(.hidden, for: .navigationBar)
     }
+}
+
+enum ScreenMetrics {
+    /// The nearest any content may come to the top or bottom edge of the screen.
+    static let edge: CGFloat = 24
+    /// A normal iPhone in portrait (390 × 844 is 2.16). The Duo's displays are 1.45 (outer) and 0.70 (inner).
+    static func isTall(_ size: CGSize) -> Bool { size.height / max(1, size.width) >= 1.75 }
 }
 
 extension Screen where Bottom == EmptyView {
@@ -430,6 +481,58 @@ struct HaloRing: View {
             }
             .allowsHitTesting(false)
             .accessibilityHidden(true)
+        }
+    }
+}
+
+/// A screen led by an illustration (the idea screens). On a tall phone it is a normal `Screen` with the
+/// illustration above the words. On a wide display, such as the open iPhone Duo, the illustration takes one
+/// side and the words and button the other, both centred, so nothing has to scroll out of sight.
+struct IllustratedScreen<Top: View, Art: View, Content: View, Bottom: View>: View {
+    var artTop: CGFloat = 8
+    @ViewBuilder var top: () -> Top
+    @ViewBuilder var art: () -> Art
+    @ViewBuilder var content: () -> Content
+    @ViewBuilder var bottom: () -> Bottom
+
+    var body: some View {
+        GeometryReader { geo in
+            if geo.size.width >= 600 && !ScreenMetrics.isTall(geo.size) {
+                let topPad = max(8, ScreenMetrics.edge - geo.safeAreaInsets.top)
+                let bottomPad = max(8, ScreenMetrics.edge - geo.safeAreaInsets.bottom)
+                let column = min(YF.maxColumn - 2 * YF.margin, (geo.size.width - 3 * YF.margin) / 2)
+                HStack(spacing: YF.margin) {
+                    art()
+                        .frame(maxWidth: column)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    ScrollView(.vertical, showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 0) {
+                            top()
+                            content()
+                            VStack(spacing: 8) { bottom() }.padding(.top, 28)
+                        }
+                        .padding(.top, topPad)
+                        .padding(.bottom, bottomPad)
+                        .frame(minHeight: geo.size.height, alignment: .center)
+                    }
+                    .scrollBounceBehavior(.basedOnSize)
+                    .frame(width: column)
+                    .frame(maxWidth: .infinity)
+                }
+                .padding(.horizontal, YF.margin)
+                .frame(width: geo.size.width, height: geo.size.height)
+                .background(YF.ground.ignoresSafeArea())
+                .foregroundStyle(YF.ink)
+                .toolbar(.hidden, for: .navigationBar)
+            } else {
+                Screen {
+                    top()
+                    art().padding(.top, artTop)
+                    content()
+                } bottom: {
+                    bottom()
+                }
+            }
         }
     }
 }

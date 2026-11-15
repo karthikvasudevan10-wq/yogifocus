@@ -7,9 +7,11 @@ struct IdeaMandalaScreen: View {
     let onNext: () -> Void
 
     var body: some View {
-        Screen {
+        IllustratedScreen(artTop: 8) {
             TopBar(back: onBack) { StepLabel("3 of 3") }
-            JourneyGraph().padding(.top, 8)
+        } art: {
+            JourneyGraph()
+        } content: {
             H1("One mandala is 48 days.").padding(.top, 16)
             Para("Yogis hold that a practice kept for one mandala is likely to stay for life. This is how those 48 days tend to go.", size: 15.5)
                 .padding(.top, 8)

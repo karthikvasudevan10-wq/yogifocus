@@ -68,21 +68,21 @@ struct TodayScreen: View {
             content(now: ctx.date)
         }
         .fullScreenCover(item: Binding(get: { reveal.map(IDBox.init) }, set: { reveal = $0?.id })) { box in
-            Day30Screen(routineID: box.id) {
+            debugFramed(Day30Screen(routineID: box.id) {
                 YogiStore.shared.markDay30Seen(box.id)
                 reveal = nil
                 path.append(.mandala(box.id))
-            }
+            })
         }
         .fullScreenCover(item: Binding(get: { complete.map(IDBox.init) }, set: { complete = $0?.id })) { box in
-            MandalaCompleteScreen(routineID: box.id, onNewMandala: {
+            debugFramed(MandalaCompleteScreen(routineID: box.id, onNewMandala: {
                 YogiStore.shared.beginNewMandala(box.id)
                 complete = nil
             }, onAddRoutine: {
                 YogiStore.shared.beginNewMandala(box.id)
                 complete = nil
                 path.append(.choose)
-            })
+            }))
         }
         .onAppear(perform: checkMilestones)
         .onChange(of: model.routines) { _, _ in checkMilestones() }
@@ -177,6 +177,15 @@ struct TodayScreen: View {
 }
 
 struct IDBox: Identifiable { let id: UUID }
+
+/// Full-screen covers sit outside the root view, so the debug window size is applied to them separately.
+@ViewBuilder func debugFramed<V: View>(_ v: V) -> some View {
+    #if DEBUG
+    v.modifier(DebugFrame())
+    #else
+    v
+    #endif
+}
 
 // MARK: - How did it feel?
 
@@ -274,22 +283,27 @@ struct HeroLayout<Hero: View, Top: View, Content: View, Bottom: View>: View {
     var body: some View {
         GeometryReader { geo in
             let wide = geo.size.width >= 600
+            let topPad = max(8, ScreenMetrics.edge - geo.safeAreaInsets.top)
+            let bottomPad = max(0, ScreenMetrics.edge - geo.safeAreaInsets.bottom)
             Group {
                 if wide {
-                    HStack(spacing: 24) {
+                    // The open iPhone Duo: the graphic on one side; the words and buttons centred on the other.
+                    HStack(spacing: 32) {
                         hero().aspectRatio(heroAspect, contentMode: .fit)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        VStack(alignment: .leading, spacing: 0) {
-                            Spacer(minLength: 0)
-                            top()
-                            content()
-                            Spacer(minLength: 16)
-                            VStack(spacing: 8) { bottom() }
+                        ScrollView(.vertical, showsIndicators: false) {
+                            VStack(alignment: .leading, spacing: 0) {
+                                top()
+                                content().fixedSize(horizontal: false, vertical: true)
+                                VStack(spacing: 8) { bottom() }.padding(.top, 28)
+                            }
+                            .padding(.vertical, max(topPad, bottomPad))
+                            .frame(minHeight: geo.size.height, alignment: .center)
                         }
+                        .scrollBounceBehavior(.basedOnSize)
                         .frame(width: min(YF.maxColumn - 2 * YF.margin, geo.size.width * 0.46))
                     }
                     .padding(.horizontal, YF.margin)
-                    .padding(.vertical, 16)
                 } else {
                     VStack(alignment: .leading, spacing: 0) {
                         top()
@@ -302,8 +316,10 @@ struct HeroLayout<Hero: View, Top: View, Content: View, Bottom: View>: View {
                         VStack(spacing: 8) { bottom() }
                     }
                     .padding(.horizontal, YF.margin)
-                    .padding(.top, 8)
-                    .padding(.bottom, geo.safeAreaInsets.bottom > 0 ? 0 : 16)
+                    .padding(.top, topPad)
+                    .padding(.bottom, bottomPad)
+                    .frame(maxWidth: YF.maxColumn)
+                    .frame(maxWidth: .infinity)
                 }
             }
             .frame(width: geo.size.width, height: geo.size.height)

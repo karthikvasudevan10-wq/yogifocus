@@ -48,6 +48,21 @@ final class WatchModel {
     }
 
     var screen: WatchScreen {
+        #if DEBUG
+        if let s = ProcessInfo.processInfo.environment["YF_WATCH_SCREEN"] {
+            let r = RoutineSnapshot(name: "Meditate")
+            switch s {
+            case "empty": return .empty
+            case "paused": return .paused(r)
+            case "soon": return .soon(r, minutes: 20)
+            case "itsTime": return .itsTime(r)
+            case "passed": return .passed(r)
+            case "ask": return .ask(r)
+            case "kept": return .kept(r)
+            default: return .newDay(r)
+            }
+        }
+        #endif
         if let id = asking, let r = snapshots.first(where: { $0.id == id }) { return .ask(r) }
         if let id = showingKept, let r = snapshots.first(where: { $0.id == id }) { return .kept(r) }
         guard let r = Routines.current(snapshots, at: now) else { return .empty }
