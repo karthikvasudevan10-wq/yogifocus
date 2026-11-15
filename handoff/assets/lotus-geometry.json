@@ -1,0 +1,66 @@
+{
+ "viewBox": [
+  -150,
+  -150,
+  300,
+  300
+ ],
+ "petals": 48,
+ "rings": [
+  {
+   "ring": 0,
+   "days": [
+    1,
+    16
+   ],
+   "count": 16,
+   "baseRadius": 30,
+   "length": 44,
+   "controlWidth": 13,
+   "angleOffsetDeg": 0.0
+  },
+  {
+   "ring": 1,
+   "days": [
+    17,
+    32
+   ],
+   "count": 16,
+   "baseRadius": 62,
+   "length": 44,
+   "controlWidth": 19,
+   "angleOffsetDeg": 11.25
+  },
+  {
+   "ring": 2,
+   "days": [
+    33,
+    48
+   ],
+   "count": 16,
+   "baseRadius": 96,
+   "length": 48,
+   "controlWidth": 25,
+   "angleOffsetDeg": 0.0
+  }
+ ],
+ "petalPath": "M0 0 C w -0.35l, w -0.75l, 0 -l C -w -0.75l, -w -0.35l, 0 0 Z  (l = length, w = controlWidth; drawn pointing up from its base)",
+ "placement": "petal i (0..15) of a ring: rotate(i*22.5 + angleOffsetDeg) then translate(0, -baseRadius). Day n opens ring (n-1)//16, petal (n-1)%16. Draw the outer ring first so inner petals overlap it.",
+ "centreDisc": {
+  "radius": 27
+ },
+ "strokeBetweenPetals": 1.5,
+ "colours": {
+  "practised": [
+   "#17933F",
+   "#3DBB45",
+   "#6FD43A"
+  ],
+  "missed": "#E0453F",
+  "toCome": "#EEF4E6",
+  "toComeStroke": "#D9E4CC",
+  "todayOnceKept": "#FF7A1A",
+  "centre": "#FFD21F"
+ },
+ "meaning": "Each petal is one calendar day of the 48-day mandala. Practised = green, missed = red, still to come = pale. A missed day never resets anything. Show the lotus as progress only from day 30."
+}

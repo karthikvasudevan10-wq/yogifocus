@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Today, after a missed day · Yogi Focus design reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+
+body{margin:0}
+a{color:#127A35}a:hover{color:#14301F}
+button,input{font-family:inherit}
+button{cursor:pointer}
+@keyframes yf-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes yf-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes yf-fall{from{transform:translateY(0)}to{transform:translateY(940px)}}
+@keyframes yf-sway{from{transform:translateX(-18px) rotate(-50deg)}to{transform:translateX(18px) rotate(70deg)}}
+@keyframes yf-rota{0%,40%{opacity:1}48%,90%{opacity:0}98%,100%{opacity:1}}
+@keyframes yf-rotb{0%,40%{opacity:0}48%,90%{opacity:1}98%,100%{opacity:0}}
+@keyframes yf-spin{to{transform:rotate(360deg)}}
+@keyframes yf-levitate{0%,100%{transform:translateY(4px)}50%{transform:translateY(-9px)}}
+@keyframes yf-shadow{0%,100%{transform:scale(1);opacity:0.26}50%{transform:scale(0.74);opacity:0.14}}
+@keyframes yf-rise{from{transform:translateY(70px)}to{transform:translateY(0)}}
+@keyframes yf-draw{from{stroke-dashoffset:420}to{stroke-dashoffset:0}}
+@keyframes yf-pop{from{transform:scale(0.4);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes yf-open{from{transform:scale(0.15);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes yf-ring{from{transform:scale(0.8);opacity:0.8}to{transform:scale(1.35);opacity:0}}
+@keyframes yf-up{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes yf-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.7);opacity:0.5}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+html{background:#D9DED3}body{display:flex;justify-content:center;padding:24px 0}
+</style>
+</head>
+<body>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 56px 28px 34px; display: flex; flex-direction: column; background: #FFFEF8; color: #14301F; font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 16px; line-height: 1.55; overflow: hidden">
+<div style="display: flex; align-items: center; justify-content: space-between; height: 44px; flex: none"><div style="font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 700; font-size: 26px; line-height: 1; color: #127A35">Yogi Focus</div><a href="Routines.html" aria-label="Your routines" style="width: 44px; height: 44px; margin-right: -10px; color: #14301F; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block"><path d="M9 6h11M9 12h11M9 18h11"></path><circle cx="4.5" cy="6" r="1"></circle><circle cx="4.5" cy="12" r="1"></circle><circle cx="4.5" cy="18" r="1"></circle></svg></a></div>
+<div style="margin-top: 22px; font-size: 14px; font-weight: 500; color: #4F6355">Sunday 15 November</div>
+<h1 style="margin: 2px 0 0; font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 700; font-size: 42px; line-height: 1.1; color: #14301F; text-wrap: balance">A new day.</h1>
+<p style="margin: 6px 0 0; font-size: 17px; color: #14301F; text-wrap: pretty">Yesterday is finished. Nothing to catch up, nothing to make good. Just start today.</p>
+<div style="margin-top: 22px; padding: 22px; border-radius: 26px; border: 1px solid #E2EBD6; background: #FFFFFF; display: flex; flex-direction: column">
+<span style="align-self: flex-start; padding: 4px 12px; border-radius: 14px; background: #FFD21F; color: #14301F; font-size: 13px; font-weight: 600">Today at 7:00 am</span>
+<div style="margin-top: 10px; font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 700; font-size: 32px; line-height: 1.1">Meditate</div>
+<div style="margin-top: 10px; display: flex; flex-direction: column; gap: 4px; font-size: 16px">
+<div style="display: flex; align-items: center; gap: 12px; min-height: 30px"><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#127A35" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><span>7:00 am, for 10 minutes</span></div>
+<div style="display: flex; align-items: center; gap: 12px; min-height: 30px"><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#127A35" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg><span>The balcony</span></div>
+<div style="display: flex; align-items: center; gap: 12px; min-height: 30px"><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#127A35" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block"><path d="M5 8h14l-1 12H6z"></path><path d="M9 8V6a3 3 0 0 1 6 0v2"></path></svg><span>Yoga mat, grey shawl</span></div>
+</div>
+</div>
+<a href="Routine-Edit.html" style="margin-top: 6px; display: flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 500">Is 7:00 am hard to keep? Try another hour</a>
+<a href="Reflect.html" style="margin-top: auto; flex: none; display: flex; align-items: center; justify-content: center; min-height: 56px; border-radius: 28px; background: #6FD43A; color: #14301F; font-size: 17px; font-weight: 600; text-decoration: none">I've practised today</a>
+</div>
+</body>
+</html>

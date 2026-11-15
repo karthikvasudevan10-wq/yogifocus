@@ -1,0 +1,218 @@
+[
+ {
+  "file": "Main.html",
+  "title": "Welcome",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Idea-Today.html",
+  "title": "Idea 1 \u00b7 Only today",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Idea-Same.html",
+  "title": "Idea 2 \u00b7 Same time, place, things",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Idea-Mandala.html",
+  "title": "Idea 3 \u00b7 One mandala",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "How-Yogi-Helps.html",
+  "title": "How Yogi Focus helps you build a routine",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Choose-Routine.html",
+  "title": "Choose one routine",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Anchor.html",
+  "title": "Time, place, things",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Widget-Setup.html",
+  "title": "Add the widget",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Routines.html",
+  "title": "Your routines \u00b7 list",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Routine-Edit.html",
+  "title": "Routine settings",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Widget-States.html",
+  "title": "Widget through the 48 days",
+  "w": 880,
+  "h": 890
+ },
+ {
+  "file": "Widget-Done.html",
+  "title": "Widget \u00b7 tapping Done",
+  "w": 860,
+  "h": 700
+ },
+ {
+  "file": "Widget-Medium.html",
+  "title": "Widget \u00b7 medium size",
+  "w": 860,
+  "h": 516
+ },
+ {
+  "file": "Widget-Large.html",
+  "title": "Widget \u00b7 large size",
+  "w": 860,
+  "h": 940
+ },
+ {
+  "file": "Today.html",
+  "title": "Today \u00b7 first week",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Reflect.html",
+  "title": "How did it feel?",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Kept.html",
+  "title": "Today is kept",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Just-Start.html",
+  "title": "Today \u00b7 just start",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Still-Today.html",
+  "title": "Today \u00b7 the hour has passed",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "New-Day.html",
+  "title": "Today, after a missed day",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Day-30.html",
+  "title": "Day 30 \u00b7 the lotus appears",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Mandala.html",
+  "title": "Mandala progress",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Mandala-Complete.html",
+  "title": "Mandala complete \u00b7 invite a second routine",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Watch.html",
+  "title": "Apple Watch screens",
+  "w": 1030,
+  "h": 736
+ },
+ {
+  "file": "App-Icon.html",
+  "title": "App icon",
+  "w": 960,
+  "h": 330
+ },
+ {
+  "file": "Main-Dark.html",
+  "title": "Welcome \u00b7 dark",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Idea-Today-Dark.html",
+  "title": "Idea 1 \u00b7 Only today \u00b7 dark",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "How-Yogi-Helps-Dark.html",
+  "title": "How Yogi Focus helps you build a routine \u00b7 dark",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Choose-Routine-Dark.html",
+  "title": "Choose one routine \u00b7 dark",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Anchor-Dark.html",
+  "title": "Time, place, things \u00b7 dark",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Today-Dark.html",
+  "title": "Today \u00b7 first week \u00b7 dark",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Reflect-Dark.html",
+  "title": "How did it feel? \u00b7 dark",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Kept-Dark.html",
+  "title": "Today is kept \u00b7 dark",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Mandala-Dark.html",
+  "title": "Mandala progress \u00b7 dark",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Mandala-Complete-Dark.html",
+  "title": "Mandala complete \u00b7 invite a second routine \u00b7 dark",
+  "w": 390,
+  "h": 844
+ },
+ {
+  "file": "Widget-States-Dark.html",
+  "title": "Widget through the 48 days \u00b7 dark",
+  "w": 880,
+  "h": 890
+ }
+]
