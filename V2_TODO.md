@@ -181,6 +181,81 @@ Notes:
 - **Design rules 4 and 5:** no misses, no streaks, no comparison. Only presence.
 - **Privacy:** the partner sees nothing else: no place, things, feelings or times. Either person can stop sharing at any time.
 
+## 18. Learn when they really do it
+
+- [ ] Move reminders quietly to match when Done is usually tapped. If the routine is set for 7:00 but is usually finished at 7:40, the nudge follows, with nothing to set up and no question.
+
+Notes:
+- **How:** keep the time of each Done; after a week or two, shift the nudge towards the typical time, within limits (say ±45 minutes). The routine's set time stays as written.
+- **Visible:** a quiet line in routine settings ("Reminders follow when you usually practise"), with a switch to turn it off.
+
+## 19. Clear the way around the calendar
+
+- [ ] When a calendar event overlaps the routine, suggest a new time for today the evening before or that morning: "You've a call at 7. Meditate at 6:30 today?" One tap accepts; doing nothing keeps the usual time.
+
+Notes:
+- **Permission:** calendar read access, shared with item 5. Only when turned on.
+- **Today only:** the change applies to one day, never the routine.
+- **Tone:** an offer, never a warning.
+
+## 20. Hold nudges until they're free
+
+- [ ] Don't nudge while the person is driving or in a meeting; deliver the reminder once they're free.
+
+Notes:
+- **How:** calendar busy times (item 19) to delay the nudge; notification interruption levels so Focus modes such as Driving hold it. iOS doesn't let apps read whether someone is driving, so Focus does that part.
+- **Limit:** if the delay pushes past the routine's window, send a softer "Still today" nudge instead.
+
+## 21. Weather-aware Walk
+
+- [ ] On a rainy morning, offer an indoor walk or a drier time: "Rain at 7. An indoor walk today, or 5:30 this evening when it clears?"
+
+Notes:
+- **How:** WeatherKit for the routine's place. Needs the place's rough location (item 12) or the phone's.
+- **Other routines:** could extend to Gym (an outdoor run) or Stretch outdoors.
+
+## 22. A gentle alarm
+
+- [ ] For people who want it, ring the routine like a soft alarm at its time, with Start and Later buttons.
+
+Notes:
+- **How:** AlarmKit (iOS 26), which shows on the Lock Screen, Dynamic Island and watch, and breaks through silent mode.
+- **Sound:** the app's chime, soft and short. Off by default; chosen in routine settings.
+
+## 23. Set the scene
+
+- [ ] At the routine's time, run a Shortcut or Home scene the person chose once: dim the lights, start a playlist, turn on Do Not Disturb (item 3).
+
+Notes:
+- **How:** iOS can't run a Shortcut from an app at a set time without the person; so either a Shortcuts automation the app helps set up (as in item 3), or running it when Start is tapped (item 22 or 24).
+- **HomeKit:** with Home permission, the app could run a scene itself when Start is tapped.
+
+## 24. Open straight into the practice
+
+- [ ] Tapping the nudge goes straight to a timer with the chime, not a screen of choices. Done is marked when the timer ends.
+
+Notes:
+- **Untimed routines:** Cut Sugar has no timer; the nudge opens to Done.
+- **Ties in with:** the Live Activity in item 4, which shows the timer on the Lock Screen and Dynamic Island.
+- **Leaving early:** if the timer is stopped early, still count it as kept (item 10's spirit: showing up is the habit).
+
+## 25. Ask "How did it feel?" less
+
+- [ ] Ask about once a week, or only when the answer would teach the app something, instead of every day.
+
+Notes:
+- **Why:** fewer questions, less burden. Reflections still build up for the insights in item 15.
+- **Choice:** people who like answering daily can turn it back on.
+- **Design:** check how this sits with the reflect and kept screens; on days without the question, Done goes straight to "That's today, kept."
+
+## 26. A missed day leaves no trace in the moment
+
+- [ ] The day after a miss, the nudge is exactly as warm as always. No "welcome back", no "let's get back on track". The app simply carries on.
+
+Notes:
+- **Design rules 5 and 10:** this makes the existing rules explicit for every nudge, widget and watch message, and for anything added in v2.
+- **Check:** review every message in `Nudges.swift` and the widgets to make sure none of them depends on the day before.
+
 ---
 
 # Maybe
@@ -201,3 +276,39 @@ Notes:
 - **No doubles:** don't write a workout already logged by the watch. Ties in with item 13, which reads it.
 - **Permission:** ask only when turned on, and only for the types that routine needs.
 - **Privacy:** the privacy page needs a line saying Health data stays on the device and is used for nothing else.
+
+## Before and after
+
+- [ ] On day 1, ask one question about the area the routine is for ("How calm do your days feel?", 1 to 5). Ask again on day 49 and show both side by side.
+
+## "What changed?"
+
+- [ ] On day 49, ask "What's different now?" and keep the answer beside the day-1 letter (item 8). A good moment to ask for an App Store review.
+
+## Who you're becoming
+
+- [ ] Identity wording that grows: around day 30, "You're becoming someone who meditates"; at day 49, "You're someone who meditates."
+
+## Know what this stage feels like
+
+- [ ] A short note for each stage the app already tracks (days 1–6, the boring middle 7–27, becoming yours 28–48), such as "Week 2 often feels dull. That's normal, and it's where habits are made."
+
+## Plan for the obstacle
+
+- [ ] At setup, ask "What's most likely to get in the way?" and help write an if-then plan ("If it rains, I'll walk indoors"). Show the plan back on days it may matter.
+
+## Get ready the night before
+
+- [ ] For morning routines, an optional evening nudge to set out the routine's things: "Put your mat and shawl out for tomorrow."
+
+## Travel and holidays
+
+- [ ] When the time zone changes, gently ask whether to keep the routine at local time, change it, or pause for the trip. Pausing never counts as missed days.
+
+## The next routine builds on this one
+
+- [ ] At mandala complete, offer a second routine anchored to the first ("After I meditate, I journal"), using item 11.
+
+## Keeping it going
+
+- [ ] After the mandala, a lighter mode: fewer nudges, a weekly check-in, and a lotus that keeps growing, for people who don't want a new mandala.
