@@ -80,3 +80,103 @@ Notes:
 - **Mandalas completed:** the count comes from `mandalaNumber - 1` for the routine (and the iCloud summary's `mandalasCompleted` for all routines). Show both on the screen and in the shared image, for example "Your 3rd mandala".
 - **Design rule 4:** this screen is after day 49, so showing counts is allowed here.
 - **Privacy:** sharing only happens when the person taps it. Update the privacy page to say no data goes to Instagram or TikTok unless they choose to share.
+
+## 7. Automatic-or-not check-in
+
+- [ ] On days 21 and 49, ask one gentle question: "Today, did it happen without much thinking?" From day 30, show how the answer has changed ("Day 7: it took effort. Day 49: it just happened.").
+
+Notes:
+- **Why:** a habit is formed when it feels automatic. This is the clearest sign for the person that the app helped, more than any count.
+- **Design rule 4:** the day-21 answer is stored but not shown back until day 30.
+- **Answers:** three choices, such as "It took effort", "A little" and "It just happened". No wrong answer, no blame.
+- **Data:** a small field on `Reflection` or a new model, synced through CloudKit like the rest.
+
+## 8. A letter to yourself
+
+- [ ] On day 1, ask for one line on why this routine matters. On day 49, show it on the mandala complete screen.
+
+Notes:
+- **Setup:** optional, after the anchor screen. Easy to skip, and editable later in routine settings.
+- **Day 49:** "On day 1 you wrote: …", above the sharing from item 6. The person chooses whether the line goes into the shared image (off by default).
+- **Privacy:** stays in their private iCloud database.
+
+## 9. Fading nudges
+
+- [ ] As days are kept on time, make reminders gentler and less frequent. Near the end of the mandala, tell the person: "You don't need my reminder any more."
+
+Notes:
+- **How:** from day 30, if most recent days were kept before the reminder fired, drop the 20-minute nudge first, then the on-time one. Bring them back quietly after a few misses, without saying why (design rule 5).
+- **Control:** a "Keep all reminders" switch in routine settings for people who want them.
+- **Message:** said once, warmly, as a moment to be proud of.
+
+## 10. A two-minute version
+
+- [ ] During setup, let the person choose a tiny fallback (for example "sit on the mat for two minutes"). On a hard day, offer it, and count it as kept.
+
+Notes:
+- **Where:** an optional step in setup; a "Just the two-minute version" button on Today, the widget and the watch.
+- **Counting:** it counts as kept, so the mandala petal opens. It can be marked in the data so the insights in item 15 can mention it kindly ("Twice you kept it with the two-minute version").
+- **Tone:** never a lesser kept day. "Showing up is the habit."
+
+## 11. Anchor to something already done
+
+- [ ] Alongside the time, add an "After I…" anchor, such as "After my morning coffee, I meditate".
+
+Notes:
+- **Why:** linking a new routine to an existing habit makes it more likely to happen.
+- **Sentence:** `routineSentence` gains the anchor: "Each day after my morning coffee, at about 7:00, on the balcony, I meditate."
+- **Suggestions:** a short list (after waking, after coffee, after brushing my teeth, after work), plus free text.
+- **Reminders:** still at the time, since iOS can't detect "after coffee".
+
+## 12. A nudge on arrival
+
+- [ ] Offer a reminder when the person arrives at the routine's place (the gym, the balcony), as well as at the time.
+
+Notes:
+- **How:** a location-triggered local notification (`UNLocationNotificationTrigger`) on a region set by picking the place on a map. Only once a day, and only around the routine's hour.
+- **Permission:** "When in use" location is enough for location notifications. Ask only when the person turns it on.
+- **Privacy:** the location stays on the device and in their private iCloud. The privacy page needs a line on it.
+
+## 13. Mark it done automatically
+
+- [ ] Use Apple Health to notice a kept day: a workout logged near the routine's time counts for Gym, and mindful minutes count for Meditate. Ask "Looks like you went. Count it?" and never mark it without asking.
+
+Notes:
+- **How:** HealthKit read access for workouts and mindful sessions, with background delivery to send the question as a notification.
+- **Writing back:** optionally save a mindful session to Health when a Meditate day is kept.
+- **Permission:** ask only when turned on in routine settings. Health data never leaves the device; the privacy page needs a line on it.
+
+## 14. Siri, Shortcuts and the Action button
+
+- [ ] "Hey Siri, I've done my meditation." App Shortcuts for Done, the two-minute version and "How am I doing?", available to Siri, Spotlight and the Action button.
+
+Notes:
+- **How:** the Done App Intent already exists for the widget; publish it with `AppShortcutsProvider` and phrases per routine.
+- **"How am I doing?":** before day 30, answers with time and kindness only, never counts (design rule 4).
+
+## 15. What we've noticed
+
+- [ ] From day 30, show small insights drawn from the person's own answers, such as "You felt steadiest on days you went before 7" or "The balcony days felt more absorbed".
+
+Notes:
+- **How:** simple on-device comparisons of feelings against time of day, weekday and place. No server, no AI service needed.
+- **Tone:** only kind, useful observations. Never "You miss Mondays".
+- **Where:** the mandala screen, one insight at a time; perhaps one on the mandala complete screen.
+
+## 16. The yogi's year
+
+- [ ] Each completed mandala adds a lasting mark to a yearly lotus garden: a quiet record of a changed life, and a year-end share.
+
+Notes:
+- **Where:** a new screen from the routines list, and a year-end moment in late December with sharing (item 6).
+- **Content:** one lotus per completed mandala, coloured by routine, with the month it was finished.
+- **Data:** already there; `mandalaNumber` and kept days give everything needed.
+
+## 17. A practice partner
+
+- [ ] Invite one person to practise alongside. Each sees only whether the other has kept today, never their misses. A soft nudge such as "Priya has kept today".
+
+Notes:
+- **How:** CloudKit sharing (`CKShare`) of a small record per routine, holding only "kept today" and the mandala number.
+- **Design rules 4 and 5:** no misses, no streaks, no comparison. Only presence.
+- **Privacy:** the partner sees nothing else: no place, things, feelings or times. Either person can stop sharing at any time.
