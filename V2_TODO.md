@@ -66,3 +66,17 @@ Notes:
 ---
 
 Add new v2 requests below this line, numbered on from 6.
+
+## 6. Share a completed mandala to Instagram and TikTok
+
+- [ ] On the mandala complete screen, add sharing to Instagram and TikTok. Tell the person this is a very special screen that not many people in the world ever reach, and show how many mandalas they have completed.
+
+Notes:
+- **What is shared:** a ready-made image (and perhaps a short clip of the lotus opening) in the app's style: the full lotus, the routine's name, "49 days" and "Mandala 3". Nothing private: no place, things, feelings or times.
+- **Instagram:** Stories sharing through the `instagram-stories://share` URL scheme, with the image on the pasteboard. This needs a Facebook App ID and `instagram-stories` in `LSApplicationQueriesSchemes`. Feed posts go through the share sheet.
+- **TikTok:** the TikTok Share Kit SDK (needs a TikTok developer app and review) for sharing to TikTok directly. Without it, the system share sheet can still send the image or video to TikTok.
+- **Fallback:** a share sheet button (`ShareLink`) for everything else, and a plain "Save image" option.
+- **"Not many people reach here":** keep it true and warm, for example "Very few people ever keep a practice for 49 days. This is a special place to be." Avoid a made-up statistic unless we have one we can stand behind. No comparing with others in a way that shames anyone who has not got there.
+- **Mandalas completed:** the count comes from `mandalaNumber - 1` for the routine (and the iCloud summary's `mandalasCompleted` for all routines). Show both on the screen and in the shared image, for example "Your 3rd mandala".
+- **Design rule 4:** this screen is after day 49, so showing counts is allowed here.
+- **Privacy:** sharing only happens when the person taps it. Update the privacy page to say no data goes to Instagram or TikTok unless they choose to share.
