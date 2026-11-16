@@ -4,11 +4,15 @@ import YogiKit
 // MARK: - Day 30: the lotus is shown for the first time
 
 struct Day30Screen: View {
+    @Environment(\.duoPose) private var pose
+    var body: some View {
+        if pose == .phone { phoneBody } else { duoBody }
+    }
     @Environment(AppModel.self) private var model
     let routineID: UUID
     let onSee: () -> Void
 
-    var body: some View {
+    @ViewBuilder var phoneBody: some View {
         let now = Date()
         let r = model.routine(routineID)
         let practised = r?.practisedCount(on: now) ?? 0
@@ -41,12 +45,16 @@ struct Day30Screen: View {
 // MARK: - Mandala progress (only after day 30)
 
 struct MandalaScreen: View {
+    @Environment(\.duoPose) private var pose
+    var body: some View {
+        if pose == .phone { phoneBody } else { duoBody }
+    }
     @Environment(AppModel.self) private var model
     let routineID: UUID
     let onBack: () -> Void
     let onEdit: () -> Void
 
-    var body: some View {
+    @ViewBuilder var phoneBody: some View {
         let now = Date()
         if let r = model.routine(routineID), r.showsProgress(on: now) {
             let practised = r.practisedCount(on: now)
@@ -158,6 +166,7 @@ struct MandalaCompleteScreen: View {
                 VStack(spacing: 3) {
                     Text("स तु दीर्घकालनैरन्तर्यसत्कारासेवितो दृढभूमिः")
                         .font(YFFont.heading(18, .semibold))
+                        .lineLimit(1).minimumScaleFactor(0.7)
                         .environment(\.locale, Locale(identifier: "sa"))
                     Text("sa tu dīrgha-kāla-nairantarya-satkārāsevito dṛḍha-bhūmiḥ")
                         .font(YFFont.body(14, .medium)).italic()
@@ -212,5 +221,133 @@ struct CompleteHero: View {
                 .levitate(low: 4.6, high: -10.35)
                 .offset(x: 35, y: -4)
         }
+    }
+}
+
+// MARK: - iPhone Duo
+
+extension Day30Screen {
+    /// The lotus is what you look at; the words and button sit beside it, or below the fold.
+    var duoBody: some View {
+        let now = Date()
+        let r = model.routine(routineID)
+        let practised = r?.practisedCount(on: now) ?? 0
+        let missed = r?.missedCount(on: now) ?? 0
+        return DuoPage {
+            LotusProgressView(petals: r?.petals(on: now) ?? .noneOpen, count: practised, bloom: true)
+                .frame(maxWidth: pose == .outer ? 200 : 330)
+                .frame(maxWidth: .infinity)
+        } trail: {
+            H1("Thirty days. Meet your lotus.").padding(.top, pose == .outer ? 12 : 0)
+            Para("Each day you practised opened a petal: \(practised) so far. Yogi Focus kept it out of sight so that every day could simply be today.")
+                .padding(.top, 8)
+            Para(missedLine(missed)).padding(.top, 10)
+        } bottom: {
+            PrimaryButton("See my mandala", action: onSee)
+        }
+    }
+}
+
+extension MandalaScreen {
+    /// Duo mandala (`Duo-Outer-Mandala`, `Duo-Wide-Mandala`).
+    /// - outer: the lotus beside the count; Edit moves into the strip.
+    /// - wide: the lotus on the leading side; the count, how it has felt and Edit on the trailing side.
+    /// - tall: the lotus in the top region; the rest below the fold.
+    @ViewBuilder var duoBody: some View {
+        let now = Date()
+        if let r = model.routine(routineID), r.showsProgress(on: now) {
+            let practised = r.practisedCount(on: now)
+            let missed = r.missedCount(on: now)
+            let day = min(r.dayNumber(on: now), Mandala.days)
+            let counts = YogiStore.shared.feelingCounts(for: r)
+            let total = max(1, counts.values.reduce(0, +))
+            let lotus = LotusProgressView(petals: r.petals(on: now), count: practised)
+            let keys = HStack(spacing: 14) {
+                key(YF.mid, "Practised")
+                key(YF.missed, "Missed")
+                key(YF.petalClosed, "To come", ring: true)
+            }
+            .font(YFFont.body(13, .medium))
+            let felt = VStack(alignment: .leading, spacing: 0) {
+                Text("How it has felt").font(YFFont.body(14, .semibold)).padding(.top, 16)
+                VStack(spacing: 0) {
+                    self.felt(.absorbed, counts[.absorbed] ?? 0, total)
+                    self.felt(.steady, counts[.steady] ?? 0, total)
+                    self.felt(.scattered, counts[.scattered] ?? 0, total)
+                }
+                .padding(.top, 4)
+            }
+            switch pose {
+            case .wide:
+                DuoPage(leadAlignment: .top, trailAlignment: .top, pinsBottom: true, strip: [.back(onBack)]) {
+                    Text(r.name).font(YFFont.body(14, .semibold)).foregroundStyle(YF.muted)
+                    H1("Your mandala", size: 36)
+                    lotus.frame(maxWidth: 330).frame(maxWidth: .infinity).padding(.top, 14)
+                    keys.frame(maxWidth: .infinity).padding(.top, 14)
+                } trail: {
+                    Text("\(practised) of 48 days practised").font(YFFont.heading(30)).designLineHeight(30, 1.15).padding(.top, 56)
+                    Text(statusLine(day: day, missed: missed)).font(YFFont.body(15)).foregroundStyle(YF.muted).padding(.top, 4)
+                    felt.padding(.top, 10)
+                } bottom: {
+                    editRow(r)
+                }
+            case .tall:
+                DuoPage(pinsBottom: true, bar: { AnyView(TopBar(back: onBack)) }) {
+                    Text(r.name).font(YFFont.body(14, .semibold)).foregroundStyle(YF.muted)
+                    H1("Your mandala", size: 36)
+                    lotus.frame(maxWidth: 300).frame(maxWidth: .infinity).padding(.top, 10)
+                    keys.frame(maxWidth: .infinity).padding(.top, 10)
+                } trail: {
+                    Text("\(practised) of 48 days practised").font(YFFont.heading(28))
+                    Text(statusLine(day: day, missed: missed)).font(YFFont.body(15)).foregroundStyle(YF.muted).padding(.top, 4)
+                    felt
+                } bottom: {
+                    editRow(r)
+                }
+            default:
+                DuoPage(strip: [.back(onBack), .edit(onEdit)]) {
+                    Text(r.name).font(YFFont.body(14, .semibold)).foregroundStyle(YF.muted)
+                    H1("Your mandala", size: 34)
+                    HStack(alignment: .center, spacing: 18) {
+                        lotus.frame(width: 176, height: 176)
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("\(practised) of 48 days practised").font(YFFont.heading(22)).designLineHeight(22, 1.15).fixedSize(horizontal: false, vertical: true)
+                            Text(statusLine(day: day, missed: missed)).font(YFFont.body(14)).foregroundStyle(YF.muted)
+                                .fixedSize(horizontal: false, vertical: true)
+                            VStack(alignment: .leading, spacing: 4) {
+                                key(YF.mid, "Practised")
+                                key(YF.missed, "Missed")
+                                key(YF.petalClosed, "To come", ring: true)
+                            }
+                            .font(YFFont.body(13, .medium))
+                        }
+                    }
+                    .padding(.top, 12)
+                    felt
+                } trail: {
+                    EmptyView()
+                } bottom: {
+                    Text("Every day, \(r.timeText), \(r.placeInSentence)").font(YFFont.body(14.5, .medium)).foregroundStyle(YF.muted)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+        } else {
+            DuoPage(bar: { AnyView(TopBar(back: onBack)) }) { EmptyView() } trail: { EmptyView() }
+        }
+    }
+
+    private func editRow(_ r: RoutineSnapshot) -> some View {
+        HStack(spacing: 10) {
+            Text("Every day, \(r.timeText), \(r.placeInSentence)").font(YFFont.body(15, .medium))
+                .fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 0)
+            Button(action: onEdit) {
+                Text("Edit").font(YFFont.body(15, .semibold)).foregroundStyle(YF.textGreen).frame(minWidth: 52, minHeight: 44)
+            }
+        }
+        .padding(.leading, 18).padding(.trailing, 6)
+        .frame(minHeight: 60)
+        .background(YF.paper, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous).strokeBorder(YF.line, lineWidth: 1))
     }
 }

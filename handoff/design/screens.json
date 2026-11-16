@@ -214,5 +214,113 @@
   "title": "Widget through the 48 days \u00b7 dark",
   "w": 880,
   "h": 890
+ },
+ {
+  "file": "Duo-Spec.html",
+  "title": "iPhone Duo \u00b7 Specifications",
+  "w": 1500,
+  "h": 800
+ },
+ {
+  "file": "Duo-Outer-Welcome.html",
+  "title": "iPhone Duo \u00b7 Welcome",
+  "w": 466,
+  "h": 678
+ },
+ {
+  "file": "Duo-Outer-Today-Idea.html",
+  "title": "iPhone Duo \u00b7 Only today",
+  "w": 466,
+  "h": 678
+ },
+ {
+  "file": "Duo-Outer-Today.html",
+  "title": "iPhone Duo \u00b7 Today",
+  "w": 466,
+  "h": 678
+ },
+ {
+  "file": "Duo-Outer-Reflect.html",
+  "title": "iPhone Duo \u00b7 How did it feel?",
+  "w": 466,
+  "h": 678
+ },
+ {
+  "file": "Duo-Outer-Kept.html",
+  "title": "iPhone Duo \u00b7 Today is kept",
+  "w": 466,
+  "h": 678
+ },
+ {
+  "file": "Duo-Outer-Mandala.html",
+  "title": "iPhone Duo \u00b7 Mandala progress",
+  "w": 466,
+  "h": 678
+ },
+ {
+  "file": "Duo-Wide-Welcome.html",
+  "title": "iPhone Duo \u00b7 Welcome",
+  "w": 951,
+  "h": 669
+ },
+ {
+  "file": "Duo-Wide-Choose.html",
+  "title": "iPhone Duo \u00b7 Choose one routine",
+  "w": 951,
+  "h": 669
+ },
+ {
+  "file": "Duo-Wide-Today.html",
+  "title": "iPhone Duo \u00b7 Today, two routines",
+  "w": 951,
+  "h": 669
+ },
+ {
+  "file": "Duo-Wide-Reflect.html",
+  "title": "iPhone Duo \u00b7 How did it feel?",
+  "w": 951,
+  "h": 669
+ },
+ {
+  "file": "Duo-Wide-Kept.html",
+  "title": "iPhone Duo \u00b7 Today is kept",
+  "w": 951,
+  "h": 669
+ },
+ {
+  "file": "Duo-Wide-Mandala.html",
+  "title": "iPhone Duo \u00b7 Mandala progress",
+  "w": 951,
+  "h": 669
+ },
+ {
+  "file": "Duo-Wide-Routines.html",
+  "title": "iPhone Duo \u00b7 Your routines",
+  "w": 951,
+  "h": 669
+ },
+ {
+  "file": "Duo-Wide-Complete.html",
+  "title": "iPhone Duo \u00b7 Mandala complete",
+  "w": 951,
+  "h": 669
+ },
+ {
+  "file": "Duo-Tall-Mandala-Idea.html",
+  "title": "iPhone Duo \u00b7 One mandala, open tall",
+  "w": 669,
+  "h": 951
+ },
+ {
+  "file": "Duo-Tall-Today.html",
+  "title": "iPhone Duo \u00b7 Today, tabletop pose",
+  "w": 669,
+  "h": 951
+ },
+ {
+  "file": "Duo-Tall-Reflect.html",
+  "title": "iPhone Duo \u00b7 How did it feel, tabletop pose",
+  "w": 669,
+  "h": 951
  }
 ]

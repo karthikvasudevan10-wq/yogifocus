@@ -11,12 +11,16 @@ import YogiKit
 ///   than about 430 pt, and scroll if they do not fit.
 /// - Content never sits closer than 24 pt to the top or bottom edge, even where there is no status bar above it.
 struct Screen<Content: View, Bottom: View>: View {
+    @Environment(\.duoPose) private var pose
+    var body: some View {
+        if pose == .phone { phoneBody } else { duoBody }
+    }
     var background: Color = YF.ground
     var scrolls = true
     @ViewBuilder var content: () -> Content
     @ViewBuilder var bottom: () -> Bottom
 
-    var body: some View {
+    @ViewBuilder var phoneBody: some View {
         GeometryReader { geo in
             let column = min(geo.size.width, YF.maxColumn)
             let top = max(8, ScreenMetrics.edge - geo.safeAreaInsets.top)
@@ -96,6 +100,13 @@ enum ScreenMetrics {
     static let edge: CGFloat = 24
     /// A normal iPhone in portrait (390 × 844 is 2.16). The Duo's displays are 1.45 (outer) and 0.70 (inner).
     static func isTall(_ size: CGSize) -> Bool { size.height / max(1, size.width) >= 1.75 }
+}
+
+extension Screen {
+    /// A screen without its own Duo arrangement: everything sits in the trailing region, clear of the fold.
+    var duoBody: some View {
+        DuoPage(background: background, trailAlignment: .top, pinsBottom: true, lead: { EmptyView() }, trail: content, bottom: bottom)
+    }
 }
 
 extension Screen where Bottom == EmptyView {
@@ -184,10 +195,29 @@ struct PressStyle: ButtonStyle {
 
 /// 44 pt bar: a back chevron on the left (or nothing), anything on the right.
 struct TopBar<Trailing: View>: View {
+    @Environment(\.duoPose) private var pose
     var back: (() -> Void)?
+    /// On the Duo's outer and wide displays the bar's back button moves into the trailing strip. Set this to keep the
+    /// trailing item (for example "Not now") in the content there; otherwise the bar is not drawn at all.
+    var keepsTrailingOnDuo = false
     @ViewBuilder var trailing: () -> Trailing
 
     var body: some View {
+        if pose.hasStrip {
+            Group {
+                if keepsTrailingOnDuo {
+                    HStack { Spacer(); trailing() }.frame(height: 44)
+                } else {
+                    Color.clear.frame(height: 0)
+                }
+            }
+            .modifier(BackInStrip(back: back))
+        } else {
+            phoneBar
+        }
+    }
+
+    private var phoneBar: some View {
         HStack {
             if let back {
                 Button(action: back) {
@@ -205,6 +235,17 @@ struct TopBar<Trailing: View>: View {
     }
 }
 
+private struct BackInStrip: ViewModifier {
+    let back: (() -> Void)?
+    func body(content: Content) -> some View {
+        if let back {
+            content.duoStripItem("back", order: 0, icon: "chev-left", label: "Back", action: back)
+        } else {
+            content
+        }
+    }
+}
+
 extension TopBar where Trailing == EmptyView {
     init(back: (() -> Void)?) { self.init(back: back, trailing: { EmptyView() }) }
 }
@@ -218,15 +259,18 @@ struct StepLabel: View {
 // MARK: - Text
 
 struct H1: View {
+    @Environment(\.duoPose) private var pose
     let text: String
     var size: CGFloat = 36
     var color: Color = YF.ink
     init(_ text: String, size: CGFloat = 36, color: Color = YF.ink) { self.text = text; self.size = size; self.color = color }
+    /// The Duo's outer display draws headings about 15% smaller than the phone.
+    private var drawn: CGFloat { pose == .outer ? (size * 0.86).rounded() : size }
     var body: some View {
         Text(text)
-            .font(YFFont.heading(size))
+            .font(YFFont.heading(drawn))
             .foregroundStyle(color)
-            .designLineHeight(size, 1.1)
+            .designLineHeight(drawn, 1.1)
             .fixedSize(horizontal: false, vertical: true)
             .accessibilityAddTraits(.isHeader)
     }
@@ -489,13 +533,17 @@ struct HaloRing: View {
 /// illustration above the words. On a wide display, such as the open iPhone Duo, the illustration takes one
 /// side and the words and button the other, both centred, so nothing has to scroll out of sight.
 struct IllustratedScreen<Top: View, Art: View, Content: View, Bottom: View>: View {
+    @Environment(\.duoPose) private var pose
+    var body: some View {
+        if pose == .phone { phoneBody } else { duoBody }
+    }
     var artTop: CGFloat = 8
     @ViewBuilder var top: () -> Top
     @ViewBuilder var art: () -> Art
     @ViewBuilder var content: () -> Content
     @ViewBuilder var bottom: () -> Bottom
 
-    var body: some View {
+    @ViewBuilder var phoneBody: some View {
         GeometryReader { geo in
             if geo.size.width >= 600 && !ScreenMetrics.isTall(geo.size) {
                 let topPad = max(8, ScreenMetrics.edge - geo.safeAreaInsets.top)
@@ -533,6 +581,20 @@ struct IllustratedScreen<Top: View, Art: View, Content: View, Bottom: View>: Vie
                     bottom()
                 }
             }
+        }
+    }
+}
+
+extension IllustratedScreen {
+    /// Duo: the illustration is what you look at (leading region, or top region when tall); the words and button
+    /// sit on the trailing side (or below the fold).
+    var duoBody: some View {
+        DuoPage(bar: { AnyView(top()) }) {
+            art().frame(maxWidth: 520).frame(maxWidth: .infinity)
+        } trail: {
+            content()
+        } bottom: {
+            bottom()
         }
     }
 }

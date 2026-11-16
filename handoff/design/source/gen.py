@@ -781,6 +781,8 @@ pages["App-Icon.dc.html"] = page("App icon",
   + icon_cell("iPhone, tinted", _fix(ICON.grey(ICON.icon_svg(**ICON.DARK))), "22.4%") + "\n" + icon_cell("Apple Watch", _fix(ICON.icon_svg(scale=0.86, **ICON.LIGHT)), "50%") + "\n</div>",
   w=960, h=330)
 
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "duo.py"), encoding="utf-8").read())
+
 # ---------- canvas index
 PH, GAP, PITCH = 844, 80, 1264
 rows = [
@@ -794,20 +796,24 @@ rows = [
  ("8 · Dark appearance", ["Main-Dark", "Idea-Today-Dark", "How-Yogi-Helps-Dark", "Choose-Routine-Dark", "Anchor-Dark", "Today-Dark"]),
  ("9 · Dark appearance, continued", ["Reflect-Dark", "Kept-Dark", "Mandala-Dark", "Mandala-Complete-Dark", "Widget-States-Dark"]),
 ]
+rows += DUO_ROWS
 DARK_SET = [n[:-5] for _, names in rows for n in names if n.endswith("-Dark")]
 titles = {"Main": "Welcome", "Idea-Today": "Idea 1 · Only today", "Idea-Same": "Idea 2 · Same time, place, things", "Idea-Mandala": "Idea 3 · One mandala",
           "How-Yogi-Helps": "How Yogi Focus helps you build a routine", "Choose-Routine": "Choose one routine", "Anchor": "Time, place, things", "Widget-Setup": "Add the widget", "Routines": "Your routines · list", "Routine-Edit": "Routine settings",
           "Widget-States": "Widget through the 48 days", "Widget-Done": "Widget · tapping Done", "Watch": "Apple Watch screens", "App-Icon": "App icon", "Widget-Medium": "Widget · medium size", "Widget-Large": "Widget · large size", "Today": "Today · first week", "Reflect": "How did it feel?", "Kept": "Today is kept", "Just-Start": "Today · just start", "Still-Today": "Today · the hour has passed", "Day-30": "Day 30 · the lotus appears",
           "New-Day": "Today, after a missed day", "Mandala": "Mandala progress", "Mandala-Complete": "Mandala complete · invite a second routine"}
+titles.update({k: "iPhone Duo · " + v for k, v in DUO_TITLES.items()})
 interactive = {"Choose-Routine", "Anchor", "Reflect", "Routine-Edit"}
 boards, order, notes = {}, [], {}
 for ri, (rt, names) in enumerate(rows):
     x, y = 0, ri * PITCH
     for nm in names:
         n = nm[:-5] if nm.endswith("-Dark") else nm
-        w, h = {"Widget-States": (880, 890), "Widget-Done": (860, 700), "Widget-Large": (860, 940), "Widget-Medium": (860, 516), "Watch": (1030, 736), "App-Icon": (960, 330)}.get(n, (390, PH))
+        w, h = {"Widget-States": (880, 890), "Widget-Done": (860, 700), "Widget-Large": (860, 940), "Widget-Medium": (860, 516), "Watch": (1030, 736), "App-Icon": (960, 330), **DUO_SIZES}.get(n, (390, PH))
         b = {"x": x, "y": y, "w": w, "h": h, "title": titles[n] + (" · dark" if nm != n else ""), "radius": 28 if (n.startswith("Widget-") and n != "Widget-Setup") or n in ("Watch", "App-Icon") else 44}
         if n in interactive: b["is_interactive"] = True
+        if n.startswith("Duo-"): b["radius"] = 0 if n == "Duo-Spec" else 30
+        if n in DUO_GUIDES: b["guides"] = DUO_GUIDES[n]
         boards[nm + ".dc.html"] = b; order.append(nm + ".dc.html"); x += w + GAP
     notes[f"row{ri+1}"] = {"x": 0, "y": y - 300, "text": rt, "kind": "title1", "maxW": x - GAP}
 index = {"v": 3, "createdOnFiles": {"v": 1, "at": "2026-11-15T19:55:00Z"}, "title": "Yogi — one day at a time", "launch": {"view": "canvas"},

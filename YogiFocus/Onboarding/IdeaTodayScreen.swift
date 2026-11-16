@@ -3,6 +3,7 @@ import YogiKit
 
 /// Idea 1: Only today (`Idea-Today.html`).
 struct IdeaTodayScreen: View {
+    @Environment(\.duoPose) private var pose
     let onBack: () -> Void
     let onNext: () -> Void
 
@@ -13,12 +14,20 @@ struct IdeaTodayScreen: View {
             DayNightScene()
         } content: {
             H1("Only today.").padding(.top, 18)
-            Para("“Do this every day for the rest of your life” is too heavy to carry. So a yogi doesn't carry it. Each morning they ask a single question.")
-                .padding(.top, 12)
-            StatementCard(text: "This is a new day. How will I keep my practice today?")
-                .padding(.top, 18)
-            Para("It is the only thing Yogi Focus will ever ask of you.", size: 15, color: YF.muted)
-                .padding(.top, 14)
+            if pose == .outer {
+                // The Duo's outer display carries the short version (`Duo-Outer-Today-Idea`).
+                Para("Each morning a yogi asks a single question.", size: 16).padding(.top, 4)
+                StatementCard(text: "This is a new day. How will I keep my practice today?", size: 19,
+                              padding: EdgeInsets(top: 16, leading: 20, bottom: 16, trailing: 20))
+                    .padding(.top, 12)
+            } else {
+                Para("“Do this every day for the rest of your life” is too heavy to carry. So a yogi doesn't carry it. Each morning they ask a single question.")
+                    .padding(.top, 12)
+                StatementCard(text: "This is a new day. How will I keep my practice today?")
+                    .padding(.top, 18)
+                Para("It is the only thing Yogi Focus will ever ask of you.", size: 15, color: YF.muted)
+                    .padding(.top, 14)
+            }
         } bottom: {
             PrimaryButton("Next", action: onNext)
         }

@@ -35,6 +35,11 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
         return true
     }
 
+    /// The Duo follows the device into every orientation; other iPhones stay in portrait.
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        DuoOrientation.supported
+    }
+
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
         NotificationCenter.default.post(name: .yogiStoreDidChange, object: nil)
         return .newData
@@ -112,9 +117,11 @@ struct RootView: View {
     @State private var startFresh = false
 
     var body: some View {
-        NavigationStack(path: $path) {
-            root
-                .navigationDestination(for: Route.self) { destination($0) }
+        DuoPoseReader {
+            NavigationStack(path: $path) {
+                root
+                    .navigationDestination(for: Route.self) { destination($0) }
+            }
         }
         .tint(YF.textGreen)
         .onChange(of: scenePhase) { _, phase in
@@ -165,12 +172,30 @@ struct RootView: View {
 
 /// A new phone: iCloud says there are routines, and the database is still arriving.
 struct RestoringScreen: View {
-    let onStartFresh: () -> Void
+    @Environment(\.duoPose) private var pose
     var body: some View {
+        if pose == .phone { phoneBody } else { duoBody }
+    }
+    let onStartFresh: () -> Void
+    @ViewBuilder var phoneBody: some View {
         Screen {
             Spacer().frame(height: 60)
             YogiView(.calm).frame(width: 180, height: 180).levitate().frame(maxWidth: .infinity)
             H1("Welcome back.", size: 38).padding(.top, 24)
+            Para("Your routine is on its way from iCloud. It can take a minute or two on a new phone.").padding(.top, 8)
+            Para("Nothing is lost.", size: 15, color: YF.muted).padding(.top, 14)
+        } bottom: {
+            GhostButton("Start fresh instead", action: onStartFresh)
+        }
+    }
+}
+
+extension RestoringScreen {
+    var duoBody: some View {
+        DuoPage {
+            YogiView(.calm).frame(width: 180, height: 180).levitate().frame(maxWidth: .infinity)
+        } trail: {
+            H1("Welcome back.", size: 38)
             Para("Your routine is on its way from iCloud. It can take a minute or two on a new phone.").padding(.top, 8)
             Para("Nothing is lost.", size: 15, color: YF.muted).padding(.top, 14)
         } bottom: {

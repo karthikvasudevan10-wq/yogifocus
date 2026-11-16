@@ -9,7 +9,7 @@ Everything needed to build Yogi Focus with Claude Code. Start with `CLAUDE.md`.
 | `CLAUDE.md` | The brief for Claude Code: the goal, the ten rules, the targets, how to work |
 | `docs/` | Nine documents: product, screens, widgets, Apple Watch, design system, motion, platforms, logic and data, open questions |
 | `design/index.html` | Open in a browser: links to every screen as a live page with its animations |
-| `design/screens/` | 36 live reference pages (HTML and CSS, all vector): 25 light, 11 dark |
+| `design/screens/` | 54 live reference pages (HTML and CSS, all vector): 25 light, 11 dark, 18 for iPhone Duo |
 | `design/previews/` | A still image of each screen. Reference only; never ship these |
 | `design/tokens.json` | Colours, type, spacing and radii as data |
 | `design/source/` | The Python that generated the drawings; the exact geometry of every graphic is in here |

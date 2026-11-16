@@ -5,224 +5,692 @@
 	};
 	objectVersion = 77;
 	objects = {
+
+/* Begin PBXBuildFile section */
 		AA0000000000000000000003 /* YogiKit in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000004 /* YogiKit */; };
 		AA000000000000000000000D /* YogiKit in Frameworks */ = {isa = PBXBuildFile; productRef = AA000000000000000000000E /* YogiKit */; };
 		AA0000000000000000000017 /* YogiKit in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000018 /* YogiKit */; };
 		AA0000000000000000000021 /* YogiKit in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000022 /* YogiKit */; };
-		AA0000000000000000000029 /* WID in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA000000000000000000000B; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		AA000000000000000000002F /* WAT in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000015; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		AA0000000000000000000034 /* WWI in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA000000000000000000001F; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		AA000000000000000000002B = {isa = PBXContainerItemProxy; containerPortal = AA000000000000000000002C; proxyType = 1; remoteGlobalIDString = AA000000000000000000002D; remoteInfo = WID; };
-		AA0000000000000000000031 = {isa = PBXContainerItemProxy; containerPortal = AA000000000000000000002C; proxyType = 1; remoteGlobalIDString = AA0000000000000000000032; remoteInfo = WAT; };
-		AA0000000000000000000036 = {isa = PBXContainerItemProxy; containerPortal = AA000000000000000000002C; proxyType = 1; remoteGlobalIDString = AA0000000000000000000037; remoteInfo = WWI; };
-		AA000000000000000000002A /* Embed Foundation Extensions */ = {isa = PBXCopyFilesBuildPhase; buildActionMask = 2147483647; dstPath = ""; dstSubfolderSpec = 13; files = (AA0000000000000000000029, ); name = "Embed Foundation Extensions"; runOnlyForDeploymentPostprocessing = 0; };
-		AA0000000000000000000030 /* Embed Watch Content */ = {isa = PBXCopyFilesBuildPhase; buildActionMask = 2147483647; dstPath = "$(CONTENTS_FOLDER_PATH)/Watch"; dstSubfolderSpec = 16; files = (AA000000000000000000002F, ); name = "Embed Watch Content"; runOnlyForDeploymentPostprocessing = 0; };
-		AA0000000000000000000035 /* Embed Foundation Extensions */ = {isa = PBXCopyFilesBuildPhase; buildActionMask = 2147483647; dstPath = ""; dstSubfolderSpec = 13; files = (AA0000000000000000000034, ); name = "Embed Foundation Extensions"; runOnlyForDeploymentPostprocessing = 0; };
+		AA0000000000000000000029 /* YogiFocusWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA000000000000000000000B /* YogiFocusWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AA000000000000000000002F /* YogiFocusWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000015 /* YogiFocusWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AA0000000000000000000034 /* YogiFocusWatchWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA000000000000000000001F /* YogiFocusWatchWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AA000000000000000000002B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA000000000000000000002C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA000000000000000000002D;
+			remoteInfo = WID;
+		};
+		AA0000000000000000000031 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA000000000000000000002C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA0000000000000000000032;
+			remoteInfo = WAT;
+		};
+		AA0000000000000000000036 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA000000000000000000002C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA0000000000000000000037;
+			remoteInfo = WWI;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AA000000000000000000002A /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AA0000000000000000000029 /* YogiFocusWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA0000000000000000000030 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				AA000000000000000000002F /* YogiFocusWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA0000000000000000000035 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AA0000000000000000000034 /* YogiFocusWatchWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
 		AA0000000000000000000001 /* YogiFocus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YogiFocus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA000000000000000000000B /* YogiFocusWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = YogiFocusWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA0000000000000000000015 /* YogiFocusWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YogiFocusWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA000000000000000000001F /* YogiFocusWatchWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = YogiFocusWatchWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA000000000000000000003D /* YogiKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = YogiKit; sourceTree = "<group>"; };
 		AA000000000000000000003E /* Config */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Config; sourceTree = "<group>"; };
-		AA0000000000000000000002 /* YogiFocus */ = {isa = PBXFileSystemSynchronizedRootGroup; path = YogiFocus; sourceTree = "<group>"; };
-		AA000000000000000000000C /* YogiFocusWidgets */ = {isa = PBXFileSystemSynchronizedRootGroup; path = YogiFocusWidgets; sourceTree = "<group>"; };
-		AA0000000000000000000016 /* YogiFocusWatch */ = {isa = PBXFileSystemSynchronizedRootGroup; path = YogiFocusWatch; sourceTree = "<group>"; };
-		AA0000000000000000000020 /* YogiFocusWatchWidgets */ = {isa = PBXFileSystemSynchronizedRootGroup; path = YogiFocusWatchWidgets; sourceTree = "<group>"; };
-		AA000000000000000000003F = {isa = PBXGroup; children = (AA0000000000000000000002, AA000000000000000000000C, AA0000000000000000000016, AA0000000000000000000020, AA000000000000000000003D, AA000000000000000000003E, AA0000000000000000000040, ); sourceTree = "<group>"; };
-		AA0000000000000000000040 /* Products */ = {isa = PBXGroup; children = (AA0000000000000000000001, AA000000000000000000000B, AA0000000000000000000015, AA000000000000000000001F, ); name = Products; sourceTree = "<group>"; };
-		AA0000000000000000000039 /* YogiFocus */ = {isa = PBXNativeTarget; buildConfigurationList = AA000000000000000000000A; buildPhases = (AA0000000000000000000005, AA0000000000000000000007, AA0000000000000000000006, AA000000000000000000002A, AA0000000000000000000030, ); buildRules = (); dependencies = (AA000000000000000000002E, AA0000000000000000000033, ); fileSystemSynchronizedGroups = (AA0000000000000000000002, ); name = YogiFocus; packageProductDependencies = (AA0000000000000000000004, ); productName = YogiFocus; productReference = AA0000000000000000000001; productType = "com.apple.product-type.application"; };
-		AA000000000000000000002D /* YogiFocusWidgets */ = {isa = PBXNativeTarget; buildConfigurationList = AA0000000000000000000014; buildPhases = (AA000000000000000000000F, AA0000000000000000000011, AA0000000000000000000010, ); buildRules = (); dependencies = (); fileSystemSynchronizedGroups = (AA000000000000000000000C, ); name = YogiFocusWidgets; packageProductDependencies = (AA000000000000000000000E, ); productName = YogiFocusWidgets; productReference = AA000000000000000000000B; productType = "com.apple.product-type.app-extension"; };
-		AA0000000000000000000032 /* YogiFocusWatch */ = {isa = PBXNativeTarget; buildConfigurationList = AA000000000000000000001E; buildPhases = (AA0000000000000000000019, AA000000000000000000001B, AA000000000000000000001A, AA0000000000000000000035, ); buildRules = (); dependencies = (AA0000000000000000000038, ); fileSystemSynchronizedGroups = (AA0000000000000000000016, ); name = YogiFocusWatch; packageProductDependencies = (AA0000000000000000000018, ); productName = YogiFocusWatch; productReference = AA0000000000000000000015; productType = "com.apple.product-type.application"; };
-		AA0000000000000000000037 /* YogiFocusWatchWidgets */ = {isa = PBXNativeTarget; buildConfigurationList = AA0000000000000000000028; buildPhases = (AA0000000000000000000023, AA0000000000000000000025, AA0000000000000000000024, ); buildRules = (); dependencies = (); fileSystemSynchronizedGroups = (AA0000000000000000000020, ); name = YogiFocusWatchWidgets; packageProductDependencies = (AA0000000000000000000022, ); productName = YogiFocusWatchWidgets; productReference = AA000000000000000000001F; productType = "com.apple.product-type.app-extension"; };
-		AA000000000000000000002C /* Project object */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = 1; LastSwiftUpdateCheck = 2620; LastUpgradeCheck = 2620; }; buildConfigurationList = AA000000000000000000003C; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base, ); mainGroup = AA000000000000000000003F; minimizedProjectReferenceProxies = 1; packageReferences = (AA0000000000000000000041, ); preferredProjectObjectVersion = 77; productRefGroup = AA0000000000000000000040; projectDirPath = ""; projectRoot = ""; targets = (AA0000000000000000000039, AA000000000000000000002D, AA0000000000000000000032, AA0000000000000000000037, ); };
-		AA0000000000000000000006 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-		AA0000000000000000000010 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-		AA000000000000000000001A /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-		AA0000000000000000000024 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-		AA0000000000000000000005 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-		AA0000000000000000000007 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (AA0000000000000000000003 /* YogiKit in Frameworks */, ); runOnlyForDeploymentPostprocessing = 0; };
-		AA000000000000000000000F /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-		AA0000000000000000000011 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (AA000000000000000000000D /* YogiKit in Frameworks */, ); runOnlyForDeploymentPostprocessing = 0; };
-		AA0000000000000000000019 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-		AA000000000000000000001B /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (AA0000000000000000000017 /* YogiKit in Frameworks */, ); runOnlyForDeploymentPostprocessing = 0; };
-		AA0000000000000000000023 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-		AA0000000000000000000025 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (AA0000000000000000000021 /* YogiKit in Frameworks */, ); runOnlyForDeploymentPostprocessing = 0; };
-		AA000000000000000000002E = {isa = PBXTargetDependency; target = AA000000000000000000002D; targetProxy = AA000000000000000000002B; };
-		AA0000000000000000000033 = {isa = PBXTargetDependency; target = AA0000000000000000000032; targetProxy = AA0000000000000000000031; };
-		AA0000000000000000000038 = {isa = PBXTargetDependency; target = AA0000000000000000000037; targetProxy = AA0000000000000000000036; };
-		AA0000000000000000000008 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = karthikvasudevan.yogifocus;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				INFOPLIST_FILE = Config/YogiFocus-Info.plist;
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		AA0000000000000000000002 /* YogiFocus */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = YogiFocus;
+			sourceTree = "<group>";
+		};
+		AA000000000000000000000C /* YogiFocusWidgets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = YogiFocusWidgets;
+			sourceTree = "<group>";
+		};
+		AA0000000000000000000016 /* YogiFocusWatch */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = YogiFocusWatch;
+			sourceTree = "<group>";
+		};
+		AA0000000000000000000020 /* YogiFocusWatchWidgets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = YogiFocusWatchWidgets;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AA0000000000000000000007 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0000000000000000000003 /* YogiKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA0000000000000000000011 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA000000000000000000000D /* YogiKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA000000000000000000001B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0000000000000000000017 /* YogiKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA0000000000000000000025 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0000000000000000000021 /* YogiKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AA000000000000000000003F = {
+			isa = PBXGroup;
+			children = (
+				AA0000000000000000000002 /* YogiFocus */,
+				AA000000000000000000000C /* YogiFocusWidgets */,
+				AA0000000000000000000016 /* YogiFocusWatch */,
+				AA0000000000000000000020 /* YogiFocusWatchWidgets */,
+				AA000000000000000000003D /* YogiKit */,
+				AA000000000000000000003E /* Config */,
+				AA0000000000000000000040 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AA0000000000000000000040 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000000000000000000001 /* YogiFocus.app */,
+				AA000000000000000000000B /* YogiFocusWidgets.appex */,
+				AA0000000000000000000015 /* YogiFocusWatch.app */,
+				AA000000000000000000001F /* YogiFocusWatchWidgets.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AA000000000000000000002D /* YogiFocusWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA0000000000000000000014 /* Build configuration list for PBXNativeTarget "YogiFocusWidgets" */;
+			buildPhases = (
+				AA000000000000000000000F /* Sources */,
+				AA0000000000000000000011 /* Frameworks */,
+				AA0000000000000000000010 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AA000000000000000000000C /* YogiFocusWidgets */,
+			);
+			name = YogiFocusWidgets;
+			packageProductDependencies = (
+				AA000000000000000000000E /* YogiKit */,
+			);
+			productName = YogiFocusWidgets;
+			productReference = AA000000000000000000000B /* YogiFocusWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		AA0000000000000000000032 /* YogiFocusWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA000000000000000000001E /* Build configuration list for PBXNativeTarget "YogiFocusWatch" */;
+			buildPhases = (
+				AA0000000000000000000019 /* Sources */,
+				AA000000000000000000001B /* Frameworks */,
+				AA000000000000000000001A /* Resources */,
+				AA0000000000000000000035 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA0000000000000000000038 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				AA0000000000000000000016 /* YogiFocusWatch */,
+			);
+			name = YogiFocusWatch;
+			packageProductDependencies = (
+				AA0000000000000000000018 /* YogiKit */,
+			);
+			productName = YogiFocusWatch;
+			productReference = AA0000000000000000000015 /* YogiFocusWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AA0000000000000000000037 /* YogiFocusWatchWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA0000000000000000000028 /* Build configuration list for PBXNativeTarget "YogiFocusWatchWidgets" */;
+			buildPhases = (
+				AA0000000000000000000023 /* Sources */,
+				AA0000000000000000000025 /* Frameworks */,
+				AA0000000000000000000024 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AA0000000000000000000020 /* YogiFocusWatchWidgets */,
+			);
+			name = YogiFocusWatchWidgets;
+			packageProductDependencies = (
+				AA0000000000000000000022 /* YogiKit */,
+			);
+			productName = YogiFocusWatchWidgets;
+			productReference = AA000000000000000000001F /* YogiFocusWatchWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		AA0000000000000000000039 /* YogiFocus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA000000000000000000000A /* Build configuration list for PBXNativeTarget "YogiFocus" */;
+			buildPhases = (
+				AA0000000000000000000005 /* Sources */,
+				AA0000000000000000000007 /* Frameworks */,
+				AA0000000000000000000006 /* Resources */,
+				AA000000000000000000002A /* Embed Foundation Extensions */,
+				AA0000000000000000000030 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA000000000000000000002E /* PBXTargetDependency */,
+				AA0000000000000000000033 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				AA0000000000000000000002 /* YogiFocus */,
+			);
+			name = YogiFocus;
+			packageProductDependencies = (
+				AA0000000000000000000004 /* YogiKit */,
+			);
+			productName = YogiFocus;
+			productReference = AA0000000000000000000001 /* YogiFocus.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AA000000000000000000002C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2620;
+				LastUpgradeCheck = 2620;
+			};
+			buildConfigurationList = AA000000000000000000003C /* Build configuration list for PBXProject "YogiFocus" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AA000000000000000000003F;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AA0000000000000000000041 /* XCLocalSwiftPackageReference "YogiKit" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = AA0000000000000000000040 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AA0000000000000000000039 /* YogiFocus */,
+				AA000000000000000000002D /* YogiFocusWidgets */,
+				AA0000000000000000000032 /* YogiFocusWatch */,
+				AA0000000000000000000037 /* YogiFocusWatchWidgets */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AA0000000000000000000006 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA0000000000000000000010 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA000000000000000000001A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA0000000000000000000024 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AA0000000000000000000005 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA000000000000000000000F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA0000000000000000000019 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA0000000000000000000023 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AA000000000000000000002E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA000000000000000000002D /* YogiFocusWidgets */;
+			targetProxy = AA000000000000000000002B /* PBXContainerItemProxy */;
+		};
+		AA0000000000000000000033 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA0000000000000000000032 /* YogiFocusWatch */;
+			targetProxy = AA0000000000000000000031 /* PBXContainerItemProxy */;
+		};
+		AA0000000000000000000038 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA0000000000000000000037 /* YogiFocusWatchWidgets */;
+			targetProxy = AA0000000000000000000036 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		AA0000000000000000000008 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Config/YogiFocus.entitlements;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/YogiFocus-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Yogi Focus";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SDKROOT = iphoneos;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
-			}; name = Debug; };
-		AA0000000000000000000009 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = karthikvasudevan.yogifocus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				INFOPLIST_FILE = Config/YogiFocus-Info.plist;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		AA0000000000000000000009 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Config/YogiFocus.entitlements;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/YogiFocus-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Yogi Focus";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SDKROOT = iphoneos;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
-			}; name = Release; };
-		AA0000000000000000000012 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = karthikvasudevan.yogifocus.widgets;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = karthikvasudevan.yogifocus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				INFOPLIST_FILE = Config/Widgets-Info.plist;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		AA0000000000000000000012 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_ENTITLEMENTS = Config/Widgets.entitlements;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/Widgets-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Yogi Focus";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SDKROOT = iphoneos;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				SKIP_INSTALL = YES;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				APPLICATION_EXTENSION_API_ONLY = YES;
-			}; name = Debug; };
-		AA0000000000000000000013 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = karthikvasudevan.yogifocus.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				INFOPLIST_FILE = Config/Widgets-Info.plist;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		AA0000000000000000000013 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_ENTITLEMENTS = Config/Widgets.entitlements;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/Widgets-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Yogi Focus";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SDKROOT = iphoneos;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = karthikvasudevan.yogifocus.widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = 1;
-				SKIP_INSTALL = YES;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				APPLICATION_EXTENSION_API_ONLY = YES;
-			}; name = Release; };
-		AA000000000000000000001C /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = karthikvasudevan.yogifocus.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				INFOPLIST_FILE = Config/Watch-Info.plist;
+			};
+			name = Release;
+		};
+		AA000000000000000000001C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Config/Watch.entitlements;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/Watch-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Yogi Focus";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SDKROOT = watchos;
-				WATCHOS_DEPLOYMENT_TARGET = 11.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				SKIP_INSTALL = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-			}; name = Debug; };
-		AA000000000000000000001D /* Release */ = {isa = XCBuildConfiguration; buildSettings = {
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = karthikvasudevan.yogifocus.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				INFOPLIST_FILE = Config/Watch-Info.plist;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Debug;
+		};
+		AA000000000000000000001D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Config/Watch.entitlements;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/Watch-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Yogi Focus";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SDKROOT = watchos;
-				WATCHOS_DEPLOYMENT_TARGET = 11.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				SKIP_INSTALL = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-			}; name = Release; };
-		AA0000000000000000000026 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = karthikvasudevan.yogifocus.watchkitapp.widgets;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = karthikvasudevan.yogifocus.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				INFOPLIST_FILE = Config/WatchWidgets-Info.plist;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Release;
+		};
+		AA0000000000000000000026 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_ENTITLEMENTS = Config/WatchWidgets.entitlements;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/WatchWidgets-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Yogi Focus";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SDKROOT = watchos;
-				WATCHOS_DEPLOYMENT_TARGET = 11.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				SKIP_INSTALL = YES;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				APPLICATION_EXTENSION_API_ONLY = YES;
-			}; name = Debug; };
-		AA0000000000000000000027 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = karthikvasudevan.yogifocus.watchkitapp.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				INFOPLIST_FILE = Config/WatchWidgets-Info.plist;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Debug;
+		};
+		AA0000000000000000000027 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_ENTITLEMENTS = Config/WatchWidgets.entitlements;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/WatchWidgets-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Yogi Focus";
-				SWIFT_EMIT_LOC_STRINGS = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = karthikvasudevan.yogifocus.watchkitapp.widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
-				WATCHOS_DEPLOYMENT_TARGET = 11.0;
-				TARGETED_DEVICE_FAMILY = 4;
 				SKIP_INSTALL = YES;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				APPLICATION_EXTENSION_API_ONLY = YES;
-			}; name = Release; };
-		AA000000000000000000003A /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Release;
+		};
+		AA000000000000000000003A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8SCM6833N9;
 				CURRENT_PROJECT_VERSION = 1;
-				MARKETING_VERSION = 1.0;
-				SWIFT_VERSION = 5.0;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 8SCM6833N9;
+				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_TESTABILITY = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-			}; name = Debug; };
-		AA000000000000000000003B /* Release */ = {isa = XCBuildConfiguration; buildSettings = {
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AA000000000000000000003B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8SCM6833N9;
 				CURRENT_PROJECT_VERSION = 1;
-				MARKETING_VERSION = 1.0;
-				SWIFT_VERSION = 5.0;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 8SCM6833N9;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				MARKETING_VERSION = 1.0;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
-			}; name = Release; };
-		AA000000000000000000000A = {isa = XCConfigurationList; buildConfigurations = (AA0000000000000000000008, AA0000000000000000000009, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
-		AA0000000000000000000014 = {isa = XCConfigurationList; buildConfigurations = (AA0000000000000000000012, AA0000000000000000000013, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
-		AA000000000000000000001E = {isa = XCConfigurationList; buildConfigurations = (AA000000000000000000001C, AA000000000000000000001D, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
-		AA0000000000000000000028 = {isa = XCConfigurationList; buildConfigurations = (AA0000000000000000000026, AA0000000000000000000027, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
-		AA000000000000000000003C = {isa = XCConfigurationList; buildConfigurations = (AA000000000000000000003A, AA000000000000000000003B, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
-		AA0000000000000000000041 /* XCLocalSwiftPackageReference "YogiKit" */ = {isa = XCLocalSwiftPackageReference; relativePath = YogiKit; };
-		AA0000000000000000000004 /* YogiKit */ = {isa = XCSwiftPackageProductDependency; productName = YogiKit; };
-		AA000000000000000000000E /* YogiKit */ = {isa = XCSwiftPackageProductDependency; productName = YogiKit; };
-		AA0000000000000000000018 /* YogiKit */ = {isa = XCSwiftPackageProductDependency; productName = YogiKit; };
-		AA0000000000000000000022 /* YogiKit */ = {isa = XCSwiftPackageProductDependency; productName = YogiKit; };
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AA000000000000000000000A /* Build configuration list for PBXNativeTarget "YogiFocus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000008 /* Debug */,
+				AA0000000000000000000009 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA0000000000000000000014 /* Build configuration list for PBXNativeTarget "YogiFocusWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000012 /* Debug */,
+				AA0000000000000000000013 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA000000000000000000001E /* Build configuration list for PBXNativeTarget "YogiFocusWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA000000000000000000001C /* Debug */,
+				AA000000000000000000001D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA0000000000000000000028 /* Build configuration list for PBXNativeTarget "YogiFocusWatchWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000026 /* Debug */,
+				AA0000000000000000000027 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA000000000000000000003C /* Build configuration list for PBXProject "YogiFocus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA000000000000000000003A /* Debug */,
+				AA000000000000000000003B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		AA0000000000000000000041 /* XCLocalSwiftPackageReference "YogiKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = YogiKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AA0000000000000000000004 /* YogiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = YogiKit;
+		};
+		AA000000000000000000000E /* YogiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = YogiKit;
+		};
+		AA0000000000000000000018 /* YogiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = YogiKit;
+		};
+		AA0000000000000000000022 /* YogiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = YogiKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AA000000000000000000002C /* Project object */;
 }

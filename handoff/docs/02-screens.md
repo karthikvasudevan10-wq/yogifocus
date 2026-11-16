@@ -202,7 +202,7 @@ Today's list icon → Your routines → Routine settings. Mandala progress is re
 
 ## Not drawn yet
 
-- Today with two routines on the same day.
+- Today with two routines on the same day on iPhone (it is drawn for the open iPhone Duo).
 - The widget moving to the next routine after one is kept.
 - The setup for an eating-habit routine.
-- Layouts for the open iPhone Duo.
+- iPhone Duo versions of the screens not listed in `docs/07-platforms.md`.

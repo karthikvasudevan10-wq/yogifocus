@@ -62,6 +62,9 @@ struct TodayScreen: View {
     @Binding var path: [Route]
     @State private var reveal: UUID?
     @State private var complete: UUID?
+    @Environment(\.duoPose) private var pose
+    /// The routine shown on the trailing side of the wide Duo display.
+    @State private var selected: UUID?
 
     var body: some View {
         TimelineView(.periodic(from: .now, by: 20)) { ctx in
@@ -98,6 +101,10 @@ struct TodayScreen: View {
     }
 
     @ViewBuilder private func content(now: Date) -> some View {
+        if pose == .phone { phoneContent(now: now) } else { duoContent(now: now) }
+    }
+
+    @ViewBuilder private func phoneContent(now: Date) -> some View {
         if let r = Routines.current(model.routines, at: now) {
             let w = TodayWords(r, now: now)
             Screen {
@@ -190,6 +197,10 @@ struct IDBox: Identifiable { let id: UUID }
 // MARK: - How did it feel?
 
 struct ReflectScreen: View {
+    @Environment(\.duoPose) private var pose
+    var body: some View {
+        if pose == .phone { phoneBody } else { duoBody }
+    }
     @Environment(AppModel.self) private var model
     let routineID: UUID
     let onBack: () -> Void
@@ -197,7 +208,7 @@ struct ReflectScreen: View {
     @State private var feeling: Feeling?
     @State private var note = ""
 
-    var body: some View {
+    @ViewBuilder var phoneBody: some View {
         Screen {
             TopBar(back: onBack)
             H1("You practised today.", size: 34).padding(.top, 6)
@@ -269,6 +280,10 @@ struct ReflectScreen: View {
 /// so it fits the shorter, squarer iPhone Duo displays; when the screen is wide (the open Duo) the graphic
 /// goes on one side and the text and button on the other.
 struct HeroLayout<Hero: View, Top: View, Content: View, Bottom: View>: View {
+    @Environment(\.duoPose) private var pose
+    var body: some View {
+        if pose == .phone { phoneBody } else { duoBody }
+    }
     let background: Color
     let heroAspect: CGFloat
     let heroMaxWidth: CGFloat
@@ -280,7 +295,7 @@ struct HeroLayout<Hero: View, Top: View, Content: View, Bottom: View>: View {
     @ViewBuilder var content: () -> Content
     @ViewBuilder var bottom: () -> Bottom
 
-    var body: some View {
+    @ViewBuilder var phoneBody: some View {
         GeometryReader { geo in
             let wide = geo.size.width >= 600
             let topPad = max(8, ScreenMetrics.edge - geo.safeAreaInsets.top)
@@ -347,6 +362,10 @@ struct HeroLayout<Hero: View, Top: View, Content: View, Bottom: View>: View {
 // MARK: - Today is kept
 
 struct KeptScreen: View {
+    @Environment(\.duoPose) private var pose
+    var body: some View {
+        if pose == .phone { phoneBody } else { duoBody }
+    }
     @Environment(AppModel.self) private var model
     let routineID: UUID
     let onDone: () -> Void
@@ -354,7 +373,7 @@ struct KeptScreen: View {
     @State private var showTomorrow = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    var body: some View {
+    @ViewBuilder var phoneBody: some View {
         let r = model.routine(routineID)
         HeroLayout(background: YF.heroYellow, heroAspect: 300 / 262, heroMaxWidth: 300, rays: YF.raysOnYellow, raysCentre: 0.24) {
             EmptyView()
@@ -397,8 +416,10 @@ struct KeptScreen: View {
                     .opacity(showTomorrow ? 1 : 0)
                 }
                 .padding(.top, 18)
-                Para("Don't think about the week. One day is all you ever have to keep, and the next one is tomorrow.", size: 15)
-                    .padding(.top, 14)
+                if pose != .outer {
+                    Para("Don't think about the week. One day is all you ever have to keep, and the next one is tomorrow.", size: 15)
+                        .padding(.top, 14)
+                }
             }
         } bottom: {
             PrimaryButton("Done", kind: .hero, action: onDone)
@@ -458,6 +479,346 @@ struct KeptHero: View {
                 .frame(width: 230, height: 230)
                 .levitate(low: 4.6, high: -10.35)
                 .offset(x: 35, y: 8)
+        }
+    }
+}
+
+// MARK: - iPhone Duo
+
+extension KeptScreen {
+    /// The hero layout adapts by itself; the screen is the same on every display.
+    var duoBody: some View { phoneBody }
+}
+
+extension HeroLayout {
+    /// Duo: the hero is what you look at; the words and button sit beside it (wide), below the fold (tall), or
+    /// under a smaller hero (outer). The rays turn behind the hero, edge to edge.
+    var duoBody: some View {
+        let raysColor = rays
+        return DuoPage(background: background, stripTint: Color.black.opacity(0.05), pinsBottom: pose != .wide,
+                       underlay: raysColor.map { c in
+                           { r in
+                               let centre: CGPoint = {
+                                   switch pose {
+                                   case .wide: return CGPoint(x: r.leading.midX, y: r.size.height / 2)
+                                   case .tall: return CGPoint(x: r.size.width / 2, y: r.top.midY)
+                                   default: return CGPoint(x: r.contentRight / 2, y: 140)
+                                   }
+                               }()
+                               return AnyView(RaysView(color: c).frame(width: 1640, height: 1640).position(centre).allowsHitTesting(false))
+                           }
+                       }) {
+            hero().aspectRatio(heroAspect, contentMode: .fit)
+                .frame(maxWidth: pose == .outer ? heroMaxWidth * 0.72 : heroMaxWidth * 1.1)
+                .frame(maxWidth: .infinity)
+        } trail: {
+            top()
+            content().fixedSize(horizontal: false, vertical: true)
+        } bottom: {
+            bottom()
+        }
+        .dynamicTypeSize(...DynamicTypeSize.xxLarge)
+    }
+}
+
+extension TodayScreen {
+    /// Duo Today.
+    /// - outer: the phone screen, shortened; the routines list moves into the strip.
+    /// - wide: today's routines on the leading side, the selected one on the trailing side (`Duo-Wide-Today`).
+    /// - tall: the routine in the top region; the yogi, one line and the button in the bottom region (`Duo-Tall-Today`).
+    @ViewBuilder func duoContent(now: Date) -> some View {
+        if let current = Routines.current(model.routines, at: now) {
+            let r = model.routines.first { $0.id == selected } ?? current
+            let w = TodayWords(r, now: now)
+            switch pose {
+            case .wide:
+                let todays = model.routines.filter { !$0.isPaused || $0.id == r.id }
+                DuoPage(leadAlignment: .top, trailAlignment: .top, pinsBottom: true, strip: [.routines { path.append(.routines) }]) {
+                    Text(Words.fullDate(now)).font(YFFont.body(14, .medium)).foregroundStyle(YF.muted)
+                    H1(TodayWords(current, now: now).heading, size: 42)
+                    Para(summary(todays, now: now, fallback: TodayWords(current, now: now).sub), size: 16).padding(.top, 4)
+                    VStack(spacing: 10) {
+                        ForEach(todays) { t in routineRow(t, now: now, on: t.id == r.id) }
+                    }
+                    .padding(.top, 18)
+                    if todays.count > 1 {
+                        Para("When one routine is kept, Yogi Focus moves on to the next.", size: 14, color: YF.muted).padding(.top, 14)
+                    } else if let under = w.under {
+                        Para(under, size: 14, color: YF.muted).padding(.top, 14)
+                    }
+                } trail: {
+                    todayCard(r, w, nameSize: 30).padding(.top, 12)
+                    if todays.count > 1 {
+                        Para(w.sub, size: 17).padding(.top, 16)
+                    } else if w.showsButton {
+                        Para("How will you keep your practice today?", size: 17).padding(.top, 16)
+                    }
+                    todayExtras(r, w, now: now)
+                } bottom: {
+                    if w.showsButton { PrimaryButton("I've practised today") { path.append(.reflect(r.id)) } }
+                }
+            case .tall:
+                DuoPage(leadAlignment: .top, pinsBottom: true, bar: { AnyView(todayHeader) }) {
+                    Text(Words.fullDate(now)).font(YFFont.body(14, .medium)).foregroundStyle(YF.muted)
+                    H1(w.heading, size: 40)
+                    Para(w.sub, size: 16).padding(.top, 4)
+                    todayCard(r, w, nameSize: 28, compact: true).padding(.top, 12)
+                } trail: {
+                    HStack(spacing: 28) {
+                        YogiView(.calm, mat: true).frame(width: 170, height: 170).levitate()
+                        if let line = w.under {
+                            Text(line).font(YFFont.heading(22, .semibold)).designLineHeight(22, 1.3)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .frame(maxWidth: 300, alignment: .leading)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    todayExtras(r, w, now: now)
+                } bottom: {
+                    if w.showsButton { PrimaryButton("I've practised today") { path.append(.reflect(r.id)) } }
+                }
+            default:
+                DuoPage(strip: [.routines { path.append(.routines) }]) {
+                    Text(Words.fullDate(now)).font(YFFont.body(14, .medium)).foregroundStyle(YF.muted)
+                    H1(w.heading, size: 42)
+                    Para(w.sub, size: 16).padding(.top, 4)
+                    todayCard(r, w, nameSize: 30).padding(.top, 14)
+                    if let under = w.under { Para(under, size: 14, color: YF.muted).padding(.top, 10) }
+                    todayExtras(r, w, now: now)
+                } trail: {
+                    EmptyView()
+                } bottom: {
+                    if w.showsButton { PrimaryButton("I've practised today") { path.append(.reflect(r.id)) } }
+                }
+            }
+        } else {
+            Color.clear
+        }
+    }
+
+    private var todayHeader: some View {
+        HStack {
+            Text("Yogi Focus").font(YFFont.heading(26)).foregroundStyle(YF.textGreen)
+            Spacer()
+            Button { path.append(.routines) } label: {
+                YFIcon("plan").foregroundStyle(YF.ink).frame(width: 44, height: 44).contentShape(Rectangle())
+            }
+            .accessibilityLabel("Your routines")
+        }
+        .frame(height: 44)
+    }
+
+    /// "Two routines today. One is kept." Never a count of anything missed.
+    private func summary(_ todays: [RoutineSnapshot], now: Date, fallback: String) -> String {
+        guard todays.count > 1 else { return fallback }
+        let kept = todays.filter { $0.keptToday(now) }.count
+        let n = Words.capitalisedFirst(Words.spelled(todays.count))
+        switch kept {
+        case 0: return "\(n) routines today."
+        case todays.count: return "\(n) routines today. All kept."
+        default: return "\(n) routines today. \(Words.capitalisedFirst(Words.spelled(kept))) \(kept == 1 ? "is" : "are") kept."
+        }
+    }
+
+    private func routineRow(_ t: RoutineSnapshot, now: Date, on: Bool) -> some View {
+        let kept = t.keptToday(now)
+        let state: String = {
+            switch t.moment(at: now) {
+            case .kept: return "Kept today"
+            case .paused: return "Paused"
+            case .passed: return "Whenever you're ready"
+            default: return "Next"
+            }
+        }()
+        return Button { withAnimation(.easeOut(duration: 0.2)) { selected = t.id } } label: {
+            HStack(spacing: 14) {
+                YFIcon(kept ? "check" : t.routineKind.icon, size: 20)
+                    .foregroundStyle(kept ? YF.textGreen : YF.onAccent)
+                    .frame(width: 36, height: 36)
+                    .background(kept ? YF.softGreen : YF.sunny, in: Circle())
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(t.name).font(YFFont.body(17, .semibold)).foregroundStyle(YF.ink)
+                    Text("\(t.timeText) · \(state)").font(YFFont.body(14)).foregroundStyle(YF.muted)
+                }
+                Spacer(minLength: 0)
+                if on && !kept { YFIcon("chev-right", size: 20).foregroundStyle(YF.muted) }
+            }
+            .padding(.horizontal, 16).padding(.vertical, 14)
+            .background(on ? YF.softGreen : YF.paper, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous).strokeBorder(on ? YF.textGreen : YF.line, lineWidth: on ? 2 : 1))
+            .contentShape(RoundedRectangle(cornerRadius: 20))
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(on ? .isSelected : [])
+    }
+
+    /// - compact: a little tighter, so the card fits above the fold in the tall pose.
+    private func todayCard(_ r: RoutineSnapshot, _ w: TodayWords, nameSize: CGFloat, compact: Bool = false) -> some View {
+        let row: CGFloat = compact ? 25 : 28
+        return CardBox(radius: 24) {
+            VStack(alignment: .leading, spacing: 0) {
+                Chip(text: w.chip, background: w.chipKept ? YF.softGreen : YF.sunny,
+                     foreground: w.chipKept ? YF.textGreen : YF.onAccent, check: w.chipKept)
+                Text(r.name).font(YFFont.heading(nameSize)).padding(.top, compact ? 4 : 8)
+                VStack(alignment: .leading, spacing: 2) {
+                    AnchorRow(icon: "clock", text: r.whenText, minHeight: row)
+                    AnchorRow(icon: "pin", text: r.placeTitle, minHeight: row)
+                    if !r.things.isEmpty { AnchorRow(icon: "bag", text: r.thingsList, minHeight: row) }
+                }
+                .font(YFFont.body(16))
+                .padding(.top, compact ? 4 : 8)
+            }
+            .padding(compact ? 16 : 20)
+        }
+    }
+
+    /// The quiet links that sometimes follow the card: another hour, how it felt, and the mandala from day 30.
+    @ViewBuilder private func todayExtras(_ r: RoutineSnapshot, _ w: TodayWords, now: Date) -> some View {
+        if w.tryAnotherHour {
+            Button { path.append(.edit(r.id)) } label: {
+                Text("Is \(r.timeText) hard to keep? Try another hour")
+                    .font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.textGreen)
+                    .frame(minHeight: 44, alignment: .leading)
+            }
+            .padding(.top, 6)
+        }
+        if w.chipKept, r.feelings[DayKey.key(now)] == nil {
+            Button { path.append(.reflect(r.id)) } label: {
+                Text("How did it feel?").font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.textGreen)
+                    .frame(minHeight: 44, alignment: .leading)
+            }
+            .padding(.top, 2)
+        }
+        if r.showsProgress(on: now) {
+            Button { path.append(.mandala(r.id)) } label: {
+                HStack(spacing: 12) {
+                    LotusView(petals: r.petals(on: now)).frame(width: 34, height: 34)
+                    Text("Your mandala").font(YFFont.body(15.5, .medium)).foregroundStyle(YF.ink)
+                    Spacer()
+                    YFIcon("chev-right", size: 18).foregroundStyle(YF.textGreen)
+                }
+                .padding(.horizontal, 18)
+                .frame(minHeight: 60)
+                .background(YF.paper, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+                .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous).strokeBorder(YF.line, lineWidth: 1))
+            }
+            .buttonStyle(PressStyle())
+            .padding(.top, 14)
+        }
+    }
+}
+
+extension ReflectScreen {
+    /// Duo "How did it feel?".
+    /// - outer and wide: Done moves into the strip; the reply and note sit beside the choices on the wide display.
+    /// - tall: the reply in the top region; the three choices as large buttons, the note and Done below the fold.
+    @ViewBuilder var duoBody: some View {
+        Group {
+            switch pose {
+            case .tall:
+                DuoPage(leadAlignment: .top, pinsBottom: true, bar: { AnyView(TopBar(back: onBack)) }) {
+                    H1("You practised today.", size: 40).padding(.top, 10)
+                    Para("How did it feel? There is no wrong answer.").padding(.top, 6)
+                    if let feeling { reply(feeling, size: 24).padding(.top, 40) }
+                } trail: {
+                    HStack(spacing: 10) {
+                        ForEach(Feeling.allCases) { f in bigChoice(f) }
+                    }
+                    noteField.padding(.top, 16)
+                } bottom: {
+                    PrimaryButton("Done", action: save)
+                }
+            case .wide:
+                DuoPage(leadAlignment: .top, trailAlignment: .top, strip: [.back(onBack), .done(save)]) {
+                    H1("You practised today.", size: 36).padding(.top, 24)
+                    Para("How did it feel? There is no wrong answer.").padding(.top, 6)
+                    VStack(spacing: 10) { ForEach(Feeling.allCases) { f in rowChoice(f, height: 64) } }.padding(.top, 22)
+                } trail: {
+                    if let feeling { reply(feeling, size: 22).padding(.top, 92) } else { Color.clear.frame(height: 92) }
+                    noteField.padding(.top, 22)
+                }
+            default:
+                DuoPage(strip: [.back(onBack), .done(save)]) {
+                    H1("You practised today.", size: 34)
+                    Para("How did it feel? There is no wrong answer.", size: 15.5).padding(.top, 2)
+                    VStack(spacing: 8) { ForEach(Feeling.allCases) { f in rowChoice(f, height: 58) } }.padding(.top, 12)
+                    if let feeling { reply(feeling, size: 17).padding(.top, 10) }
+                    noteField.padding(.top, 10)
+                } trail: {
+                    EmptyView()
+                }
+            }
+        }
+        .scrollDismissesKeyboard(.interactively)
+        .onAppear {
+            if let r = model.routine(routineID), let raw = r.feelings[DayKey.key(Date())] { feeling = Feeling(rawValue: raw) }
+            note = YogiStore.shared.note(routineID: routineID) ?? ""
+        }
+    }
+
+    private func save() {
+        YogiStore.shared.markKept(routineID, feeling: feeling, note: note)
+        Nudges.cancelToday(routineID)
+        model.refresh()
+        onDone()
+    }
+
+    private func reply(_ f: Feeling, size: CGFloat) -> some View {
+        StatementCard(text: f.reply, size: size, padding: EdgeInsets(top: 16, leading: 20, bottom: 16, trailing: 20))
+            .id(f)
+            .transition(.asymmetric(insertion: .offset(y: 14).combined(with: .opacity), removal: .identity))
+    }
+
+    /// Feelings are never colour-coded good or bad: all three look the same, with abstract glyphs.
+    private func rowChoice(_ f: Feeling, height: CGFloat) -> some View {
+        let on = feeling == f
+        return Button { withAnimation(.easeOut(duration: 0.35)) { feeling = f } } label: {
+            HStack(spacing: 12) {
+                YFIcon(f.icon, size: 22).foregroundStyle(YF.onAccent).frame(width: 40, height: 40).background(YF.sunny, in: Circle())
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(f.title).font(YFFont.body(16, .semibold)).foregroundStyle(YF.ink)
+                    Text(f.subtitle).font(YFFont.body(13.5)).foregroundStyle(YF.muted)
+                }
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 14)
+            .frame(minHeight: height)
+            .background(on ? YF.softGreen : YF.paper, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(on ? YF.textGreen : YF.line, lineWidth: 2))
+            .contentShape(RoundedRectangle(cornerRadius: 18))
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(on ? .isSelected : [])
+    }
+
+    private func bigChoice(_ f: Feeling) -> some View {
+        let on = feeling == f
+        return Button { withAnimation(.easeOut(duration: 0.35)) { feeling = f } } label: {
+            VStack(spacing: 8) {
+                YFIcon(f.icon, size: 24).foregroundStyle(YF.onAccent).frame(width: 48, height: 48).background(YF.sunny, in: Circle())
+                Text(f.title).font(YFFont.body(17, .semibold)).foregroundStyle(YF.ink)
+            }
+            .frame(maxWidth: .infinity, minHeight: 132)
+            .background(on ? YF.softGreen : YF.paper, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 22, style: .continuous).strokeBorder(on ? YF.textGreen : YF.line, lineWidth: 2))
+            .contentShape(RoundedRectangle(cornerRadius: 22))
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("\(f.title): \(f.subtitle)")
+        .accessibilityAddTraits(on ? .isSelected : [])
+    }
+
+    private var noteField: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("A note for yourself (optional)").font(YFFont.body(13, .medium)).foregroundStyle(YF.muted)
+            TextField("", text: $note, prompt: Text("Anything you noticed").foregroundStyle(YF.muted.opacity(0.7)))
+                .font(YFFont.body(16)).foregroundStyle(YF.ink)
+                .padding(.horizontal, 14)
+                .frame(minHeight: 48)
+                .background(YF.paper, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(YF.muted, lineWidth: 1))
+                .submitLabel(.done)
+                .accessibilityLabel("A note for yourself, optional")
         }
     }
 }

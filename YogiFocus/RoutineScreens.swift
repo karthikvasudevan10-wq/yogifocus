@@ -8,35 +8,48 @@ struct RoutinesScreen: View {
     let onBack: () -> Void
     let onEdit: (UUID) -> Void
     let onAdd: () -> Void
+    @Environment(\.duoPose) private var pose
+    /// The routine shown in detail on the wide Duo display.
+    @State private var selected: UUID?
 
     var body: some View {
+        if pose == .phone { phoneBody } else { duoBody }
+    }
+
+    var phoneBody: some View {
         let now = Date()
-        Screen {
+        return Screen {
             TopBar(back: onBack)
             H1("Your routines", size: 34).padding(.top, 6)
             Para("Each one has its own hour, its own place and its own things.", size: 15, color: YF.muted).padding(.top, 6)
-            VStack(spacing: 12) {
-                ForEach(model.routines) { r in card(r, now: now) }
-                // Adding a second routine is offered only after the first mandala is complete.
-                if model.mayAddRoutine {
-                    Button(action: onAdd) {
-                        HStack(spacing: 8) {
-                            YFIcon("plus", size: 20)
-                            Text("Add a routine").font(YFFont.body(16, .semibold))
-                        }
-                        .foregroundStyle(YF.ink)
-                        .frame(maxWidth: .infinity, minHeight: 60)
-                        .overlay(RoundedRectangle(cornerRadius: 24, style: .continuous)
-                            .strokeBorder(YF.muted, style: StrokeStyle(lineWidth: 1.5, dash: [5, 4])))
-                        .contentShape(RoundedRectangle(cornerRadius: 24))
-                    }
-                    .buttonStyle(PressStyle())
-                }
-            }
+            routineList(now: now)
             .padding(.top, 16)
             Para("Add slowly. Give each routine a full mandala before you start the next.", size: 14, color: YF.muted)
                 .padding(.top, 12)
         }
+    }
+
+    private func routineList(now: Date) -> some View {
+        VStack(spacing: 12) {
+            ForEach(model.routines) { r in card(r, now: now) }
+            if model.mayAddRoutine { addButton }
+        }
+    }
+
+    /// Adding a second routine is offered only after the first mandala is complete.
+    private var addButton: some View {
+        Button(action: onAdd) {
+            HStack(spacing: 8) {
+                YFIcon("plus", size: 20)
+                Text("Add a routine").font(YFFont.body(16, .semibold))
+            }
+            .foregroundStyle(YF.ink)
+            .frame(maxWidth: .infinity, minHeight: pose == .wide ? 56 : 60)
+            .overlay(RoundedRectangle(cornerRadius: pose == .wide ? 20 : 24, style: .continuous)
+                .strokeBorder(YF.muted, style: StrokeStyle(lineWidth: 1.5, dash: [5, 4])))
+            .contentShape(RoundedRectangle(cornerRadius: 24))
+        }
+        .buttonStyle(PressStyle())
     }
 
     private func card(_ r: RoutineSnapshot, now: Date) -> some View {
@@ -116,11 +129,30 @@ struct RoutineEditScreen: View {
     @State private var chime = true
     @State private var paused = false
     @State private var confirmRemove = false
+    @Environment(\.duoPose) private var pose
 
     var body: some View {
+        Group {
+            if pose == .phone { phoneBody } else { duoBody }
+        }
+        .scrollDismissesKeyboard(.interactively)
+        .onAppear { load(model.routine(routineID)) }
+        .confirmationDialog("Remove \(model.routine(routineID)?.name ?? "this routine")?", isPresented: $confirmRemove, titleVisibility: .visible) {
+            Button("Remove", role: .destructive) {
+                YogiStore.shared.removeRoutine(routineID)
+                model.refresh()
+                onBack()
+            }
+            Button("Keep it", role: .cancel) {}
+        } message: {
+            Text("Its days and notes are removed from this phone and from iCloud.")
+        }
+    }
+
+    var phoneBody: some View {
         let r = model.routine(routineID)
         let time = Words.time(hour: hour, minute: minute)
-        Screen {
+        return Screen {
             TopBar(back: onBack)
             Text("Routine").font(YFFont.body(14, .semibold)).foregroundStyle(YF.muted).padding(.top, 6)
             H1(r?.name ?? "", size: 34)
@@ -156,18 +188,6 @@ struct RoutineEditScreen: View {
         } bottom: {
             PrimaryButton("Save", enabled: !place.trimmingCharacters(in: .whitespaces).isEmpty) { save() }
         }
-        .scrollDismissesKeyboard(.interactively)
-        .onAppear { load(r) }
-        .confirmationDialog("Remove \(r?.name ?? "this routine")?", isPresented: $confirmRemove, titleVisibility: .visible) {
-            Button("Remove", role: .destructive) {
-                YogiStore.shared.removeRoutine(routineID)
-                model.refresh()
-                onBack()
-            }
-            Button("Keep it", role: .cancel) {}
-        } message: {
-            Text("Its days and notes are removed from this phone and from iCloud.")
-        }
     }
 
     private func load(_ r: RoutineSnapshot?) {
@@ -188,5 +208,177 @@ struct RoutineEditScreen: View {
         store.setPaused(routineID, paused)
         model.refresh()
         onBack()
+    }
+}
+
+// MARK: - iPhone Duo
+
+extension RoutinesScreen {
+    /// Wide (`Duo-Wide-Routines`): the list on the leading side, the selected routine on the trailing side.
+    /// Outer and tall: the phone list, with Back in the strip or the bar.
+    @ViewBuilder var duoBody: some View {
+        let now = Date()
+        if pose == .wide, let r = model.routines.first(where: { $0.id == selected }) ?? model.routines.first {
+            DuoPage(leadAlignment: .top, trailAlignment: .top, pinsBottom: true, strip: [.back(onBack)]) {
+                H1("Your routines", size: 34).padding(.top, 24)
+                Para("Each one has its own hour, its own place and its own things.", size: 15, color: YF.muted).padding(.top, 6)
+                VStack(spacing: 10) {
+                    ForEach(model.routines) { t in listRow(t, now: now, on: t.id == r.id) }
+                    if model.mayAddRoutine { addButton }
+                }
+                .padding(.top, 16)
+                Para("Add slowly. Give each routine a full mandala before you start the next.", size: 14, color: YF.muted).padding(.top, 24)
+            } trail: {
+                Text("Routine").font(YFFont.body(14, .semibold)).foregroundStyle(YF.muted).padding(.top, 24)
+                H1(r.name, size: 34)
+                detailCard(r, now: now).padding(.top, 14)
+                ChimeRow(routine: r).padding(.top, 12)
+            } bottom: {
+                PrimaryButton("Edit \(r.name)") { onEdit(r.id) }
+            }
+        } else {
+            DuoPage(leadAlignment: .top, bar: { AnyView(TopBar(back: onBack)) }) {
+                H1("Your routines", size: 34)
+                Para("Each one has its own hour, its own place and its own things.", size: 15, color: YF.muted).padding(.top, 6)
+                routineList(now: now).padding(.top, 16)
+                Para("Add slowly. Give each routine a full mandala before you start the next.", size: 14, color: YF.muted).padding(.top, 12)
+            } trail: {
+                EmptyView()
+            }
+        }
+    }
+
+    private func listRow(_ t: RoutineSnapshot, now: Date, on: Bool) -> some View {
+        Button { withAnimation(.easeOut(duration: 0.2)) { selected = t.id } } label: {
+            HStack(spacing: 12) {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(t.name).font(YFFont.body(17, .semibold)).foregroundStyle(YF.ink)
+                    Text("\(t.timeText) · \(t.placeTitle)").font(YFFont.body(14)).foregroundStyle(YF.muted)
+                }
+                Spacer(minLength: 0)
+                chip(t, now: now)
+            }
+            .padding(.horizontal, 16).padding(.vertical, 14)
+            .background(on ? YF.softGreen : YF.paper, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous).strokeBorder(on ? YF.textGreen : YF.line, lineWidth: on ? 2 : 1))
+            .contentShape(RoundedRectangle(cornerRadius: 20))
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(on ? .isSelected : [])
+    }
+
+    /// No petal counts here: only whether a first mandala is complete.
+    private func detailCard(_ r: RoutineSnapshot, now: Date) -> some View {
+        let done = r.completedMandalas + (r.isComplete(on: now) ? 1 : 0)
+        return CardBox(radius: 24) {
+            VStack(alignment: .leading, spacing: 0) {
+                Chip(text: done >= 1 ? (done == 1 ? "First mandala complete" : "\(Words.capitalisedFirst(Words.spelled(done))) mandalas complete")
+                                     : (r.dayNumber(on: now) <= 6 ? "In its first days" : "In its first mandala"),
+                     background: done >= 1 ? YF.sunny : YF.softGreen, foreground: done >= 1 ? YF.onAccent : YF.textGreen)
+                Text("Every day").font(YFFont.heading(30)).padding(.top, 8)
+                VStack(alignment: .leading, spacing: 2) {
+                    AnchorRow(icon: "clock", text: r.whenText, minHeight: 28)
+                    AnchorRow(icon: "pin", text: r.placeTitle, minHeight: 28)
+                    if !r.things.isEmpty { AnchorRow(icon: "bag", text: r.thingsList, minHeight: 28) }
+                }
+                .font(YFFont.body(16))
+                .padding(.top, 8)
+            }
+            .padding(20)
+        }
+    }
+}
+
+/// The chime switch for one routine, saved as it is changed.
+private struct ChimeRow: View {
+    let routine: RoutineSnapshot
+    @State private var on = true
+    var body: some View {
+        HStack(spacing: 12) {
+            Text("A soft chime at \(routine.timeText)").font(YFFont.body(15.5, .medium))
+            Spacer(minLength: 0)
+            YFSwitch(isOn: $on, label: "A soft chime at \(routine.timeText)")
+        }
+        .padding(.leading, 18)
+        .frame(minHeight: 58)
+        .background(YF.paper, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous).strokeBorder(YF.line, lineWidth: 1))
+        .onAppear { on = routine.chimeEnabled }
+        .onChange(of: routine.id) { _, _ in on = routine.chimeEnabled }
+        .onChange(of: on) { _, v in
+            guard v != routine.chimeEnabled else { return }
+            YogiStore.shared.updateRoutine(routine.id) { $0.chimeEnabled = v }
+        }
+    }
+}
+
+extension RoutineEditScreen {
+    /// Wide: what the routine is on the leading side; its switches, Remove and Save on the trailing side.
+    /// Tall: the same split above and below the fold. Outer: the phone screen with Back in the strip.
+    var duoBody: some View {
+        let r = model.routine(routineID)
+        let time = Words.time(hour: hour, minute: minute)
+        let anchor = AnchorCard(hour: $hour, minute: $minute, duration: $duration, place: $place, things: $things)
+        return Group {
+            if pose == .outer {
+                DuoPage(bar: { AnyView(TopBar(back: onBack)) }) {
+                    Text("Routine").font(YFFont.body(14, .semibold)).foregroundStyle(YF.muted)
+                    H1(r?.name ?? "", size: 34)
+                    anchor.padding(.top, 14)
+                    switches(time).padding(.top, 12)
+                    removeButton.padding(.top, 6)
+                } trail: {
+                    EmptyView()
+                } bottom: {
+                    saveButton
+                }
+            } else {
+                DuoPage(leadAlignment: pose == .tall ? .top : .center, pinsBottom: pose == .tall, bar: { AnyView(TopBar(back: onBack)) }) {
+                    Text("Routine").font(YFFont.body(14, .semibold)).foregroundStyle(YF.muted)
+                    H1(r?.name ?? "", size: 34)
+                    anchor.padding(.top, 14)
+                } trail: {
+                    switches(time)
+                    removeButton.padding(.top, 8)
+                } bottom: {
+                    saveButton
+                }
+            }
+        }
+    }
+
+    private func switches(_ time: String) -> some View {
+        CardBox {
+            HStack(spacing: 12) {
+                Text("A soft chime at \(time)").font(YFFont.body(15.5, .medium))
+                Spacer(minLength: 0)
+                YFSwitch(isOn: $chime, label: "A soft chime at \(time)")
+            }
+            .padding(.leading, 18)
+            .frame(minHeight: 60)
+            Divider1()
+            HStack(spacing: 12) {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Pause this routine").font(YFFont.body(15.5, .medium))
+                    Text("The widget goes quiet. Nothing is lost.").font(YFFont.body(13)).foregroundStyle(YF.muted)
+                }
+                Spacer(minLength: 0)
+                YFSwitch(isOn: $paused, label: "Pause this routine")
+            }
+            .padding(.leading, 18)
+            .frame(minHeight: 68)
+        }
+    }
+
+    private var removeButton: some View {
+        Button { confirmRemove = true } label: {
+            Text("Remove this routine").font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.ink)
+                .padding(.horizontal, 12).frame(minHeight: 44)
+        }
+        .frame(maxWidth: .infinity)
+    }
+
+    private var saveButton: some View {
+        PrimaryButton("Save", enabled: !place.trimmingCharacters(in: .whitespaces).isEmpty) { save() }
     }
 }

@@ -3,9 +3,13 @@ import YogiKit
 
 /// Welcome (`Main.html`): a greeting. Golden mandala turning behind, lotus turning below, petals rising.
 struct WelcomeScreen: View {
+    @Environment(\.duoPose) private var pose
+    var body: some View {
+        if pose == .phone { phoneBody } else { duoBody }
+    }
     let onBegin: () -> Void
 
-    var body: some View {
+    @ViewBuilder var phoneBody: some View {
         GeometryReader { geo in
             if geo.size.width >= 600 {
                 // The open iPhone Duo: graphic on one side, text and button on the other.
@@ -54,7 +58,7 @@ struct WelcomeScreen: View {
         }
     }
 
-    private var words: some View {
+    fileprivate var words: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("Namaste, and welcome.")
                 .font(YFFont.heading(19, .semibold))
@@ -72,6 +76,36 @@ struct WelcomeScreen: View {
                 .padding(.top, 6)
             Para("Come as you are. Scattered days and missed days are welcome here too. We'll go gently.", size: 16)
                 .padding(.top, 8)
+        }
+    }
+}
+
+extension WelcomeScreen {
+    /// Duo Welcome (`Duo-Outer-Welcome`, `Duo-Wide-Welcome`). The scene is what you look at; the words and Begin
+    /// sit beside it (wide), below the fold (tall), or under a smaller scene with shorter words (outer).
+    var duoBody: some View {
+        let k: CGFloat = pose == .outer ? 0.68 : (pose == .tall ? 0.8 : 1.0)
+        return DuoPage(background: YF.heroYellow, stripTint: Color.black.opacity(0.05), pinsBottom: pose != .wide) {
+            WelcomeScene()
+                .frame(width: 390, height: 470)
+                .scaleEffect(k, anchor: .topLeading)
+                .frame(width: 390 * k, height: 470 * k, alignment: .topLeading)
+                .frame(maxWidth: .infinity)
+        } trail: {
+            if pose == .outer {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Namaste, and welcome.").font(YFFont.heading(16, .semibold)).padding(.top, 6)
+                    Text("Yogi Focus").font(YFFont.heading(36)).foregroundStyle(YF.textGreen)
+                        .lineLimit(1).minimumScaleFactor(0.7).accessibilityAddTraits(.isHeader)
+                    Text("One small routine. One day at a time.").font(YFFont.heading(22, .semibold))
+                        .designLineHeight(22, 1.15).fixedSize(horizontal: false, vertical: true).padding(.top, 4)
+                    Para("Come as you are. We'll go gently.", size: 15).padding(.top, 6)
+                }
+            } else {
+                words
+            }
+        } bottom: {
+            PrimaryButton("Begin", kind: .hero, action: onBegin)
         }
     }
 }
