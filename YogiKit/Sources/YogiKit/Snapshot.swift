@@ -226,6 +226,15 @@ public enum Words {
 
     public static func routineSentence(name: String, kind: RoutineKind, time: String, place: String, things: [String], minutes: Int) -> String {
         let p = lowercasedFirst(place)
+        if kind == .eat {
+            // Cutting sugar is one small action at one moment, not a stretch of time:
+            // "Each day at 7:00 am, at the kitchen table, I have my tea without sugar."
+            var s = "Each day at \(time),"
+            if !p.isEmpty { s += " at \(p)," }
+            let w = withThings(things)
+            s += w.isEmpty ? " I skip the sugar." : " I have \(w) without sugar."
+            return s
+        }
         let verb = kind.verb ?? lowercasedFirst(name.isEmpty ? "practise" : name)
         var s = "Each day at \(time), I go"
         s += p.isEmpty ? " to my place" : " to \(p)"
