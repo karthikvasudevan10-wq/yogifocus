@@ -50,6 +50,19 @@ Notes:
 - **Apple Watch:** watchOS shows iPhone Live Activities in the Smart Stack, so the watch gets this too.
 - **iPhone Duo:** check how the Dynamic Island sits on the outer display's trailing strip.
 
+## 5. Block the time in the person's calendars
+
+- [ ] For each routine, add a recurring event that blocks its time in the calendars the person chooses, such as their work and family calendars.
+
+Notes:
+- **How:** use EventKit. Create one event per chosen calendar, repeating daily at the routine's hour for its length, titled with the routine's name (for example "Meditate · Yogi Focus") and shown as busy, so colleagues and family see the time as taken. Cut Sugar has no length, so it would get a short block or none.
+- **Permission:** to list the person's calendars so they can pick work and family, the app needs full calendar access, with an `NSCalendarsFullAccessUsageDescription` that explains why. Write-only access can add events but cannot list calendars. Ask only when the person turns the option on, never during setup.
+- **Which calendars:** any calendar the iPhone already syncs (iCloud, Google, Exchange or Outlook) can take events. Some work accounts limit what other apps may add, so a calendar may refuse an event; say so plainly if it does.
+- **Keeping it in step:** store each event's identifier with the routine. When the hour or length changes, update the events. When the routine is paused or removed, end or delete them (the "Remove this routine" message already says data is removed). If the person deletes an event in their calendar, leave it deleted.
+- **Where:** a "Block this time in my calendar" option in routine settings, with a calendar picker. Possibly also offered once after setup, on the widget screen.
+- **History:** the 2023 version created a repeating calendar event (`handoff/legacy/.../Model/EventStore.swift`). The handoff left this as an open question ("Calendar event. Keep alongside notifications, or drop?"); this answers it.
+- **Privacy:** events live in the person's own calendars, not on any server. The privacy page should add a line saying calendar access is used only to add and update these events.
+
 ---
 
-Add new v2 requests below this line, numbered on from 5.
+Add new v2 requests below this line, numbered on from 6.
