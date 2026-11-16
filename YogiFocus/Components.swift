@@ -26,7 +26,7 @@ struct Screen<Content: View, Bottom: View>: View {
             let top = max(8, ScreenMetrics.edge - geo.safeAreaInsets.top)
             let bottomPad = max(0, ScreenMetrics.edge - geo.safeAreaInsets.bottom)
             Group {
-                if ScreenMetrics.isTall(geo.size) {
+                if ScreenMetrics.isTall(geo) {
                     VStack(spacing: 0) {
                         if scrolls {
                             ScrollView(.vertical, showsIndicators: false) {
@@ -100,6 +100,13 @@ enum ScreenMetrics {
     static let edge: CGFloat = 24
     /// A normal iPhone in portrait (390 × 844 is 2.16). The Duo's displays are 1.45 (outer) and 0.70 (inner).
     static func isTall(_ size: CGSize) -> Bool { size.height / max(1, size.width) >= 1.75 }
+    /// Decided from the whole screen, safe areas included. The keyboard shortens the space a view is given, and
+    /// if that changed the layout, the field being typed in would be rebuilt and lose its focus (and an alert with a
+    /// text field would close as soon as its keyboard appeared).
+    static func isTall(_ geo: GeometryProxy) -> Bool {
+        isTall(CGSize(width: geo.size.width + geo.safeAreaInsets.leading + geo.safeAreaInsets.trailing,
+                      height: geo.size.height + geo.safeAreaInsets.top + geo.safeAreaInsets.bottom))
+    }
 }
 
 extension Screen {
@@ -545,7 +552,7 @@ struct IllustratedScreen<Top: View, Art: View, Content: View, Bottom: View>: Vie
 
     @ViewBuilder var phoneBody: some View {
         GeometryReader { geo in
-            if geo.size.width >= 600 && !ScreenMetrics.isTall(geo.size) {
+            if geo.size.width >= 600 && !ScreenMetrics.isTall(geo) {
                 let topPad = max(8, ScreenMetrics.edge - geo.safeAreaInsets.top)
                 let bottomPad = max(8, ScreenMetrics.edge - geo.safeAreaInsets.bottom)
                 let column = min(YF.maxColumn - 2 * YF.margin, (geo.size.width - 3 * YF.margin) / 2)
