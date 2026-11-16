@@ -6,7 +6,7 @@ Help a person keep one small routine for 48 days, and so make it theirs for life
 
 ## Who it is for
 
-People with ADHD, difficulty focusing, difficulty following a set routine, or difficulty forming habits. For them, "do this every day for the rest of your life" is daunting, and streak counters and guilt make things worse.
+People who find it hard to focus, to follow a set routine, or to form a habit. For them, "do this every day for the rest of your life" is daunting, and streak counters and guilt make things worse.
 
 ## The method
 

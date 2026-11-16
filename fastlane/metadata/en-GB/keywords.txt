@@ -1,1 +1,1 @@
-habit,ADHD,daily,meditate,mindful,yoga,mandala,practice,morning,gentle,calm,widget,watch,reminder
+habit,zen,daily,meditate,mindful,yoga,mandala,practice,morning,gentle,calm,widget,watch,reminder

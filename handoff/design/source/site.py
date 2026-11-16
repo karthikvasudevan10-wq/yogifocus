@@ -137,7 +137,7 @@ footer .wrap {{ display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: 
 <div class="wrap for">
 <div class="stack">
 <h2>Made for minds that wander</h2>
-<p class="lead">If you live with ADHD, lose focus easily, or have a drawer full of habits that never stuck, Yogi Focus was made with you in mind. It never asks for forever. It asks about today.</p>
+<p class="lead">If you lose focus easily, find routines hard to keep, or have a drawer full of habits that never stuck, Yogi Focus was made with you in mind. It never asks for forever. It asks about today.</p>
 </div>
 <ul class="nos"><li>No streaks to break</li><li>No guilt</li><li>No sad mascot</li><li>No red badges</li><li>No nagging</li><li>Only encouragement</li></ul>
 </div>

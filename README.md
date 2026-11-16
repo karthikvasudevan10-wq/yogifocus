@@ -1,6 +1,6 @@
 # Yogi Focus
 
-A free app that helps people keep one small routine, one day at a time, using a method yogis have used for centuries. Built for people with ADHD, trouble focusing, or trouble forming habits.
+A free app that helps people keep one small routine, one day at a time, using a method yogis have used for centuries. Built for people who find it hard to focus, keep a routine or form a habit.
 
 Website: https://karthikvasudevan10-wq.github.io/yogifocus/
 
