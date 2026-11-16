@@ -180,3 +180,24 @@ Notes:
 - **How:** CloudKit sharing (`CKShare`) of a small record per routine, holding only "kept today" and the mandala number.
 - **Design rules 4 and 5:** no misses, no streaks, no comparison. Only presence.
 - **Privacy:** the partner sees nothing else: no place, things, feelings or times. Either person can stop sharing at any time.
+
+---
+
+# Maybe
+
+Ideas to keep in mind but not yet planned. Move one up into the numbered list when it's decided.
+
+## Share kept days with Apple Health
+
+- [ ] Write what a kept day does to Apple Health, as an option the person turns on per routine.
+
+Notes:
+- **What Health can hold:** Health has no type for habits, so the mandala (petals, days kept, mandalas completed) can't appear there. A kept day can.
+- **By routine:**
+  - Meditate: a mindful session for the routine's length.
+  - Gym, Walk, Stretch: a workout of the right kind (strength training, walking, flexibility). These count towards the Activity rings.
+  - Cut Sugar, Read, Journal, Music, Study, Tidy, Plan: nothing fits. Don't log zero sugar; it would mislead.
+- **"How did it feel?":** a State of Mind entry (iOS 18) for Scattered, Steady or Absorbed, linked to the routine. Over 49 days Health shows their mood on practice days, the strongest part of this idea.
+- **No doubles:** don't write a workout already logged by the watch. Ties in with item 13, which reads it.
+- **Permission:** ask only when turned on, and only for the types that routine needs.
+- **Privacy:** the privacy page needs a line saying Health data stays on the device and is used for nothing else.
