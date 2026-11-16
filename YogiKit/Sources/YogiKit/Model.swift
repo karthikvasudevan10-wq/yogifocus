@@ -60,9 +60,9 @@ public enum RoutineKind: String, Codable, CaseIterable, Sendable, Identifiable {
         switch self {
         case .meditate: return "Meditate"
         case .stretch: return "Stretch"
-        case .exercise: return "Exercise or sport"
+        case .exercise: return "Gym"
         case .walk: return "Walk"
-        case .eat: return "Eating habits"
+        case .eat: return "Cut Sugar"
         case .read: return "Read"
         case .journal: return "Journal"
         case .music: return "Play music"
