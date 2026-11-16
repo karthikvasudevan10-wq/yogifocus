@@ -13,6 +13,17 @@ import YogiKit
 /// - kind: which routine (meditate, eat, exercise, …); defaults to meditate.
 /// - reset: 1 removes everything and shows the introduction again.
 enum DebugSeed {
+    /// `YF_DEMO=1` fills in example answers (a place, things, a feeling) so screens look finished in screenshots.
+    static var demo: Bool { ProcessInfo.processInfo.environment["YF_DEMO"] == "1" }
+
+    /// `YF_TIME=06:40` makes Today behave as if it were that time today, to show a given moment (here "In 20 minutes").
+    static func clock(_ date: Date) -> Date {
+        guard let raw = ProcessInfo.processInfo.environment["YF_TIME"] else { return date }
+        let p = raw.split(separator: ":").compactMap { Int($0) }
+        guard p.count == 2 else { return date }
+        return Calendar.current.date(bySettingHour: p[0], minute: p[1], second: 0, of: date) ?? date
+    }
+
     /// `YF_SCREEN` opens one screen directly: welcome, ideaToday, ideaSame, ideaMandala, howHelps, choose, anchor,
     /// widgetSetup, reflect, kept, routines, edit, mandala. (today, day30 and complete come from YF_SEED.)
     static func route(_ id: UUID?) -> [Route]? {

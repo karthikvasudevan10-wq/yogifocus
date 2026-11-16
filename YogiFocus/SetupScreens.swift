@@ -313,6 +313,11 @@ struct AnchorScreen: View {
             }
         }
         .scrollDismissesKeyboard(.interactively)
+        #if DEBUG
+        .onAppear {
+            if DebugSeed.demo, place.isEmpty { place = "the balcony"; things = ["Yoga mat", "Grey shawl"] }
+        }
+        #endif
     }
 
     private var heading: some View { H1("Give \(routineName.isEmpty ? "your routine" : routineName) a home.", size: 34) }

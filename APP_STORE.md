@@ -1,6 +1,6 @@
 # App Store submission
 
-Everything App Store Connect asks for to submit Yogi Focus 1.0, apart from screenshots and your own contact details.
+Everything App Store Connect asks for to submit Yogi Focus 1.0, apart from your own contact details.
 
 The text fields are in [`fastlane/metadata/`](fastlane/metadata/), one file per field, in the layout `fastlane deliver` reads. Paste them into App Store Connect, or upload them all with `fastlane deliver --skip_screenshots --skip_binary_upload`.
 
@@ -58,20 +58,44 @@ The app uses no encryption beyond what Apple's operating systems provide (HTTPS 
 - **Notes:** [`fastlane/metadata/review_information/notes.txt`](fastlane/metadata/review_information/notes.txt). They explain how to get through setup, why progress stays hidden until day 30, and where the widget and watch app are.
 - **Contact:** your first name, last name, phone and email. These are for Apple only and are not stored in this repository; enter them in App Store Connect.
 
-## Screenshots (still to make)
+## Screenshots
 
-App Store Connect needs at least one set per device family you ship. Plan:
+In [`fastlane/screenshots/en-GB/`](fastlane/screenshots/en-GB/): RGB PNGs (App Store Connect rejects images with transparency), light appearance, with the example routine (Meditate, 7:00 am, the balcony).
 
-| Device | Size (pixels) | Where to capture |
-| --- | --- | --- |
-| iPhone 6.9" | 1320 × 2868 | iPhone 18 Pro Max simulator |
-| iPhone Duo, outer display | 1398 × 2034 | iPhone Duo simulator, display 1 (closed) |
-| iPhone Duo, inner display | 2007 × 2853 | iPhone Duo simulator, display 3 |
-| Apple Watch | the size App Store Connect lists for the watch you choose | Apple Watch Ultra 3 or Series 12 simulator |
+| Set | Size (pixels) | Files | Captured on |
+| --- | --- | --- | --- |
+| iPhone 6.9" | 1320 × 2868 | `iPhone69-01` to `08` | iPhone 18 Pro Max simulator, status bar at 9:41 |
+| iPhone Duo, inner display | 2007 × 2853 | `DuoInner-01` to `08` | iPhone Duo simulator, inner display held tall, status bar at 9:41 |
+| iPhone Duo, outer display | 1398 × 2034 | `DuoOuter-01` to `08` | the outer layout drawn at its 466 × 678 pt size and cropped (the simulator cannot be closed) |
+| Apple Watch | 416 × 496 | `Watch-01` to `04` | Apple Watch Series 12 (46 mm) simulator |
 
-The Duo sizes are the App Store Connect sizes given in `handoff/docs/07-platforms.md`. Check every size against App Store Connect when you upload.
+The order tells the story:
+1. Welcome
+2. Only today
+3. Give it a home
+4. The widget
+5. Today, in the 20 minutes before the hour
+6. How did it feel?
+7. That's today, kept
+8. The mandala at day 37
 
-Suggested order, so the story reads in sequence: Welcome; Only today; Give it a home (time, place, things); Today; How did it feel?; That's today, kept; the Home Screen widget; the lotus at day 30. Debug builds can open any of these directly with `YF_SEED` and `YF_SCREEN` (see `YogiFocus/DebugSeed.swift`). Use the light appearance, and set the status bar to 9:41 with `xcrun simctl status_bar booted override --time 9:41`.
+The watch set is: It's time; How did it feel?; That's today, kept; In 20 minutes.
+
+Notes:
+- **Duo outer set:** it has no system status bar, because it was drawn at the outer display's size rather than on a closed device.
+- **Watch set:** the watch simulator cannot fake the time, so its clock shows the time of capture.
+- **Widget screenshot:** it shows the widget preview inside the app's "Add the widget" screen, not a real Home Screen.
+- **Matching sizes:** check each size against the slots App Store Connect offers when you upload. `fastlane deliver` recognises the iPhone 6.9" and watch sizes by their pixel size; the Duo sizes may need uploading by hand until fastlane knows them.
+
+To recapture, use a Debug build:
+- `YF_SEED` sets the day of the mandala.
+- `YF_SCREEN` opens a screen directly.
+- `YF_DEMO=1` fills in example answers.
+- `YF_TIME=06:40` sets Today's moment.
+- `YF_FRAME=466x678` draws the outer display.
+- `YF_WATCH_SCREEN` picks the watch screen.
+
+`YogiFocus/DebugSeed.swift` describes each one.
 
 ## Before you submit
 

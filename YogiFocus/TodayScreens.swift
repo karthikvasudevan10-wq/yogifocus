@@ -68,7 +68,11 @@ struct TodayScreen: View {
 
     var body: some View {
         TimelineView(.periodic(from: .now, by: 20)) { ctx in
+            #if DEBUG
+            content(now: DebugSeed.clock(ctx.date))
+            #else
             content(now: ctx.date)
+            #endif
         }
         .fullScreenCover(item: Binding(get: { reveal.map(IDBox.init) }, set: { reveal = $0?.id })) { box in
             debugFramed(Day30Screen(routineID: box.id) {
@@ -269,6 +273,9 @@ struct ReflectScreen: View {
         .scrollDismissesKeyboard(.interactively)
         .onAppear {
             if let r = model.routine(routineID), let raw = r.feelings[DayKey.key(Date())] { feeling = Feeling(rawValue: raw) }
+            #if DEBUG
+            if DebugSeed.demo { feeling = .steady }
+            #endif
             note = YogiStore.shared.note(routineID: routineID) ?? ""
         }
     }
@@ -758,6 +765,9 @@ extension ReflectScreen {
         .scrollDismissesKeyboard(.interactively)
         .onAppear {
             if let r = model.routine(routineID), let raw = r.feelings[DayKey.key(Date())] { feeling = Feeling(rawValue: raw) }
+            #if DEBUG
+            if DebugSeed.demo { feeling = .steady }
+            #endif
             note = YogiStore.shared.note(routineID: routineID) ?? ""
         }
     }
