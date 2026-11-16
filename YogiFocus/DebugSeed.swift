@@ -10,6 +10,7 @@ import YogiKit
 /// - missed: days that were not kept.
 /// - kept: 1 if today is already kept.
 /// - hour / minute: the routine's time (defaults to 7:00).
+/// - kind: which routine (meditate, eat, exercise, …); defaults to meditate.
 /// - reset: 1 removes everything and shows the introduction again.
 enum DebugSeed {
     /// `YF_SCREEN` opens one screen directly: welcome, ideaToday, ideaSame, ideaMandala, howHelps, choose, anchor,
@@ -24,6 +25,7 @@ enum DebugSeed {
         case "howHelps": return [.howHelps]
         case "choose": return [.choose]
         case "anchor": return [.anchor(.meditate)]
+        case "anchorEat": return [.anchor(.eat)]
         case "widgetSetup": return [.widgetSetup(rid)]
         case "reflect": return [.reflect(rid)]
         case "kept": return [.kept(rid)]
@@ -54,7 +56,8 @@ enum DebugSeed {
         let today = cal.startOfDay(for: Date())
         let start = cal.date(byAdding: .day, value: -(day - 1), to: today) ?? today
 
-        let id = store.addRoutine(name: "Meditate", kind: .meditate, hour: Int(opts["hour"] ?? "7") ?? 7,
+        let kind = RoutineKind(rawValue: opts["kind"] ?? "") ?? .meditate
+        let id = store.addRoutine(name: kind == .meditate ? "Meditate" : kind.title, kind: kind, hour: Int(opts["hour"] ?? "7") ?? 7,
                                   minute: Int(opts["minute"] ?? "0") ?? 0, place: "the balcony", things: ["Yoga mat", "Grey shawl"])
         store.updateRoutine(id) { $0.startedOn = start }
         let feelings: [Feeling] = [.steady, .absorbed, .steady, .scattered, .steady, .absorbed]

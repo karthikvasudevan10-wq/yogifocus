@@ -88,6 +88,8 @@ struct AnchorCard: View {
     @Binding var duration: Int
     @Binding var place: String
     @Binding var things: [String]
+    /// False for a routine with no length (Cut Sugar): only the hour is asked for.
+    var timed = true
     @State private var pickingTime = false
     @State private var addingThing = false
     @State private var newThing = ""
@@ -101,7 +103,7 @@ struct AnchorCard: View {
                     YFIcon("clock", size: 22).foregroundStyle(YF.textGreen)
                     VStack(alignment: .leading, spacing: 0) {
                         Text("When").font(label).foregroundStyle(YF.muted)
-                        Text("\(Words.time(hour: hour, minute: minute)), for \(Words.length(duration))")
+                        Text(timed ? "\(Words.time(hour: hour, minute: minute)), for \(Words.length(duration))" : Words.time(hour: hour, minute: minute))
                             .font(YFFont.body(17, .semibold)).foregroundStyle(YF.ink)
                     }
                     Spacer(minLength: 0)
@@ -116,10 +118,12 @@ struct AnchorCard: View {
                 TimeSheet(hour: $hour, minute: $minute)
                     .presentationDetents([.height(380)])
             }
-            DurationPicker(duration: $duration)
-                .padding(.leading, 54)
-                .padding(.trailing, 18)
-                .padding(.bottom, 14)
+            if timed {
+                DurationPicker(duration: $duration)
+                    .padding(.leading, 54)
+                    .padding(.trailing, 18)
+                    .padding(.bottom, 14)
+            }
             Divider1()
             HStack(spacing: 14) {
                 YFIcon("pin", size: 22).foregroundStyle(YF.textGreen)
@@ -330,10 +334,14 @@ struct AnchorScreen: View {
     }
 
     private var anchor: some View {
-        AnchorCard(hour: $hour, minute: $minute, duration: $duration, place: $place, things: $things)
+        AnchorCard(hour: $hour, minute: $minute, duration: $duration, place: $place, things: $things, timed: kind.isTimed)
     }
 
-    private var lengthNote: some View {
+    @ViewBuilder private var lengthNote: some View {
+        if kind.isTimed { timedNote }
+    }
+
+    private var timedNote: some View {
         Para(duration == Mandala.minimumMinutes
              ? "Ten minutes is the gentlest start. For the first week, no more."
              : "Choose the time the practice needs. For the first week, stop when it is up.", size: 14, color: YF.muted)

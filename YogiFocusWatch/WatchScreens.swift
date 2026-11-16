@@ -66,7 +66,7 @@ struct WatchRootView: View {
                 WLabel("In \(minutes) minute\(minutes == 1 ? "" : "s")", u: u)
                 WTitle(r.name, u: u)
                 VStack(alignment: .leading, spacing: 2 * u) {
-                    WRow("clock", "\(r.timeText), \(r.lengthShort)", u: u)
+                    WRow("clock", r.whenCompact, u: u)
                     WRow("pin", r.placeTitle, u: u)
                     if !r.things.isEmpty { WRow("bag", r.thingsList, u: u) }
                 }

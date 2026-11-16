@@ -42,7 +42,7 @@ struct TodayWords {
             } else {
                 switch phase {
                 case .cappedStart:
-                    under = r.durationMinutes == Mandala.minimumMinutes
+                    under = !r.routineKind.isTimed ? nil : r.durationMinutes == Mandala.minimumMinutes
                         ? "This first week, stop at ten minutes, even if you would like more."
                         : "This first week, stop at \(r.lengthText), even if you would like more."
                 case .boringMiddle:

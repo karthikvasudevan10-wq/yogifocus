@@ -170,8 +170,10 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
     public var placeTitle: String { Words.capitalisedFirst(place) }
     public var placeInSentence: String { Words.lowercasedFirst(place) }
     public var thingsList: String { Words.list(things) }
-    public var whenText: String { "\(timeText), for \(Words.length(durationMinutes))" }
-    public var whenShort: String { "\(timeText), \(Words.length(durationMinutes))" }
+    public var whenText: String { routineKind.isTimed ? "\(timeText), for \(Words.length(durationMinutes))" : timeText }
+    public var whenShort: String { routineKind.isTimed ? "\(timeText), \(Words.length(durationMinutes))" : timeText }
+    /// For the watch: "7:00 am, 10 min".
+    public var whenCompact: String { routineKind.isTimed ? "\(timeText), \(lengthShort)" : timeText }
     public var lengthText: String { Words.length(durationMinutes) }
     public var lengthShort: String { Words.length(durationMinutes, short: true) }
 

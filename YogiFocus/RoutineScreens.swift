@@ -156,7 +156,8 @@ struct RoutineEditScreen: View {
             TopBar(back: onBack)
             Text("Routine").font(YFFont.body(14, .semibold)).foregroundStyle(YF.muted).padding(.top, 6)
             H1(r?.name ?? "", size: 34)
-            AnchorCard(hour: $hour, minute: $minute, duration: $duration, place: $place, things: $things)
+            AnchorCard(hour: $hour, minute: $minute, duration: $duration, place: $place, things: $things,
+                       timed: model.routine(routineID)?.routineKind.isTimed ?? true)
                 .padding(.top, 16)
             CardBox {
                 HStack(spacing: 12) {
@@ -318,7 +319,8 @@ extension RoutineEditScreen {
     var duoBody: some View {
         let r = model.routine(routineID)
         let time = Words.time(hour: hour, minute: minute)
-        let anchor = AnchorCard(hour: $hour, minute: $minute, duration: $duration, place: $place, things: $things)
+        let anchor = AnchorCard(hour: $hour, minute: $minute, duration: $duration, place: $place, things: $things,
+                       timed: model.routine(routineID)?.routineKind.isTimed ?? true)
         return Group {
             if pose == .outer {
                 DuoPage(bar: { AnyView(TopBar(back: onBack)) }) {

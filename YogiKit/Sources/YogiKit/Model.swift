@@ -73,6 +73,8 @@ public enum RoutineKind: String, Codable, CaseIterable, Sendable, Identifiable {
         }
     }
     public var icon: String { self == .own ? "plus" : rawValue }
+    /// Cutting sugar is one small action at one moment, so it has an hour but no length.
+    public var isTimed: Bool { self != .eat }
     /// The verb used in "…and meditate for ten minutes."
     public var verb: String? {
         switch self {
