@@ -32,11 +32,11 @@ struct RoutinesScreen: View {
     private func routineList(now: Date) -> some View {
         VStack(spacing: 12) {
             ForEach(model.routines) { r in card(r, now: now) }
-            if model.mayAddRoutine { addButton }
+            addButton
         }
     }
 
-    /// Adding a second routine is offered only after the first mandala is complete.
+    /// Always offered. The picker suggests one routine at a time, but never blocks another.
     private var addButton: some View {
         Button(action: onAdd) {
             HStack(spacing: 8) {
@@ -225,7 +225,7 @@ extension RoutinesScreen {
                 Para("Each one has its own hour, its own place and its own things.", size: 15, color: YF.muted).padding(.top, 6)
                 VStack(spacing: 10) {
                     ForEach(model.routines) { t in listRow(t, now: now, on: t.id == r.id) }
-                    if model.mayAddRoutine { addButton }
+                    addButton
                 }
                 .padding(.top, 16)
                 Para("Add slowly. Give each routine a full mandala before you start the next.", size: 14, color: YF.muted).padding(.top, 24)

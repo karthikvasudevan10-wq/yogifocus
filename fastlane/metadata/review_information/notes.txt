@@ -10,7 +10,7 @@ How to try it:
 
 Things that appear later by design:
 • Progress is deliberately hidden for the first 30 days of a routine (no counts, no streaks). On day 30 a lotus is revealed showing the days practised; on day 48 the "One mandala" screen appears. These cannot be reached on a fresh install without waiting.
-• A second routine can be added only after the first 48-day mandala is complete.
+• More routines can be added at any time from Your routines (the list icon on Today). The app recommends one at a time but does not block it.
 
 Widget: add "Yogi Focus" from the Home Screen widget gallery (small, medium or large). At the routine's hour it shows a Done button, which marks the day as kept through an App Intent.
 

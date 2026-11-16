@@ -92,9 +92,9 @@ final class AppModel {
 
     func routine(_ id: UUID) -> RoutineSnapshot? { routines.first { $0.id == id } }
 
-    /// A second routine is offered only when a first mandala is complete.
-    var mayAddRoutine: Bool {
-        routines.isEmpty || routines.contains { $0.completedMandalas >= 1 || $0.isComplete(on: Date()) }
+    /// Adding a routine is always allowed. Until a first mandala is complete, Yogi Focus gently suggests waiting.
+    var suggestsWaitingToAdd: Bool {
+        !routines.isEmpty && !routines.contains { $0.completedMandalas >= 1 || $0.isComplete(on: Date()) }
     }
 }
 
@@ -157,7 +157,8 @@ struct RootView: View {
             AnchorScreen(kind: kind, onBack: back) { id in
                 YogiStore.shared.hasOnboarded = true
                 model.refresh()
-                path.append(.widgetSetup(id))
+                // The widget is set up once, with the first routine. Later routines go straight back to Today.
+                if model.routines.count > 1 { path.removeAll() } else { path.append(.widgetSetup(id)) }
             }
         case .widgetSetup(let id): WidgetSetupScreen(routineID: id, onBack: back) { path.removeAll() }
         case .reflect(let id): ReflectScreen(routineID: id, onBack: back) { path.append(.kept(id)) }

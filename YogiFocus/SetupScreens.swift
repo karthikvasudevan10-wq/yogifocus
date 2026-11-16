@@ -5,6 +5,7 @@ import YogiKit
 
 struct ChooseRoutineScreen: View {
     @Environment(\.duoPose) private var pose
+    @Environment(AppModel.self) private var model
     let onBack: (() -> Void)?
     let onContinue: (RoutineKind) -> Void
     @State private var picked: RoutineKind = .meditate
@@ -15,7 +16,7 @@ struct ChooseRoutineScreen: View {
             Screen {
                 TopBar(back: onBack)
                 heading.padding(.top, 6)
-                Para("Choose one, and only one. Ten minutes a day to begin.").padding(.top, 8)
+                Para(subline).padding(.top, 8)
                 tiles.padding(.top, 18)
                 footnote.padding(.top, 14)
             } bottom: {
@@ -25,7 +26,7 @@ struct ChooseRoutineScreen: View {
             // `Duo-Wide-Choose`: the words and Continue on the leading side, two columns of tiles on the trailing side.
             DuoPage(strip: onBack.map { [.back($0)] } ?? []) {
                 heading
-                Para("Choose one, and only one. Ten minutes a day to begin.").padding(.top, 10)
+                Para(subline).padding(.top, 10)
                 footnote.padding(.top, 14)
                 continueButton.padding(.top, 28)
             } trail: {
@@ -34,7 +35,7 @@ struct ChooseRoutineScreen: View {
         default:
             DuoPage(pinsBottom: true, bar: { AnyView(TopBar(back: onBack)) }) {
                 heading
-                Para("Choose one, and only one. Ten minutes a day to begin.").padding(.top, 8)
+                Para(subline).padding(.top, 8)
                 if pose == .tall { footnote.padding(.top, 14) }
             } trail: {
                 tiles.padding(.top, pose == .outer ? 16 : 0)
@@ -47,8 +48,28 @@ struct ChooseRoutineScreen: View {
 
     private var heading: some View { H1("What would you like to practise?", size: pose == .wide ? 38 : 34) }
 
-    private var footnote: some View {
-        Para("When your first mandala is complete, Yogi Focus will invite you to add another.", size: 14, color: YF.muted)
+    /// Adding to routines the person already has.
+    private var adding: Bool { !model.routines.isEmpty }
+
+    private var subline: String {
+        adding ? "Ten minutes a day to begin." : "We recommend starting with just one. Ten minutes a day to begin."
+    }
+
+    /// A recommendation, never a block: one routine at a time is easier to keep.
+    @ViewBuilder private var footnote: some View {
+        if adding && model.suggestsWaitingToAdd {
+            Text("A gentle suggestion: give your first routine a full mandala of 48 days before adding another. One at a time is easier to keep. You can still add one now.")
+                .font(YFFont.body(15))
+                .foregroundStyle(YF.ink)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(16)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(YF.softGreen, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        } else if adding {
+            Para("Add slowly. Give each routine a full mandala before you start the next.", size: 14, color: YF.muted)
+        } else {
+            Para("You can add more routines later from Your routines. Most people find it easier to give the first one a full mandala first.", size: 14, color: YF.muted)
+        }
     }
 
     private var continueButton: some View { PrimaryButton("Continue") { onContinue(picked) } }
