@@ -447,6 +447,9 @@ struct KeptHero: View {
                 .frame(width: 140, height: 140)
                 .offset(x: 80, y: 48)
             if !reduceMotion {
+                // The petals fly about 200 pt from the yogi, well past this 300 × 262 box, and a canvas cannot draw
+                // outside its own frame. So the canvas reaches `bleed` beyond the box on every side.
+                let bleed: CGFloat = 240
                 TimelineView(.animation) { ctx in
                     Canvas { g, _ in
                         let t = ctx.date.timeIntervalSince(start)
@@ -462,7 +465,7 @@ struct KeptHero: View {
                             let alpha = f < 0.1 ? f / 0.1 : (f < 0.55 ? 1 : max(0, 1 - (f - 0.55) / 0.23))
                             var c = g
                             c.opacity = alpha
-                            c.translateBy(x: 150, y: 118)
+                            c.translateBy(x: 150 + bleed, y: 118 + bleed)
                             c.rotate(by: .degrees(-120 + Double(k) * 30))
                             c.translateBy(x: 0, y: -58 + dy)
                             c.scaleBy(x: scale, y: scale)
@@ -470,7 +473,9 @@ struct KeptHero: View {
                         }
                     }
                 }
-                .frame(width: 300, height: 262)
+                .frame(width: 300 + 2 * bleed, height: 262 + 2 * bleed)
+                .offset(x: -bleed, y: -bleed)
+                .allowsHitTesting(false)
             }
             FloatShadow(color: YF.heroShadow)
                 .frame(width: 96, height: 16)
@@ -495,7 +500,7 @@ extension HeroLayout {
     /// under a smaller hero (outer). The rays turn behind the hero, edge to edge.
     var duoBody: some View {
         let raysColor = rays
-        return DuoPage(background: background, stripTint: Color.black.opacity(0.05), pinsBottom: pose != .wide,
+        return DuoPage(background: background, stripTint: Color.black.opacity(0.05), pinsBottom: pose != .wide, leadUnclipped: true,
                        underlay: raysColor.map { c in
                            { r in
                                let centre: CGPoint = {
@@ -510,6 +515,7 @@ extension HeroLayout {
                        }) {
             hero().aspectRatio(heroAspect, contentMode: .fit)
                 .frame(maxWidth: pose == .outer ? heroMaxWidth * 0.72 : heroMaxWidth * 1.1)
+                .zIndex(1)
                 .frame(maxWidth: .infinity)
         } trail: {
             top()

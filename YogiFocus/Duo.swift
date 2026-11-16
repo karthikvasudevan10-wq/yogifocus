@@ -154,6 +154,7 @@ struct DuoRegions {
 struct DuoRegion<Content: View>: View {
     var alignment: Alignment = .center
     var padding: EdgeInsets
+    var clips = true
     @ViewBuilder var content: () -> Content
 
     var body: some View {
@@ -165,6 +166,7 @@ struct DuoRegion<Content: View>: View {
                     .frame(minHeight: g.size.height, alignment: alignment)
             }
             .scrollBounceBehavior(.basedOnSize)
+            .scrollClipDisabled(!clips)
         }
     }
 }
@@ -173,13 +175,14 @@ struct DuoRegion<Content: View>: View {
 struct DuoPinnedRegion<Content: View, Bottom: View>: View {
     var alignment: Alignment = .top
     var padding: EdgeInsets
+    var clips = true
     @ViewBuilder var content: () -> Content
     @ViewBuilder var bottom: () -> Bottom
 
     var body: some View {
         VStack(spacing: 0) {
             DuoRegion(alignment: alignment, padding: EdgeInsets(top: padding.top, leading: padding.leading, bottom: 12, trailing: padding.trailing),
-                      content: content)
+                      clips: clips, content: content)
             VStack(spacing: 8) { bottom() }
                 .padding(.leading, padding.leading)
                 .padding(.trailing, padding.trailing)
@@ -205,6 +208,8 @@ struct DuoPage<Lead: View, Trail: View, Bottom: View>: View {
     var trailAlignment: Alignment = .center
     /// Wide and tall: keep the button at the bottom of its region rather than with the words.
     var pinsBottom = false
+    /// Let the lead draw past its region (the kept screen's petals fly out from the yogi).
+    var leadUnclipped = false
     /// Buttons for the trailing strip that belong to the page itself (Back, Done, the routines list). Buttons can also
     /// come from inside the page with `duoStripItem`, as a TopBar's Back does.
     var strip: [DuoStripItem] = []
@@ -250,7 +255,7 @@ struct DuoPage<Lead: View, Trail: View, Bottom: View>: View {
     private func outer(_ r: DuoRegions, _ geo: GeometryProxy) -> some View {
         let top = max(18, 24 - geo.safeAreaInsets.top)
         let bottomPad = max(8, 22 - geo.safeAreaInsets.bottom)
-        return DuoPinnedRegion(alignment: .top, padding: EdgeInsets(top: top, leading: 24, bottom: bottomPad, trailing: 22)) {
+        return DuoPinnedRegion(alignment: .top, padding: EdgeInsets(top: top, leading: 24, bottom: bottomPad, trailing: 22), clips: !leadUnclipped) {
             lead()
             trail()
         } bottom: {
@@ -263,7 +268,7 @@ struct DuoPage<Lead: View, Trail: View, Bottom: View>: View {
         let leadPad = EdgeInsets(top: 28, leading: 32, bottom: 28, trailing: 32)
         let trailPad = EdgeInsets(top: 28, leading: 32, bottom: 28, trailing: 28)
         return ZStack(alignment: .topLeading) {
-            DuoRegion(alignment: leadAlignment, padding: leadPad, content: lead)
+            DuoRegion(alignment: leadAlignment, padding: leadPad, clips: !leadUnclipped, content: lead)
                 .frame(width: r.leading.width, height: r.leading.height)
             Group {
                 if pinsBottom {
@@ -286,7 +291,7 @@ struct DuoPage<Lead: View, Trail: View, Bottom: View>: View {
             if let bar {
                 bar().padding(.horizontal, 28).frame(width: r.top.width, height: 44, alignment: .bottom)
             }
-            DuoRegion(alignment: leadAlignment, padding: EdgeInsets(top: 2, leading: 40, bottom: 6, trailing: 40), content: lead)
+            DuoRegion(alignment: leadAlignment, padding: EdgeInsets(top: 2, leading: 40, bottom: 6, trailing: 40), clips: !leadUnclipped, content: lead)
                 .frame(width: r.top.width, height: max(0, r.top.height - barH))
                 .offset(y: barH)
             DuoPinnedRegion(alignment: .top, padding: EdgeInsets(top: 24, leading: 40, bottom: max(16, 40 - geo.safeAreaInsets.bottom), trailing: 40),
