@@ -1,0 +1,19 @@
+Thank you for reviewing Yogi Focus.
+
+No account or sign-in is needed. Everything works offline; data is stored on the device and, if the person uses iCloud, in their own private iCloud database (CloudKit). There is no server, no analytics and no advertising. The app is free with no in-app purchases.
+
+How to try it:
+1. Open the app and tap Begin. Tap Next on the three short idea screens, then "Choose my first routine".
+2. Choose a routine (for example Meditate), enter a place (for example "the balcony"), optionally add things you use with +, and tap "This is my routine".
+3. On "Let your Home Screen do the remembering", tap "I've added it" or "Not now". The app asks for permission to send notifications here; they are local reminders at the chosen hour.
+4. On Today, tap "I've practised today", choose how it felt, and tap Done to see the "That's today, kept" screen.
+
+Things that appear later by design:
+• Progress is deliberately hidden for the first 30 days of a routine (no counts, no streaks). On day 30 a lotus is revealed showing the days practised; on day 48 the "One mandala" screen appears. These cannot be reached on a fresh install without waiting.
+• A second routine can be added only after the first 48-day mandala is complete.
+
+Widget: add "Yogi Focus" from the Home Screen widget gallery (small, medium or large). At the routine's hour it shows a Done button, which marks the day as kept through an App Intent.
+
+Apple Watch: the watch app is included. It shows today's routine, lets you tap Done and answer "How did it feel?", and offers complications and a Smart Stack card. Routines are set up on the iPhone.
+
+iPhone Duo: the app has layouts for the outer display, and for the inner display held wide or tall.
