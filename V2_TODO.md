@@ -300,6 +300,16 @@ Notes:
 - **Ideas:** the 49-petal lotus filling in, "what 49 days of meditation looks like", the yogi levitating, the no-guilt message.
 - **Ties in with:** item 6, where people share their own mandala.
 
+## 32. "Share Yogi Focus" inside the app
+
+- [ ] Add a quiet way to share the app's App Store link (https://apps.apple.com/app/id6835473975) with friends, and a "Rate Yogi Focus" link beside it.
+
+Notes:
+- **Where:** at the bottom of the routines screen, and on the mandala complete screen next to item 6's sharing. Never as a pop-up or nudge.
+- **How:** `ShareLink` with the App Store URL and a short warm message ("I've been keeping a small daily routine with Yogi Focus. It's free."). The rate link opens `https://apps.apple.com/app/id6835473975?action=write-review`.
+- **Feedback minimum:** these are links the person can choose to tap, not questions. The only rating prompt stays item 29.
+- **Watch:** not needed there.
+
 ---
 
 # Maybe
