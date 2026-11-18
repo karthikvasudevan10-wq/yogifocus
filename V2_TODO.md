@@ -256,6 +256,50 @@ Notes:
 - **Design rules 5 and 10:** this makes the existing rules explicit for every nudge, widget and watch message, and for anything added in v2.
 - **Check:** review every message in `Nudges.swift` and the widgets to make sure none of them depends on the day before.
 
+## 27. US English store text
+
+- [ ] Add an en-US App Store localisation alongside en-GB.
+
+Notes:
+- **Why:** the US store indexes its own localisation's keywords, so a second set of 100 characters roughly doubles the search terms the app can rank for there.
+- **How:** copy the en-GB name, subtitle and description into `fastlane/metadata/en-US/`, switch spellings (practise → practice, colour → color), and write a different keyword set so the two don't repeat each other.
+
+## 28. Translate the store text
+
+- [ ] Translate the App Store text for big markets: Spanish, German, French, Japanese, Hindi and Chinese (Simplified, and Traditional for Taiwan and Hong Kong).
+
+Notes:
+- **Store text first:** name, subtitle, description, keywords and screenshots' captions. Translating the app itself can come later; the store text alone helps search.
+- **India:** the yoga and mandala theme is a natural fit. Hindi metadata is supported; many people there search in English too, so en-IN wording may matter as much.
+- **Mainland China:** the China App Store needs an ICP filing number for the app, entered in App Store Connect, before it can be available there. Taiwan and Hong Kong don't. Check whether the app is currently live in China or was held back for this.
+- **Native review:** have each translation checked by a native speaker; the no-blame tone is easy to lose.
+
+## 29. Ask for a rating at a happy moment
+
+- [ ] Use Apple's built-in rating prompt (`requestReview`) at a good moment, such as day 30 or mandala complete, never after a miss.
+
+Notes:
+- **Limit:** Apple shows it at most three times a year per person and may choose not to show it at all.
+- **Feedback minimum:** this is the only rating ask; no custom "Do you like the app?" screen.
+- **Ties in with:** "What changed?" in the Maybe list.
+
+## 30. Nominate the app for App Store featuring
+
+- [ ] Submit a featuring nomination in App Store Connect (Featuring → Nominations).
+
+Notes:
+- **Pitch:** the no-guilt approach, the lotus and yogi design, and full use of Apple platforms: iPhone, iPhone Duo layouts, Apple Watch app and complications, widgets with buttons. Later: Live Activity and Dynamic Island (item 4) and AlarmKit (item 22).
+- **Timing:** nominate again for each meaningful update (v2), and a few weeks ahead of themed moments such as New Year and International Yoga Day (21 June).
+
+## 31. Short videos on TikTok and Instagram
+
+- [ ] Post the lotus-opening animation and the mandala-complete moment as short videos on TikTok and Instagram Reels.
+
+Notes:
+- **Material:** simulator recordings already work (`xcrun simctl io recordVideo`), and the debug seed (`YF_SEED`, `YF_DEMO`) can show any day of the mandala.
+- **Ideas:** the 49-petal lotus filling in, "what 49 days of meditation looks like", the yogi levitating, the no-guilt message.
+- **Ties in with:** item 6, where people share their own mandala.
+
 ---
 
 # Maybe
