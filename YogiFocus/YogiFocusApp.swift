@@ -10,6 +10,11 @@ struct YogiFocusApp: App {
     init() {
         // The app owns iCloud syncing. Routines, days kept, feelings and mandala numbers follow the person to a new phone.
         YogiStore.cloudSyncEnabled = true
+        #if DEBUG
+        // YF_NO_CLOUD=1 runs as a brand-new install that has never seen iCloud, for recording the introduction.
+        // Nothing in iCloud is read, written or deleted.
+        if ProcessInfo.processInfo.environment["YF_NO_CLOUD"] != nil { YogiStore.cloudSyncEnabled = false }
+        #endif
         YFFont.register()
         #if DEBUG
         DebugSeed.applyIfAsked()
