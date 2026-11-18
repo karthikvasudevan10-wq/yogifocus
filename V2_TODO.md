@@ -2,6 +2,46 @@
 
 Features planned for after 1.0. Each item has the idea as asked, then notes on what iOS allows and how it sits with the design rules in `handoff/CLAUDE.md`. Nothing here is built yet.
 
+## Release plan
+
+Agreed 18 November 2026. No server of our own: everything runs on the phone or through Apple services (iCloud/CloudKit, WeatherKit). Building starts 19 November 2026.
+
+**v2.0: build first**
+- 1 Restart a mandala
+- 2 "Not today" as an answer
+- 10 A two-minute version
+- 24 Open straight into the practice
+- 25 Ask "How did it feel?" less
+- 26 A missed day leaves no trace in the moment
+- 9 Fading nudges
+- 18 Learn when they really do it
+- 14 Siri, Shortcuts and the Action button
+- 22 A gentle alarm (AlarmKit)
+- 4 Dynamic Island and Live Activity (started from the alarm, a notification or the widget; no server push)
+- 6 Share a completed mandala (share sheet first; Instagram Stories needs a free Facebook App ID)
+- 32 "Share Yogi Focus" inside the app
+- 29 Ask for a rating at a happy moment
+- 3 Do Not Disturb alternatives: block distracting apps with Screen Time, plus the one-tap shortcut (needs Apple's Family Controls entitlement; request it early)
+
+**v2.1: next (permissions or more care)**
+- 5, 19, 20 Calendar: block the time, suggest a new time, hold nudges while busy
+- 11 "After I…" anchor; 7 automatic-or-not check-in; 8 letter to yourself (review 7 and 8 against item 25 first, as they add questions)
+- 13 Apple Health check-ins, and the Health item in Maybe
+- 12 A nudge on arrival
+- 15 What we've noticed; 16 The yogi's year
+- 21 Weather-aware Walk (WeatherKit)
+
+**Later or hard**
+- 17 A practice partner (iCloud sharing; the most complex item)
+- 23 Set the scene (Shortcuts or HomeKit, once Start is tapped)
+
+**Not possible as written**
+- 3: switching Do Not Disturb on automatically. iOS has no API for it; see the alternatives in item 3.
+- 20: detecting driving. A Driving Focus already holds notifications, so nothing to build.
+- 6: posting straight to TikTok needs TikTok's developer approval (free, no server). The share sheet reaches TikTok without it.
+
+**Any time, no code:** 27, 28, 30, 31 and the ideas in [PROMOTION.md](PROMOTION.md).
+
 ## 1. Restart a mandala
 
 - [ ] Let people restart the mandala for any routine, so they can make a fresh start if they missed too many days and get a chance to correct course.
@@ -32,6 +72,9 @@ Notes:
   - **A Shortcuts personal automation.** Shortcuts' own "Set Focus" action can turn Do Not Disturb on at a time of day and off after a set time. Yogi Focus can offer to set this up: explain it, then hand over a ready-made shortcut or step-by-step guidance. The person approves it in Shortcuts, which counts as the permission.
   - **A scheduled Focus.** In Settings → Focus, the person can schedule Do Not Disturb for the routine's hour. The app can open the right settings page and show the times to enter.
   - **A Focus filter** (`SetFocusFilterIntent`). Yogi Focus can react when a Focus is on, for example by showing only today's routine, but it cannot switch the Focus on.
+  - **Block distracting apps (recommended, with the shortcut).** Apple's Screen Time API (FamilyControls, ManagedSettings, DeviceActivity) lets Yogi Focus shield the apps the person picks, such as Instagram or TikTok, from 5 minutes before the routine until its length is up, with a calm "It's practice time" screen. A `DeviceActivitySchedule` switches it on and off by itself, with no server. Needs the person's permission once (individual authorisation) and Apple's Family Controls (Distribution) entitlement, requested from Apple and reviewed; ask early. Limit: it blocks apps, not calls or notifications.
+  - **The gentle alarm and Live Activity (items 22 and 4).** They don't silence anything, but they make the practice time hard to miss on the Lock Screen and Dynamic Island.
+- **Plan:** offer app blocking plus the one-tap Do Not Disturb shortcut, side by side, in routine settings.
 - **Keeping times in step:** if the routine's hour or length changes, the person has to update their automation or schedule. The app can remind them in routine settings.
 
 ## 4. Dynamic Island and Live Activity
