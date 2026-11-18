@@ -102,4 +102,4 @@ To recapture, use a Debug build:
 - Add the `ITSAppUsesNonExemptEncryption` key (see above), or answer the question on upload.
 - Archive with the **Release** configuration. The debug helpers (`YF_SEED`, `YF_SCREEN`, `YF_FRAME`) are only compiled into Debug builds.
 - In the Apple Developer portal, the iCloud container `iCloud.karthikvasudevan.yogifocus` and the App Group `group.karthikvasudevan.yogifocus` must exist and be enabled for the app, watch app and widget identifiers. Xcode's automatic signing usually creates them on the first device build.
-- Update the website's "Coming soon to the App Store" buttons with the App Store link once the app is live.
+- The website links to the App Store: https://apps.apple.com/app/id6835473975
