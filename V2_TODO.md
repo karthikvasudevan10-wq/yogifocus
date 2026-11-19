@@ -115,7 +115,8 @@ Add new v2 requests below this line, numbered on from 6.
 - [ ] On the mandala complete screen, add sharing to Instagram and TikTok. Tell the person this is a very special screen that not many people in the world ever reach, and show how many mandalas they have completed.
 
 Notes:
-- **What is shared:** a ready-made image (and perhaps a short clip of the lotus opening) in the app's style: the full lotus, the routine's name, "49 days" and "Mandala 3". Nothing private: no place, things, feelings or times.
+- **What is shared:** a 12-second video the app makes on the phone when Share my mandala is tapped, with a still image as the other choice. It uses the person's own routine name and mandala number: the lotus opening petal by petal, the yogi arriving, "48 days". Nothing private: no place, things, feelings or times. No server: drawn with SwiftUI and written with AVAssetWriter on the device.
+- **Spec and reference:** `handoff/design/mandala-video/` has the reference video, the frame-by-frame timeline (`clip.html`, `render(t)`) and the build notes (README). Canvas row 20 has the "Making your video" and "Share your mandala" screens.
 - **Instagram:** Stories sharing through the `instagram-stories://share` URL scheme, with the image on the pasteboard. This needs a Facebook App ID and `instagram-stories` in `LSApplicationQueriesSchemes`. Feed posts go through the share sheet.
 - **TikTok:** the TikTok Share Kit SDK (needs a TikTok developer app and review) for sharing to TikTok directly. Without it, the system share sheet can still send the image or video to TikTok.
 - **Fallback:** a share sheet button (`ShareLink`) for everything else, and a plain "Save image" option.

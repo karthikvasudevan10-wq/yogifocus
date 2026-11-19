@@ -891,6 +891,38 @@
       "h": 844,
       "title": "Quieted app · It's practice time · dark",
       "radius": 44
+    },
+    "V2-Share-Making.dc.html": {
+      "x": 3430,
+      "y": 25230,
+      "w": 390,
+      "h": 844,
+      "title": "Share · making the video on the phone",
+      "radius": 44
+    },
+    "V2-Share-Video.dc.html": {
+      "x": 3900,
+      "y": 25230,
+      "w": 390,
+      "h": 844,
+      "title": "Share · the video, ready",
+      "radius": 44
+    },
+    "V2-Share-Making-Dark.dc.html": {
+      "x": 3760,
+      "y": 28810,
+      "w": 390,
+      "h": 844,
+      "title": "Share · making the video on the phone · dark",
+      "radius": 44
+    },
+    "V2-Share-Video-Dark.dc.html": {
+      "x": 4230,
+      "y": 28810,
+      "w": 390,
+      "h": 844,
+      "title": "Share · the video, ready · dark",
+      "radius": 44
     }
   },
   "order": [
@@ -974,6 +1006,8 @@
     "V2-Rating.dc.html",
     "V2-Quiet-Apps.dc.html",
     "V2-Shield.dc.html",
+    "V2-Share-Making.dc.html",
+    "V2-Share-Video.dc.html",
     "V2-Settings-Dark.dc.html",
     "V2-Restart-Dark.dc.html",
     "V2-Mandala-Dark.dc.html",
@@ -990,7 +1024,9 @@
     "V2-Routines-Dark.dc.html",
     "V2-Rating-Dark.dc.html",
     "V2-Quiet-Apps-Dark.dc.html",
-    "V2-Shield-Dark.dc.html"
+    "V2-Shield-Dark.dc.html",
+    "V2-Share-Making-Dark.dc.html",
+    "V2-Share-Video-Dark.dc.html"
   ],
   "notes": {
     "row1": {
@@ -1136,7 +1172,7 @@
       "y": 24930,
       "text": "20 · v2.0 · Sharing, rating and practice time (items 6, 32, 29, 3)",
       "kind": "title1",
-      "maxW": 3350,
+      "maxW": 4290,
       "w": 240
     },
     "row21": {
@@ -1152,7 +1188,7 @@
       "y": 28510,
       "text": "22 · v2.0 · Dark appearance, continued",
       "kind": "title1",
-      "maxW": 3680,
+      "maxW": 4620,
       "w": 240
     }
   },

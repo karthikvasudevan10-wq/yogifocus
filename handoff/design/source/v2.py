@@ -460,7 +460,7 @@ share_inner = f"""<div style="display: flex; justify-content: center; margin-top
 <span style="margin-top: 16px; align-self: center; padding: 5px 14px; border-radius: 16px; background: {ONACC}; color: {CREAM}; font-size: 14px; font-weight: 600">Your 3rd mandala · Meditate</span>
 {h1("One mandala.", size=46, mt=10)}
 {p("Out of 48 days, you practised 45. Very few people ever keep a practice this long. This is a special place to be.", mt=4)}
-<a href="V2-Share-Image.dc.html" style="margin-top: auto; flex: none; display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; border-radius: 28px; background: {HBTN["bg"]}; color: {HBTN["color"]}; font-size: 17px; font-weight: 600; text-decoration: none"><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5"></path><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"></path></svg>Share my mandala</a>
+<a href="V2-Share-Making.dc.html" style="margin-top: auto; flex: none; display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; border-radius: 28px; background: {HBTN["bg"]}; color: {HBTN["color"]}; font-size: 17px; font-weight: 600; text-decoration: none"><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5"></path><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"></path></svg>Share my mandala</a>
 <div style="margin-top: 8px; flex: none; display: flex; gap: 8px">
 <a href="V2-Today.dc.html" style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 24px; border: 1.5px solid {INK}; color: {INK}; font-size: 15.5px; font-weight: 600; text-decoration: none">New mandala</a>
 <a href="Choose-Routine.dc.html" style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 24px; border: 1.5px solid {INK}; color: {INK}; font-size: 15.5px; font-weight: 600; text-decoration: none">Add a routine</a></div>
@@ -473,20 +473,21 @@ add("V2-Complete-Share", "Mandala complete, with sharing", f'''<div style="posit
 </div></div>''')
 
 # The image they share: story size, nothing private (no place, things, feelings or times)
-img = f'''<div role="img" aria-label="Shared image: a fully open lotus, Meditate, 48 days, my 3rd mandala" style="position: relative; width: 540px; height: 960px; overflow: hidden; background: {TEAL}; color: #14301F; font-family: {FB}">
-<div aria-hidden="true" style="position: absolute; left: -330px; top: -110px; width: 1200px; height: 1200px; border-radius: 50%; background: repeating-conic-gradient(from -5.2deg, #7EDC49 0deg 10.4deg, transparent 10.4deg 22.5deg)"></div>
-<div style="position: absolute; left: 0; right: 0; top: 90px; text-align: center; font-size: 22px; font-weight: 600">My 3rd mandala</div>
-<div style="position: absolute; left: 0; right: 0; top: 130px; text-align: center; font-family: {FH}; font-weight: 700; font-size: 84px; line-height: 1">Meditate</div>
-<div style="position: absolute; left: 50%; top: 270px; transform: translateX(-50%); display: grid; place-items: center">{lotus_svg(420, "", opened=48).replace(' aria-label=""', "")}
-<svg aria-hidden="true" viewBox="0 0 200 200" width="190" height="190" style="grid-area: 1 / 1; display: block; margin-top: -30px">{yogi_body(mat=False, joyful=True, dhoti=WHITE, dhoti_shade="#E9DDB8")}</svg></div>
-<div style="position: absolute; left: 0; right: 0; top: 728px; text-align: center; font-family: {FH}; font-weight: 700; font-size: 64px; line-height: 1">48 days</div>
-<div style="position: absolute; left: 0; right: 0; top: 800px; text-align: center; font-size: 22px; font-weight: 500">One day at a time.</div>
-<div style="position: absolute; left: 0; right: 0; bottom: 44px; display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 19px; font-weight: 600"><span style="width: 34px; height: 34px; border-radius: 8px; background: {CREAM}; display: grid; place-items: center">{lotus_svg(28, "", opened=48).replace(' aria-label=""', "")}</span>Yogi Focus</div></div>'''
+img = f'''<div role="img" aria-label="Shared image: a fully open lotus with the yogi, Meditate, 48 days, my 3rd mandala" style="position: relative; width: 540px; height: 960px; overflow: hidden; background: radial-gradient(circle at 270px 465px, #8FE356 0%, #3DBB45 75%); color: #14301F; font-family: {FB}">
+<div aria-hidden="true" style="position: absolute; left: -380px; top: -185px; width: 1300px; height: 1300px; border-radius: 50%; background: repeating-conic-gradient(from -5.2deg, rgba(255,255,255,0.13) 0deg 10.4deg, transparent 10.4deg 22.5deg)"></div>
+<div aria-hidden="true" style="position: absolute; left: 10px; top: 205px; width: 520px; height: 520px; border-radius: 50%; background: radial-gradient(circle, rgba(255,246,190,0.75) 0%, rgba(255,246,190,0) 65%)"></div>
+<div style="position: absolute; left: 0; right: 0; top: 89px; text-align: center; font-size: 23px; font-weight: 600">My 3rd mandala</div>
+<div style="position: absolute; left: 0; right: 0; top: 118px; text-align: center; font-family: {FH}; font-weight: 700; font-size: 84px; line-height: 1">Meditate</div>
+<svg aria-hidden="true" viewBox="-150 -150 300 300" width="450" height="450" style="position: absolute; left: 45px; top: 240px; display: block">{lotus_body(opened=48, open_cols=(WHITE, CREAMS, CREAM), sep="#3DBB45", center=SAFF)}</svg>
+<svg aria-hidden="true" viewBox="0 0 200 200" width="210" height="210" style="position: absolute; left: 165px; top: 315px; display: block">{yogi_body(mat=False, joyful=True)}</svg>
+<div style="position: absolute; left: 0; right: 0; top: 722px; text-align: center; font-family: {FH}; font-weight: 700; font-size: 75px; line-height: 1">48 days</div>
+<div style="position: absolute; left: 0; right: 0; top: 808px; text-align: center; font-size: 25px; font-weight: 500">One day at a time.</div>
+<div style="position: absolute; left: 0; right: 0; top: 876px; display: flex; justify-content: center; align-items: center; gap: 9px; font-size: 21px; font-weight: 600"><span style="width: 35px; height: 35px; border-radius: 8px; background: {CREAM}; display: grid; place-items: center"><svg aria-hidden="true" viewBox="-150 -150 300 300" width="29" height="29" style="display: block">{lotus_body(opened=48, open_cols=(TEALD, TEALM, "#6FD43A"), sep=CREAM, center=CREAM)}</svg></span>Yogi Focus</div></div>'''
 share_sheet = (f'<div style="width: 364px; box-sizing: border-box; padding: 16px; border-radius: 26px; background: {PAPER}; display: flex; flex-direction: column; gap: 12px">'
                f'<span style="font-size: 14px; font-weight: 600">Share sheet, then</span>'
                + "".join(f'<div style="min-height: 46px; padding: 8px 14px; box-sizing: border-box; border-radius: 14px; background: {SOFT}; display: flex; flex-direction: column; justify-content: center; line-height: 1.3; font-size: 15px; font-weight: 500"><span>{a}</span><span style="font-size: 13px; color: {MUTED}">{b}</span></div>'
-                       for a, b in [("Instagram Stories", "with a free Facebook App ID"), ("Instagram, TikTok, Messages…", "through the share sheet"), ("Save image", "to Photos"), ("A short clip of the lotus opening", "later, same choices")]) + '</div>')
-add("V2-Share-Image", "The shared mandala image", board(1000, 1080, f"""{btitle("Item 6 · only when they tap Share", "The image they share")}
+                       for a, b in [("Instagram Stories", "with a free Facebook App ID"), ("Instagram, TikTok, Messages…", "through the share sheet"), ("Save image", "to Photos"), ("Or the 12-second video", "made on the phone, same choices")]) + '</div>')
+add("V2-Share-Image", "The shared mandala image", board(1000, 1080, f"""{btitle("Item 6 · only when they tap Share", "The still image, the other choice beside the video")}
 <div style="margin-top: 22px; display: flex; gap: 40px; align-items: flex-start">
 <div style="border-radius: 28px; overflow: hidden; flex: none">{img}</div>
 <div style="display: flex; flex-direction: column; gap: 18px">{share_sheet}
@@ -495,6 +496,43 @@ add("V2-Share-Image", "The shared mandala image", board(1000, 1080, f"""{btitle(
 {note("The number of mandalas comes from the routine itself. No made-up statistics about other people.")}
 {note("1080 by 1920 pixels for Stories, drawn by the app from the same vector art.")}
 </div></div></div>""", bg=PAPER if DARK else WHITE), w=1000, h=1080)
+
+
+# Share: the app makes the video on the phone when they tap Share my mandala, then offers it
+def thumb(dim=False):
+    k = 0.44
+    t = (f'<div style="position: relative; width: {round(540*k)}px; height: {round(960*k)}px; border-radius: 22px; overflow: hidden; flex: none; align-self: center; box-shadow: 0 10px 30px rgba(10,40,20,0.22)">'
+         f'<div style="width: 540px; height: 960px; transform: scale({k}); transform-origin: 0 0{"; filter: saturate(0.5) brightness(0.8)" if dim else ""}">{img}</div>')
+    if dim:
+        t += (f'<div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: #FFFFFF">'
+              f'<svg aria-hidden="true" viewBox="0 0 80 80" width="76" height="76" style="display: block"><circle cx="40" cy="40" r="32" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="8"></circle>'
+              f'<circle cx="40" cy="40" r="32" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-dasharray="201" stroke-dashoffset="80" transform="rotate(-90 40 40)"></circle></svg>'
+              f'<span style="font-size: 15px; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,0.35)">Making your video</span></div>')
+    else:
+        t += (f'<div style="position: absolute; left: 12px; right: 12px; top: 12px; display: flex; align-items: center; gap: 8px; color: #FFFFFF; font-size: 12px; font-weight: 600">'
+              f'<span style="width: 26px; height: 26px; border-radius: 13px; background: rgba(0,0,0,0.35); display: grid; place-items: center"><svg aria-hidden="true" viewBox="0 0 24 24" width="12" height="12"><path d="M7 4l13 8-13 8z" fill="#FFFFFF"></path></svg></span>'
+              f'<span style="flex: 1; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.35); display: flex"><span style="width: 58%; border-radius: 2px; background: #FFFFFF"></span></span><span>0:12</span></div>')
+    return t + '</div>'
+def share_seg(video=True):
+    on = f'background: {PAPER}; font-weight: 600; box-shadow: 0 1px 3px rgba(20,48,31,0.14)'
+    off = 'background: transparent; font-weight: 500'
+    return (f'<div role="radiogroup" aria-label="What to share" style="margin-top: 14px; display: flex; padding: 3px; border-radius: 16px; background: {SOFT}">'
+            f'<button type="button" role="radio" aria-checked="{"true" if video else "false"}" style="flex: 1; min-height: 40px; border-radius: 13px; border: none; color: {INK}; font-size: 15px; {on if video else off}">Video</button>'
+            f'<button type="button" role="radio" aria-checked="{"false" if video else "true"}" style="flex: 1; min-height: 40px; border-radius: 13px; border: none; color: {INK}; font-size: 15px; {off if video else on}">Image</button></div>')
+def share_screen(making):
+    dis = "; opacity: 0.4; pointer-events: none" if making else ""
+    return phone(f"""{topbar("V2-Complete-Share.dc.html")}
+{h1("Share your mandala", size=32, mt=2)}
+{share_seg()}
+<div style="margin-top: 16px; display: flex; flex-direction: column">{thumb(making)}</div>
+{p("Made on your phone. Nothing is sent anywhere until you choose where it goes." if not making else "A few seconds. It's made here on your phone, from your own mandala.", size=14, color=MUTED, mt=12, extra="; text-align: center")}
+<div style="margin-top: auto; display: flex; flex-direction: column{dis}">
+<a href="#" style="display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; border-radius: 28px; background: {TEAL}; color: {ONACC}; font-size: 17px; font-weight: 600; text-decoration: none">Instagram Stories</a>
+<div style="margin-top: 8px; display: flex; gap: 8px">
+<a href="#" style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 50px; border-radius: 25px; border: 1.5px solid {DEEP}; color: {DEEP}; font-size: 15.5px; font-weight: 600; text-decoration: none">Save video</a>
+<a href="#" style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 50px; border-radius: 25px; border: 1.5px solid {DEEP}; color: {DEEP}; font-size: 15.5px; font-weight: 600; text-decoration: none">More</a></div></div>""")
+add("V2-Share-Making", "Making your video", share_screen(True))
+add("V2-Share-Video", "Share your mandala", share_screen(False))
 
 # Your routines, with quiet links at the bottom
 rr = BASE["Routines.dc.html"]
@@ -554,7 +592,7 @@ V2_ROWS = [
  ("17 · v2.0 · Straight into the practice; ask less; no trace (items 24, 25, 26)", ["V2-Timer", "V2-Timer-Two", "V2-Kept-Two", "V2-Kept", "V2-Flow"]),
  ("18 · v2.0 · Reminders that learn and fade; a gentle alarm (items 9, 18, 22)", ["V2-Reminders", "V2-Nudges-Fade", "V2-Alarm"]),
  ("19 · v2.0 · Siri, Live Activity, widgets and watch (items 14, 4, 2)", ["V2-Siri", "V2-Live-Activity", "V2-Widgets", "V2-Watch"]),
- ("20 · v2.0 · Sharing, rating and practice time (items 6, 32, 29, 3)", ["V2-Complete-Share", "V2-Share-Image", "V2-Routines", "V2-Rating", "V2-Quiet-Apps", "V2-Shield"]),
+ ("20 · v2.0 · Sharing, rating and practice time (items 6, 32, 29, 3)", ["V2-Complete-Share", "V2-Share-Image", "V2-Routines", "V2-Rating", "V2-Quiet-Apps", "V2-Shield", "V2-Share-Making", "V2-Share-Video"]),
 ]
 PHONES = [n for _, names in V2_ROWS for n in names if SIZES[n][0] == 390]
 V2_DARK_ROWS = [("21 · v2.0 · Dark appearance", PHONES[:9]), ("22 · v2.0 · Dark appearance, continued", PHONES[9:])]
@@ -565,7 +603,7 @@ TITLES = {"V2-Plan": "v2.0 · The plan, in build order", "V2-Settings": "Routine
           "V2-Nudges-Fade": "You don't need my reminder any more", "V2-Alarm": "A gentle alarm (AlarmKit)", "V2-Siri": "Siri, Shortcuts, Action button",
           "V2-Live-Activity": "Dynamic Island and Live Activity", "V2-Widgets": "Widgets and notification with Not today", "V2-Watch": "Apple Watch, v2",
           "V2-Complete-Share": "Mandala complete, with sharing", "V2-Share-Image": "The shared mandala image", "V2-Routines": "Your routines · Share and Rate",
-          "V2-Rating": "Rating prompt, day 30 only", "V2-Quiet-Apps": "Keep practice time clear", "V2-Shield": "Quieted app · It's practice time"}
+          "V2-Rating": "Rating prompt, day 30 only", "V2-Quiet-Apps": "Keep practice time clear", "V2-Shield": "Quieted app · It's practice time", "V2-Share-Making": "Share · making the video on the phone", "V2-Share-Video": "Share · the video, ready"}
 
 def layout(y0=17896, gap=80):
     boards, notes, y = {}, {}, y0
