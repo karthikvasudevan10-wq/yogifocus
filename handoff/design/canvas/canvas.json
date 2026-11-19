@@ -1,0 +1,718 @@
+{
+ "v": 3,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-11-15T19:55:00Z"
+ },
+ "title": "Yogi — one day at a time",
+ "launch": {
+  "view": "canvas"
+ },
+ "pages": [],
+ "boards": {
+  "Main.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "Welcome",
+   "radius": 44
+  },
+  "Idea-Today.dc.html": {
+   "x": 470,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "Idea 1 · Only today",
+   "radius": 44
+  },
+  "Idea-Same.dc.html": {
+   "x": 940,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "Idea 2 · Same time, place, things",
+   "radius": 44
+  },
+  "Idea-Mandala.dc.html": {
+   "x": 1410,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "Idea 3 · One mandala",
+   "radius": 44
+  },
+  "How-Yogi-Helps.dc.html": {
+   "x": 1880,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "How Yogi Focus helps you build a routine",
+   "radius": 44
+  },
+  "Choose-Routine.dc.html": {
+   "x": 0,
+   "y": 1264,
+   "w": 390,
+   "h": 844,
+   "title": "Choose one routine",
+   "radius": 44,
+   "is_interactive": true
+  },
+  "Anchor.dc.html": {
+   "x": 470,
+   "y": 1264,
+   "w": 390,
+   "h": 844,
+   "title": "Time, place, things",
+   "radius": 44,
+   "is_interactive": true
+  },
+  "Widget-Setup.dc.html": {
+   "x": 940,
+   "y": 1264,
+   "w": 390,
+   "h": 844,
+   "title": "Add the widget",
+   "radius": 44
+  },
+  "Routines.dc.html": {
+   "x": 1410,
+   "y": 1264,
+   "w": 390,
+   "h": 844,
+   "title": "Your routines · list",
+   "radius": 44
+  },
+  "Routine-Edit.dc.html": {
+   "x": 1880,
+   "y": 1264,
+   "w": 390,
+   "h": 844,
+   "title": "Routine settings",
+   "radius": 44,
+   "is_interactive": true
+  },
+  "Widget-States.dc.html": {
+   "x": 0,
+   "y": 2528,
+   "w": 880,
+   "h": 890,
+   "title": "Widget through the 48 days",
+   "radius": 28
+  },
+  "Widget-Done.dc.html": {
+   "x": 960,
+   "y": 2528,
+   "w": 860,
+   "h": 700,
+   "title": "Widget · tapping Done",
+   "radius": 28
+  },
+  "Widget-Medium.dc.html": {
+   "x": 1900,
+   "y": 2528,
+   "w": 860,
+   "h": 516,
+   "title": "Widget · medium size",
+   "radius": 28
+  },
+  "Widget-Large.dc.html": {
+   "x": 2840,
+   "y": 2528,
+   "w": 860,
+   "h": 940,
+   "title": "Widget · large size",
+   "radius": 28
+  },
+  "Today.dc.html": {
+   "x": 0,
+   "y": 3792,
+   "w": 390,
+   "h": 844,
+   "title": "Today · first week",
+   "radius": 44
+  },
+  "Reflect.dc.html": {
+   "x": 470,
+   "y": 3792,
+   "w": 390,
+   "h": 844,
+   "title": "How did it feel?",
+   "radius": 44,
+   "is_interactive": true
+  },
+  "Kept.dc.html": {
+   "x": 940,
+   "y": 3792,
+   "w": 390,
+   "h": 844,
+   "title": "Today is kept",
+   "radius": 44
+  },
+  "Just-Start.dc.html": {
+   "x": 0,
+   "y": 5056,
+   "w": 390,
+   "h": 844,
+   "title": "Today · just start",
+   "radius": 44
+  },
+  "Still-Today.dc.html": {
+   "x": 470,
+   "y": 5056,
+   "w": 390,
+   "h": 844,
+   "title": "Today · the hour has passed",
+   "radius": 44
+  },
+  "New-Day.dc.html": {
+   "x": 940,
+   "y": 5056,
+   "w": 390,
+   "h": 844,
+   "title": "Today, after a missed day",
+   "radius": 44
+  },
+  "Day-30.dc.html": {
+   "x": 0,
+   "y": 6320,
+   "w": 390,
+   "h": 844,
+   "title": "Day 30 · the lotus appears",
+   "radius": 44
+  },
+  "Mandala.dc.html": {
+   "x": 470,
+   "y": 6320,
+   "w": 390,
+   "h": 844,
+   "title": "Mandala progress",
+   "radius": 44
+  },
+  "Mandala-Complete.dc.html": {
+   "x": 940,
+   "y": 6320,
+   "w": 390,
+   "h": 844,
+   "title": "Mandala complete · invite a second routine",
+   "radius": 44
+  },
+  "Watch.dc.html": {
+   "x": 0,
+   "y": 7584,
+   "w": 1030,
+   "h": 736,
+   "title": "Apple Watch screens",
+   "radius": 28
+  },
+  "App-Icon.dc.html": {
+   "x": 1110,
+   "y": 7584,
+   "w": 960,
+   "h": 330,
+   "title": "App icon",
+   "radius": 28
+  },
+  "Main-Dark.dc.html": {
+   "x": 0,
+   "y": 8848,
+   "w": 390,
+   "h": 844,
+   "title": "Welcome · dark",
+   "radius": 44
+  },
+  "Idea-Today-Dark.dc.html": {
+   "x": 470,
+   "y": 8848,
+   "w": 390,
+   "h": 844,
+   "title": "Idea 1 · Only today · dark",
+   "radius": 44
+  },
+  "How-Yogi-Helps-Dark.dc.html": {
+   "x": 940,
+   "y": 8848,
+   "w": 390,
+   "h": 844,
+   "title": "How Yogi Focus helps you build a routine · dark",
+   "radius": 44
+  },
+  "Choose-Routine-Dark.dc.html": {
+   "x": 1410,
+   "y": 8848,
+   "w": 390,
+   "h": 844,
+   "title": "Choose one routine · dark",
+   "radius": 44,
+   "is_interactive": true
+  },
+  "Anchor-Dark.dc.html": {
+   "x": 1880,
+   "y": 8848,
+   "w": 390,
+   "h": 844,
+   "title": "Time, place, things · dark",
+   "radius": 44,
+   "is_interactive": true
+  },
+  "Today-Dark.dc.html": {
+   "x": 2350,
+   "y": 8848,
+   "w": 390,
+   "h": 844,
+   "title": "Today · first week · dark",
+   "radius": 44
+  },
+  "Reflect-Dark.dc.html": {
+   "x": 0,
+   "y": 10112,
+   "w": 390,
+   "h": 844,
+   "title": "How did it feel? · dark",
+   "radius": 44,
+   "is_interactive": true
+  },
+  "Kept-Dark.dc.html": {
+   "x": 470,
+   "y": 10112,
+   "w": 390,
+   "h": 844,
+   "title": "Today is kept · dark",
+   "radius": 44
+  },
+  "Mandala-Dark.dc.html": {
+   "x": 940,
+   "y": 10112,
+   "w": 390,
+   "h": 844,
+   "title": "Mandala progress · dark",
+   "radius": 44
+  },
+  "Mandala-Complete-Dark.dc.html": {
+   "x": 1410,
+   "y": 10112,
+   "w": 390,
+   "h": 844,
+   "title": "Mandala complete · invite a second routine · dark",
+   "radius": 44
+  },
+  "Widget-States-Dark.dc.html": {
+   "x": 1880,
+   "y": 10112,
+   "w": 880,
+   "h": 890,
+   "title": "Widget through the 48 days · dark",
+   "radius": 28
+  },
+  "Duo-Spec.dc.html": {
+   "x": 0,
+   "y": 11376,
+   "w": 1500,
+   "h": 800,
+   "title": "iPhone Duo · Specifications",
+   "radius": 0
+  },
+  "Duo-Outer-Welcome.dc.html": {
+   "x": 0,
+   "y": 12640,
+   "w": 466,
+   "h": 678,
+   "title": "iPhone Duo · Welcome",
+   "radius": 30
+  },
+  "Duo-Outer-Today-Idea.dc.html": {
+   "x": 546,
+   "y": 12640,
+   "w": 466,
+   "h": 678,
+   "title": "iPhone Duo · Only today",
+   "radius": 30
+  },
+  "Duo-Outer-Today.dc.html": {
+   "x": 1092,
+   "y": 12640,
+   "w": 466,
+   "h": 678,
+   "title": "iPhone Duo · Today",
+   "radius": 30
+  },
+  "Duo-Outer-Reflect.dc.html": {
+   "x": 1638,
+   "y": 12640,
+   "w": 466,
+   "h": 678,
+   "title": "iPhone Duo · How did it feel?",
+   "radius": 30
+  },
+  "Duo-Outer-Kept.dc.html": {
+   "x": 2184,
+   "y": 12640,
+   "w": 466,
+   "h": 678,
+   "title": "iPhone Duo · Today is kept",
+   "radius": 30
+  },
+  "Duo-Outer-Mandala.dc.html": {
+   "x": 2730,
+   "y": 12640,
+   "w": 466,
+   "h": 678,
+   "title": "iPhone Duo · Mandala progress",
+   "radius": 30
+  },
+  "Duo-Wide-Welcome.dc.html": {
+   "x": 0,
+   "y": 13904,
+   "w": 951,
+   "h": 669,
+   "title": "iPhone Duo · Welcome",
+   "radius": 30,
+   "guides": [
+    {
+     "kind": "columns",
+     "count": 2,
+     "gutter": 40,
+     "margin": 0,
+     "color": "rgba(255,90,60,0.14)"
+    }
+   ]
+  },
+  "Duo-Wide-Choose.dc.html": {
+   "x": 1031,
+   "y": 13904,
+   "w": 951,
+   "h": 669,
+   "title": "iPhone Duo · Choose one routine",
+   "radius": 30,
+   "guides": [
+    {
+     "kind": "columns",
+     "count": 2,
+     "gutter": 40,
+     "margin": 0,
+     "color": "rgba(255,90,60,0.14)"
+    }
+   ]
+  },
+  "Duo-Wide-Today.dc.html": {
+   "x": 2062,
+   "y": 13904,
+   "w": 951,
+   "h": 669,
+   "title": "iPhone Duo · Today, two routines",
+   "radius": 30,
+   "guides": [
+    {
+     "kind": "columns",
+     "count": 2,
+     "gutter": 40,
+     "margin": 0,
+     "color": "rgba(255,90,60,0.14)"
+    }
+   ]
+  },
+  "Duo-Wide-Reflect.dc.html": {
+   "x": 3093,
+   "y": 13904,
+   "w": 951,
+   "h": 669,
+   "title": "iPhone Duo · How did it feel?",
+   "radius": 30,
+   "guides": [
+    {
+     "kind": "columns",
+     "count": 2,
+     "gutter": 40,
+     "margin": 0,
+     "color": "rgba(255,90,60,0.14)"
+    }
+   ]
+  },
+  "Duo-Wide-Kept.dc.html": {
+   "x": 0,
+   "y": 15168,
+   "w": 951,
+   "h": 669,
+   "title": "iPhone Duo · Today is kept",
+   "radius": 30,
+   "guides": [
+    {
+     "kind": "columns",
+     "count": 2,
+     "gutter": 40,
+     "margin": 0,
+     "color": "rgba(255,90,60,0.14)"
+    }
+   ]
+  },
+  "Duo-Wide-Mandala.dc.html": {
+   "x": 1031,
+   "y": 15168,
+   "w": 951,
+   "h": 669,
+   "title": "iPhone Duo · Mandala progress",
+   "radius": 30,
+   "guides": [
+    {
+     "kind": "columns",
+     "count": 2,
+     "gutter": 40,
+     "margin": 0,
+     "color": "rgba(255,90,60,0.14)"
+    }
+   ]
+  },
+  "Duo-Wide-Routines.dc.html": {
+   "x": 2062,
+   "y": 15168,
+   "w": 951,
+   "h": 669,
+   "title": "iPhone Duo · Your routines",
+   "radius": 30,
+   "guides": [
+    {
+     "kind": "columns",
+     "count": 2,
+     "gutter": 40,
+     "margin": 0,
+     "color": "rgba(255,90,60,0.14)"
+    }
+   ]
+  },
+  "Duo-Wide-Complete.dc.html": {
+   "x": 3093,
+   "y": 15168,
+   "w": 951,
+   "h": 669,
+   "title": "iPhone Duo · Mandala complete",
+   "radius": 30,
+   "guides": [
+    {
+     "kind": "columns",
+     "count": 2,
+     "gutter": 40,
+     "margin": 0,
+     "color": "rgba(255,90,60,0.14)"
+    }
+   ]
+  },
+  "Duo-Tall-Mandala-Idea.dc.html": {
+   "x": 0,
+   "y": 16432,
+   "w": 669,
+   "h": 951,
+   "title": "iPhone Duo · One mandala, open tall",
+   "radius": 30,
+   "guides": [
+    {
+     "kind": "rows",
+     "count": 2,
+     "gutter": 40,
+     "margin": 0,
+     "color": "rgba(255,90,60,0.14)"
+    }
+   ]
+  },
+  "Duo-Tall-Today.dc.html": {
+   "x": 749,
+   "y": 16432,
+   "w": 669,
+   "h": 951,
+   "title": "iPhone Duo · Today, tabletop pose",
+   "radius": 30,
+   "guides": [
+    {
+     "kind": "rows",
+     "count": 2,
+     "gutter": 40,
+     "margin": 0,
+     "color": "rgba(255,90,60,0.14)"
+    }
+   ]
+  },
+  "Duo-Tall-Reflect.dc.html": {
+   "x": 1498,
+   "y": 16432,
+   "w": 669,
+   "h": 951,
+   "title": "iPhone Duo · How did it feel, tabletop pose",
+   "radius": 30,
+   "guides": [
+    {
+     "kind": "rows",
+     "count": 2,
+     "gutter": 40,
+     "margin": 0,
+     "color": "rgba(255,90,60,0.14)"
+    }
+   ]
+  },
+  "App-Icon-V2.dc.html": {
+   "h": 1920,
+   "radius": 28,
+   "title": "App icon v2 · options",
+   "w": 1640,
+   "x": 2150,
+   "y": 7584
+  }
+ },
+ "order": [
+  "Main.dc.html",
+  "Idea-Today.dc.html",
+  "Idea-Same.dc.html",
+  "Idea-Mandala.dc.html",
+  "How-Yogi-Helps.dc.html",
+  "Choose-Routine.dc.html",
+  "Anchor.dc.html",
+  "Widget-Setup.dc.html",
+  "Routines.dc.html",
+  "Routine-Edit.dc.html",
+  "Widget-States.dc.html",
+  "Widget-Done.dc.html",
+  "Widget-Medium.dc.html",
+  "Widget-Large.dc.html",
+  "Today.dc.html",
+  "Reflect.dc.html",
+  "Kept.dc.html",
+  "Just-Start.dc.html",
+  "Still-Today.dc.html",
+  "New-Day.dc.html",
+  "Day-30.dc.html",
+  "Mandala.dc.html",
+  "Mandala-Complete.dc.html",
+  "Watch.dc.html",
+  "App-Icon.dc.html",
+  "App-Icon-V2.dc.html",
+  "Main-Dark.dc.html",
+  "Idea-Today-Dark.dc.html",
+  "How-Yogi-Helps-Dark.dc.html",
+  "Choose-Routine-Dark.dc.html",
+  "Anchor-Dark.dc.html",
+  "Today-Dark.dc.html",
+  "Reflect-Dark.dc.html",
+  "Kept-Dark.dc.html",
+  "Mandala-Dark.dc.html",
+  "Mandala-Complete-Dark.dc.html",
+  "Widget-States-Dark.dc.html",
+  "Duo-Spec.dc.html",
+  "Duo-Outer-Welcome.dc.html",
+  "Duo-Outer-Today-Idea.dc.html",
+  "Duo-Outer-Today.dc.html",
+  "Duo-Outer-Reflect.dc.html",
+  "Duo-Outer-Kept.dc.html",
+  "Duo-Outer-Mandala.dc.html",
+  "Duo-Wide-Welcome.dc.html",
+  "Duo-Wide-Choose.dc.html",
+  "Duo-Wide-Today.dc.html",
+  "Duo-Wide-Reflect.dc.html",
+  "Duo-Wide-Kept.dc.html",
+  "Duo-Wide-Mandala.dc.html",
+  "Duo-Wide-Routines.dc.html",
+  "Duo-Wide-Complete.dc.html",
+  "Duo-Tall-Mandala-Idea.dc.html",
+  "Duo-Tall-Today.dc.html",
+  "Duo-Tall-Reflect.dc.html"
+ ],
+ "notes": {
+  "row1": {
+   "x": 0,
+   "y": -300,
+   "text": "1 · Understand the idea",
+   "kind": "title1",
+   "maxW": 2270
+  },
+  "row2": {
+   "x": 0,
+   "y": 964,
+   "text": "2 · Set up and manage routines",
+   "kind": "title1",
+   "maxW": 2270
+  },
+  "row3": {
+   "x": 0,
+   "y": 2228,
+   "text": "3 · The Home Screen widget",
+   "kind": "title1",
+   "maxW": 3700
+  },
+  "row4": {
+   "x": 0,
+   "y": 3492,
+   "text": "4 · Each day, days 1 to 6",
+   "kind": "title1",
+   "maxW": 1330
+  },
+  "row5": {
+   "x": 0,
+   "y": 4756,
+   "text": "5 · The boring middle, days 7 to 27",
+   "kind": "title1",
+   "maxW": 1330
+  },
+  "row6": {
+   "x": 0,
+   "y": 6020,
+   "text": "6 · From day 30",
+   "kind": "title1",
+   "maxW": 1330
+  },
+  "row7": {
+   "x": 0,
+   "y": 7284,
+   "text": "7 · Apple Watch and app icon",
+   "kind": "title1",
+   "maxW": 3790
+  },
+  "row8": {
+   "x": 0,
+   "y": 8548,
+   "text": "8 · Dark appearance",
+   "kind": "title1",
+   "maxW": 2740
+  },
+  "row9": {
+   "x": 0,
+   "y": 9812,
+   "text": "9 · Dark appearance, continued",
+   "kind": "title1",
+   "maxW": 2760
+  },
+  "row10": {
+   "x": 0,
+   "y": 11076,
+   "text": "10 · iPhone Duo",
+   "kind": "title1",
+   "maxW": 1500
+  },
+  "row11": {
+   "x": 0,
+   "y": 12340,
+   "text": "11 · iPhone Duo, closed: outer display",
+   "kind": "title1",
+   "maxW": 3196
+  },
+  "row12": {
+   "x": 0,
+   "y": 13604,
+   "text": "12 · iPhone Duo, open wide: inner display",
+   "kind": "title1",
+   "maxW": 4044
+  },
+  "row13": {
+   "x": 0,
+   "y": 14868,
+   "text": "13 · iPhone Duo, open wide: inner display, continued",
+   "kind": "title1",
+   "maxW": 4044
+  },
+  "row14": {
+   "x": 0,
+   "y": 16132,
+   "text": "14 · iPhone Duo, open tall and tabletop pose",
+   "kind": "title1",
+   "maxW": 2167
+  }
+ },
+ "designSystems": []
+}
