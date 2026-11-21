@@ -144,6 +144,21 @@ Notes:
 - **Tone:** native speakers review every line; the no-blame wording is easy to lose in translation.
 - **Fonts:** check Baloo 2 and Inter cover Devanagari and Chinese, or fall back to system fonts for those scripts.
 
+## 15. Quiet distracting apps during practice (moved from v2)
+
+- [ ] Quiet the apps the person picks with Screen Time, from five minutes before the routine until its length is up.
+
+Notes:
+- **Already built** on the `v2` branch, switched off for the v2 release: the picker and schedule (`YogiFocus/QuietApps.swift`, `YogiKit/.../QuietPractice.swift`), the monitor extension (`YogiFocusQuiet`) and the "It's practice time." shield (`YogiFocusShield`). Designs: `V2-Quiet-Apps` and `V2-Shield` on the `design-archive` branch.
+- **Waiting on Apple:** the Family Controls (Distribution) request, for all three IDs: `karthikvasudevan.yogifocus`, `.quiet` and `.shield`. First turn on Family Controls for each in Certificates, Identifiers & Profiles.
+- **To switch it back on once approved:**
+  1. Set `QuietPractice.isAvailable` to true.
+  2. Add `com.apple.developer.family-controls` back to `Config/YogiFocus.entitlements` (the extensions' entitlement files still have it).
+  3. Embed the two extensions again: add `YogiFocusQuiet.appex` and `YogiFocusShield.appex` back to the app's Embed Foundation Extensions phase, and the two target dependencies.
+  4. Test on a phone: choose apps, wait for the window, check the shield, keep the day early and see the quiet lift.
+- **Limits:** quiets apps, not calls or notifications; the Do Not Disturb Shortcuts guide (in v2) covers those.
+- **Privacy page:** add that Screen Time choices stay on the phone; Yogi Focus never sees which apps are chosen.
+
 ---
 
-Add new v3 requests below this line, numbered on from 15.
+Add new v3 requests below this line, numbered on from 16.
