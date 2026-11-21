@@ -129,6 +129,7 @@ struct RoutineEditScreen: View {
     @State private var chime = true
     @State private var paused = false
     @State private var confirmRemove = false
+    @State private var askRestart = false
     @Environment(\.duoPose) private var pose
 
     var body: some View {
@@ -137,6 +138,9 @@ struct RoutineEditScreen: View {
         }
         .scrollDismissesKeyboard(.interactively)
         .onAppear { load(model.routine(routineID)) }
+        .sheet(isPresented: $askRestart) {
+            RestartSheet(routineName: model.routine(routineID)?.name ?? "this routine") { restart() }
+        }
         .confirmationDialog("Remove \(model.routine(routineID)?.name ?? "this routine")?", isPresented: $confirmRemove, titleVisibility: .visible) {
             Button("Remove", role: .destructive) {
                 YogiStore.shared.removeRoutine(routineID)
@@ -167,19 +171,10 @@ struct RoutineEditScreen: View {
                 }
                 .padding(.leading, 18)
                 .frame(minHeight: 60)
-                Divider1()
-                HStack(spacing: 12) {
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text("Pause this routine").font(YFFont.body(15.5, .medium))
-                        Text("The widget goes quiet. Nothing is lost.").font(YFFont.body(13)).foregroundStyle(YF.muted)
-                    }
-                    Spacer(minLength: 0)
-                    YFSwitch(isOn: $paused, label: "Pause this routine")
-                }
-                .padding(.leading, 18)
-                .frame(minHeight: 68)
             }
             .padding(.top, 14)
+            SectionLabel("This routine").padding(.top, 22)
+            thisRoutine.padding(.top, 8)
             Button { confirmRemove = true } label: {
                 Text("Remove this routine").font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.ink)
                     .padding(.horizontal, 12).frame(minHeight: 44)
@@ -191,6 +186,32 @@ struct RoutineEditScreen: View {
         }
     }
 
+    /// Pause, and begin again.
+    var thisRoutine: some View {
+        CardBox {
+            HStack(spacing: 12) {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Pause this routine").font(YFFont.body(15.5, .medium))
+                    Text("The widget goes quiet. Nothing is lost.").font(YFFont.body(13)).foregroundStyle(YF.muted)
+                }
+                Spacer(minLength: 0)
+                YFSwitch(isOn: $paused, label: "Pause this routine")
+            }
+            .padding(.leading, 18)
+            .frame(minHeight: 68)
+            Divider1()
+            RestartRow { askRestart = true }
+        }
+    }
+
+    /// Saves any edits first, so beginning again keeps the hour, place and things as shown.
+    private func restart() {
+        save(leaving: false)
+        YogiStore.shared.restartMandala(routineID)
+        paused = false
+        model.refresh()
+    }
+
     private func load(_ r: RoutineSnapshot?) {
         guard !loaded, let r else { return }
         loaded = true
@@ -198,7 +219,7 @@ struct RoutineEditScreen: View {
         place = r.place; things = r.things; chime = r.chimeEnabled; paused = r.isPaused
     }
 
-    private func save() {
+    private func save(leaving: Bool = true) {
         let store = YogiStore.shared
         store.updateRoutine(routineID) { r in
             r.hour = hour; r.minute = minute; r.durationMinutes = duration
@@ -208,7 +229,7 @@ struct RoutineEditScreen: View {
         }
         store.setPaused(routineID, paused)
         model.refresh()
-        onBack()
+        if leaving { onBack() }
     }
 }
 
@@ -350,25 +371,18 @@ extension RoutineEditScreen {
     }
 
     private func switches(_ time: String) -> some View {
-        CardBox {
-            HStack(spacing: 12) {
-                Text("A soft chime at \(time)").font(YFFont.body(15.5, .medium))
-                Spacer(minLength: 0)
-                YFSwitch(isOn: $chime, label: "A soft chime at \(time)")
-            }
-            .padding(.leading, 18)
-            .frame(minHeight: 60)
-            Divider1()
-            HStack(spacing: 12) {
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("Pause this routine").font(YFFont.body(15.5, .medium))
-                    Text("The widget goes quiet. Nothing is lost.").font(YFFont.body(13)).foregroundStyle(YF.muted)
+        VStack(alignment: .leading, spacing: 0) {
+            CardBox {
+                HStack(spacing: 12) {
+                    Text("A soft chime at \(time)").font(YFFont.body(15.5, .medium))
+                    Spacer(minLength: 0)
+                    YFSwitch(isOn: $chime, label: "A soft chime at \(time)")
                 }
-                Spacer(minLength: 0)
-                YFSwitch(isOn: $paused, label: "Pause this routine")
+                .padding(.leading, 18)
+                .frame(minHeight: 60)
             }
-            .padding(.leading, 18)
-            .frame(minHeight: 68)
+            SectionLabel("This routine").padding(.top, 18)
+            thisRoutine.padding(.top, 8)
         }
     }
 

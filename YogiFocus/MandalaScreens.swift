@@ -53,6 +53,7 @@ struct MandalaScreen: View {
     let routineID: UUID
     let onBack: () -> Void
     let onEdit: () -> Void
+    @State private var askRestart = false
 
     @ViewBuilder var phoneBody: some View {
         let now = Date()
@@ -105,10 +106,28 @@ struct MandalaScreen: View {
                 .background(YF.paper, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
                 .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous).strokeBorder(YF.line, lineWidth: 1))
                 .padding(.top, 18)
+                freshMandalaLink(r)
             }
         } else {
             // Before day 30 there is nothing to show, by design.
             Screen { TopBar(back: onBack) }
+        }
+    }
+
+    /// After day 30 only (this screen shows nothing before then). The person's choice; never suggested.
+    func freshMandalaLink(_ r: RoutineSnapshot) -> some View {
+        Button { askRestart = true } label: {
+            Text("Begin a fresh mandala").font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.ink)
+                .padding(.horizontal, 12).frame(minHeight: 44)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top, 6)
+        .sheet(isPresented: $askRestart) {
+            RestartSheet(routineName: r.name) {
+                YogiStore.shared.restartMandala(r.id)
+                model.refresh()
+                onBack()
+            }
         }
     }
 
@@ -288,6 +307,7 @@ extension MandalaScreen {
                     Text("\(practised) of 48 days practised").font(YFFont.heading(30)).designLineHeight(30, 1.15).padding(.top, 56)
                     Text(statusLine(day: day, missed: missed)).font(YFFont.body(15)).foregroundStyle(YF.muted).padding(.top, 4)
                     felt.padding(.top, 10)
+                    freshMandalaLink(r)
                 } bottom: {
                     editRow(r)
                 }
@@ -301,6 +321,7 @@ extension MandalaScreen {
                     Text("\(practised) of 48 days practised").font(YFFont.heading(28))
                     Text(statusLine(day: day, missed: missed)).font(YFFont.body(15)).foregroundStyle(YF.muted).padding(.top, 4)
                     felt
+                    freshMandalaLink(r)
                 } bottom: {
                     editRow(r)
                 }
@@ -324,6 +345,7 @@ extension MandalaScreen {
                     }
                     .padding(.top, 12)
                     felt
+                    freshMandalaLink(r)
                 } trail: {
                     EmptyView()
                 } bottom: {

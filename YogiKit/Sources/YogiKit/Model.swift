@@ -115,8 +115,10 @@ public final class Routine {
     public var skippedDayKeysRaw: String = ""
     /// The day the current mandala began.
     public var startedOn: Date = Date()
-    /// 1 for the first 48 days. Completed mandalas = mandalaNumber − 1.
+    /// 1 for the first 48 days. Completed mandalas = mandalaNumber − 1 − restartedMandalas.
     public var mandalaNumber: Int = 1
+    /// Mandalas the person chose to begin again before finishing. They don't count as completed.
+    public var restartedMandalas: Int = 0
     /// The mandala for which the Day 30 reveal has been shown.
     public var day30SeenMandala: Int = 0
     /// The mandala for which the finishing screen has been shown.

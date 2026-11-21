@@ -107,7 +107,7 @@ public final class YogiStore: @unchecked Sendable {
                 createdAt: r.createdAt, updatedAt: r.updatedAt,
                 keptDayKeys: Array(Set(current.map(\.dayKey))).sorted(),
                 recentKeptDayKeys: Array(Set(mine.map(\.dayKey).filter { $0 >= recentFloor })).sorted(),
-                feelings: feelings))
+                feelings: feelings, restartedMandalas: r.restartedMandalas))
         }
         return Routines.sorted(out)
     }
@@ -211,6 +211,26 @@ public final class YogiStore: @unchecked Sendable {
         }
     }
 
+    /// The person's own choice to begin a routine again: a new mandala from today, at day one.
+    /// Earlier days stay in the history under their old mandala. Never called by the app on its own (design rule 10).
+    /// If today is already kept, that day moves into the new mandala as its first petal.
+    public func restartMandala(_ id: UUID, now: Date = Date()) {
+        let c = context()
+        guard let r = routine(c, id) else { return }
+        let old = r.mandalaNumber
+        let todayKey = DayKey.key(now)
+        r.restartedMandalas += 1
+        r.mandalaNumber = old + 1
+        r.completeSeenMandala = old
+        r.startedOn = Calendar.current.startOfDay(for: now)
+        r.skippedDayKeys = []
+        r.isPaused = false
+        r.pausedSince = nil
+        r.updatedAt = now
+        reflections(c, routineID: id).filter { $0.dayKey == todayKey && $0.mandalaNumber == old }.forEach { $0.mandalaNumber = old + 1 }
+        finish(c)
+    }
+
     // MARK: Days kept
 
     /// Records that the routine was kept on a day. A day counts once; a later call only adds the feeling or note.
@@ -251,7 +271,7 @@ public final class YogiStore: @unchecked Sendable {
             r.place = s.place; r.things = s.things; r.chimeEnabled = s.chimeEnabled; r.isPaused = s.isPaused
             r.pausedSince = s.pausedSince; r.skippedDayKeys = s.skippedDayKeys; r.startedOn = s.startedOn
             r.mandalaNumber = s.mandalaNumber; r.day30SeenMandala = s.day30SeenMandala
-            r.completeSeenMandala = s.completeSeenMandala; r.createdAt = s.createdAt; r.updatedAt = s.updatedAt
+            r.completeSeenMandala = s.completeSeenMandala; r.restartedMandalas = s.restartedMandalas ?? r.restartedMandalas; r.createdAt = s.createdAt; r.updatedAt = s.updatedAt
             mergeKept(c, s)
         }
         if removingMissing {
@@ -317,7 +337,7 @@ public final class YogiStore: @unchecked Sendable {
         let kept = (try? c.fetchCount(FetchDescriptor<Reflection>())) ?? 0
         let unique = Dictionary(grouping: routines, by: \.id).compactMap { $0.value.max { $0.updatedAt < $1.updatedAt } }
         let summary = CloudSummary(routines: unique.count,
-                                   mandalasCompleted: unique.reduce(0) { $0 + max(0, $1.mandalaNumber - 1) },
+                                   mandalasCompleted: unique.reduce(0) { $0 + max(0, $1.mandalaNumber - 1 - $1.restartedMandalas) },
                                    daysKept: kept, updatedAt: Date())
         let kv = NSUbiquitousKeyValueStore.default
         kv.set(!unique.isEmpty, forKey: Self.kvHasRoutines)

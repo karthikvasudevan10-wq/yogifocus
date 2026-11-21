@@ -31,6 +31,8 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
     public var mandalaNumber: Int
     public var day30SeenMandala: Int
     public var completeSeenMandala: Int
+    /// Mandalas begun again before finishing. Optional so snapshots from 1.0 (watch, widget cache) still decode.
+    public var restartedMandalas: Int?
     public var createdAt: Date
     public var updatedAt: Date
     /// Days kept in the current mandala.
@@ -45,7 +47,7 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
                 chimeEnabled: Bool = true, isPaused: Bool = false, pausedSince: Date? = nil, skippedDayKeys: [String] = [],
                 startedOn: Date = Date(), mandalaNumber: Int = 1, day30SeenMandala: Int = 0, completeSeenMandala: Int = 0,
                 createdAt: Date = Date(), updatedAt: Date = Date(), keptDayKeys: [String] = [], recentKeptDayKeys: [String] = [],
-                feelings: [String: String] = [:]) {
+                feelings: [String: String] = [:], restartedMandalas: Int = 0) {
         self.id = id; self.name = name; self.kind = kind; self.hour = hour; self.minute = minute
         self.durationMinutes = durationMinutes; self.place = place; self.things = things
         self.chimeEnabled = chimeEnabled; self.isPaused = isPaused; self.pausedSince = pausedSince
@@ -53,6 +55,7 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
         self.day30SeenMandala = day30SeenMandala; self.completeSeenMandala = completeSeenMandala
         self.createdAt = createdAt; self.updatedAt = updatedAt
         self.keptDayKeys = keptDayKeys; self.recentKeptDayKeys = recentKeptDayKeys; self.feelings = feelings
+        self.restartedMandalas = restartedMandalas
     }
 
     public var routineKind: RoutineKind { RoutineKind(rawValue: kind) ?? .own }
@@ -136,7 +139,7 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
         isComplete(on: date) && completeSeenMandala < mandalaNumber
     }
 
-    public var completedMandalas: Int { max(0, mandalaNumber - 1) }
+    public var completedMandalas: Int { max(0, mandalaNumber - 1 - (restartedMandalas ?? 0)) }
 
     // MARK: The hour
 
