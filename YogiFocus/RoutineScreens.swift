@@ -123,6 +123,7 @@ struct RoutineEditScreen: View {
     let routineID: UUID
     let onBack: () -> Void
     var onTwoMinute: () -> Void = {}
+    var onQuiet: () -> Void = {}
 
     @State private var loaded = false
     @State private var hour = 7
@@ -178,6 +179,10 @@ struct RoutineEditScreen: View {
             reminders(time).padding(.top, 8)
             SectionLabel("How did it feel?").padding(.top, 22)
             feelingCard.padding(.top, 8)
+            if let r { 
+                SectionLabel("Practice time").padding(.top, 22)
+                PracticeTimeRows(routine: r) { save(leaving: false); onQuiet() }.padding(.top, 8)
+            }
             SectionLabel("This routine").padding(.top, 22)
             thisRoutine.padding(.top, 8)
             Button { confirmRemove = true } label: {
@@ -455,6 +460,10 @@ extension RoutineEditScreen {
             reminders(time).padding(.top, 8)
             SectionLabel("How did it feel?").padding(.top, 18)
             feelingCard.padding(.top, 8)
+            if let r = model.routine(routineID) {
+                SectionLabel("Practice time").padding(.top, 18)
+                PracticeTimeRows(routine: r) { save(leaving: false); onQuiet() }.padding(.top, 8)
+            }
             SectionLabel("This routine").padding(.top, 18)
             thisRoutine.padding(.top, 8)
         }

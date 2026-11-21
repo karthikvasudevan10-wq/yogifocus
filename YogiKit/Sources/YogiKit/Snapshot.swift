@@ -295,6 +295,12 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
 }
 
 public enum Words {
+    /// "6:55 am", for a moment in the day.
+    public static func timeOf(_ date: Date) -> String {
+        let c = Calendar.current.dateComponents([.hour, .minute], from: date)
+        return time(hour: c.hour ?? 0, minute: c.minute ?? 0)
+    }
+
     public static func time(hour: Int, minute: Int, suffix: Bool = true) -> String {
         let h12 = hour % 12 == 0 ? 12 : hour % 12
         let base = String(format: "%d:%02d", h12, minute)

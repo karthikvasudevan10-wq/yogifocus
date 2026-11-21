@@ -110,8 +110,13 @@ final class AppModel {
         cloudHasRoutines = store.cloudHasRoutines
         Nudges.reschedule(fresh)
         YogiShortcuts.updateAppShortcutParameters()
-        // A day answered some other way closes its Live Activity (v2 item 4).
         let now = Date()
+        // Practice time stays clear on the routines' schedules; a day already answered lifts the quiet (v2 item 3).
+        QuietPractice.reschedule(fresh)
+        for r in fresh where r.keptToday(now) || r.saidNotToday(now) {
+            if QuietPractice.isEnabled(r.id) { QuietPractice.clear(r.id) }
+        }
+        // A day answered some other way closes its Live Activity (v2 item 4).
         Task {
             for r in fresh where r.saidNotToday(now) { await PracticeLive.cancel(r.id) }
             for r in fresh where r.keptToday(now) && RunningTimer.current?.routineID != r.id { await PracticeLive.finish(r.id, now: now) }
@@ -137,6 +142,7 @@ enum Route: Hashable {
     case notToday(UUID)
     case twoMinute(UUID, editing: Bool)
     case timer(UUID, twoMinute: Bool)
+    case quiet(UUID)
     case routines
     case edit(UUID)
     case mandala(UUID)
@@ -235,7 +241,9 @@ struct RootView: View {
             }
         case .routines:
             RoutinesScreen(onBack: back, onEdit: { path.append(.edit($0)) }, onAdd: { path.append(.choose) })
-        case .edit(let id): RoutineEditScreen(routineID: id, onBack: back, onTwoMinute: { path.append(.twoMinute(id, editing: true)) })
+        case .edit(let id): RoutineEditScreen(routineID: id, onBack: back, onTwoMinute: { path.append(.twoMinute(id, editing: true)) },
+                                              onQuiet: { path.append(.quiet(id)) })
+        case .quiet(let id): QuietAppsScreen(routineID: id, onDone: back)
         case .mandala(let id): MandalaScreen(routineID: id, onBack: back) { path.append(.edit(id)) }
         }
     }
