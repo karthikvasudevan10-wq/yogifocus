@@ -171,13 +171,3 @@ struct TwoMinuteRow: View {
         .buttonStyle(.plain)
     }
 }
-
-enum TwoMinute {
-    /// "Just two minutes": the day counts as kept, marked as the two-minute version.
-    @MainActor static func keep(_ id: UUID, model: AppModel) {
-        let now = Date()
-        YogiStore.shared.markKept(id, on: now, twoMinute: true)
-        Nudges.cancelToday(id, now: now)
-        model.refresh()
-    }
-}

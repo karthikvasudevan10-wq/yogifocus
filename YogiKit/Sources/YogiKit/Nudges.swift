@@ -11,6 +11,8 @@ public enum Nudges {
     public static let doneAction = "YF_DONE"
     public static let notTodayAction = "YF_NOT_TODAY"
     public static let twoMinuteAction = "YF_TWO_MINUTES"
+    /// Opens the app at the practice timer (v2 item 24).
+    public static let startAction = "YF_START"
     /// The hour's category when the routine has a two-minute version.
     public static let hourTwoCategory = "YF_HOUR_TWO"
     public static let feelingPrefix = "YF_FEEL_"
@@ -23,10 +25,11 @@ public enum Nudges {
         let done = UNNotificationAction(identifier: doneAction, title: "Done", options: [])
         let notToday = UNNotificationAction(identifier: notTodayAction, title: "Not today", options: [])
         let two = UNNotificationAction(identifier: twoMinuteAction, title: "Just two minutes, done", options: [])
+        let start = UNNotificationAction(identifier: startAction, title: "Start", options: [.foreground])
         let feelings = Feeling.allCases.map { UNNotificationAction(identifier: feelingPrefix + $0.rawValue, title: $0.title, options: []) }
         UNUserNotificationCenter.current().setNotificationCategories([
-            UNNotificationCategory(identifier: hourCategory, actions: [done, notToday], intentIdentifiers: []),
-            UNNotificationCategory(identifier: hourTwoCategory, actions: [done, two, notToday], intentIdentifiers: []),
+            UNNotificationCategory(identifier: hourCategory, actions: [start, done, notToday], intentIdentifiers: []),
+            UNNotificationCategory(identifier: hourTwoCategory, actions: [start, two, done, notToday], intentIdentifiers: []),
             UNNotificationCategory(identifier: askCategory, actions: feelings, intentIdentifiers: []),
         ])
     }

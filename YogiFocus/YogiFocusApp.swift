@@ -52,7 +52,19 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
 
     /// Done, or a feeling, tapped on a notification (on the phone or mirrored to the watch).
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        Nudges.handle(action: response.actionIdentifier, userInfo: response.notification.request.content.userInfo)
+        let content = response.notification.request.content
+        // Tapping "It's time" (or its Start button) opens the practice timer, already running (v2 item 24).
+        let opensTimer = response.actionIdentifier == Nudges.startAction
+            || (response.actionIdentifier == UNNotificationDefaultActionIdentifier
+                && [Nudges.hourCategory, Nudges.hourTwoCategory].contains(content.categoryIdentifier))
+        if opensTimer, let raw = content.userInfo[Nudges.routineKey] as? String, let id = UUID(uuidString: raw) {
+            await MainActor.run {
+                PendingOpen.timer = id
+                NotificationCenter.default.post(name: PendingOpen.notice, object: nil)
+            }
+            return
+        }
+        Nudges.handle(action: response.actionIdentifier, userInfo: content.userInfo)
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
@@ -87,6 +99,7 @@ final class AppModel {
 
     func refresh() {
         let store = YogiStore.shared
+        RunningTimer.settleIfFinished()
         store.removeDuplicates()
         let fresh = store.snapshots()
         if fresh != routines { routines = fresh }
@@ -112,6 +125,7 @@ enum Route: Hashable {
     case kept(UUID)
     case notToday(UUID)
     case twoMinute(UUID, editing: Bool)
+    case timer(UUID, twoMinute: Bool)
     case routines
     case edit(UUID)
     case mandala(UUID)
@@ -132,8 +146,10 @@ struct RootView: View {
         }
         .tint(YF.textGreen)
         .onChange(of: scenePhase) { _, phase in
-            if phase == .active { model.refresh() }
+            if phase == .active { model.refresh(); openPendingTimer() }
         }
+        .onReceive(NotificationCenter.default.publisher(for: PendingOpen.notice)) { _ in openPendingTimer() }
+        .onAppear(perform: resumeOrOpenTimer)
         #if DEBUG
         .onAppear { if let r = DebugSeed.route(model.routines.first?.id) { path = r } }
         .modifier(DebugFrame())
@@ -149,6 +165,23 @@ struct RootView: View {
             ChooseRoutineScreen(onBack: nil) { path.append(.anchor($0)) }
         } else {
             WelcomeScreen { path.append(.ideaToday) }
+        }
+    }
+
+    /// A tapped "It's time" notification opens the timer, already running (v2 item 24).
+    private func openPendingTimer() {
+        guard let id = PendingOpen.timer, model.routine(id) != nil else { return }
+        PendingOpen.timer = nil
+        guard model.routine(id)?.routineKind.isTimed == true, model.routine(id)?.keptToday(Date()) == false else { return }
+        path = [.timer(id, twoMinute: false)]
+    }
+
+    /// A timer still running when the app was closed is picked up where it is.
+    private func resumeOrOpenTimer() {
+        if let t = RunningTimer.current, Date() < t.end, model.routine(t.routineID) != nil {
+            path = [.timer(t.routineID, twoMinute: t.twoMinute)]
+        } else {
+            openPendingTimer()
         }
     }
 
@@ -180,6 +213,13 @@ struct RootView: View {
         case .reflect(let id): ReflectScreen(routineID: id, onBack: back) { path.append(.kept(id)) }
         case .kept(let id): KeptScreen(routineID: id) { path.removeAll() }
         case .notToday(let id): NotTodayScreen(routineID: id) { path.removeAll() }
+        case .timer(let id, let twoMinute):
+            PracticeTimerScreen(routineID: id, twoMinute: twoMinute) {
+                // Most days straight to kept; about once a week, "How did it feel?" first (v2 item 25).
+                let asks = !twoMinute && (model.routine(id)?.asksFeeling(on: Date()) ?? false)
+                if !path.isEmpty { path.removeLast() }
+                path.append(asks ? .reflect(id) : .kept(id))
+            }
         case .routines:
             RoutinesScreen(onBack: back, onEdit: { path.append(.edit($0)) }, onAdd: { path.append(.choose) })
         case .edit(let id): RoutineEditScreen(routineID: id, onBack: back, onTwoMinute: { path.append(.twoMinute(id, editing: true)) })

@@ -152,6 +152,17 @@ struct TodayScreen: View {
                 if let under = w.under {
                     Para(under, size: 14, color: YF.muted).padding(.top, 14)
                 }
+                if w.showsButton, r.routineKind.isTimed {
+                    // Already practised without the timer: count it straight away.
+                    Button { practised(r) } label: {
+                        HStack(spacing: 8) {
+                            YFIcon("check", size: 16).foregroundStyle(YF.textGreen)
+                            Text("Already practised? Mark it kept").font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.textGreen)
+                        }
+                        .frame(minHeight: 44, alignment: .leading)
+                    }
+                    .padding(.top, 6)
+                }
                 if w.practisedAfterAll {
                     Button { practised(r) } label: {
                         Text("Practised after all? Count it").font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.textGreen)
@@ -184,9 +195,9 @@ struct TodayScreen: View {
                 }
             } bottom: {
                 if w.showsButton {
-                    PrimaryButton("I've practised today") { practised(r) }
+                    PrimaryButton(startTitle(r)) { start(r) }
                     HStack(spacing: 10) {
-                        if r.twoMinute != nil { QuietButton("Just two minutes") { twoMinutes(r) } }
+                        if r.twoMinute != nil { GhostButton("Just two minutes") { twoMinutes(r) } }
                         QuietButton("Not today") {
                             NotToday.answer(r.id, model: model)
                             path.append(.notToday(r.id))
@@ -203,10 +214,18 @@ struct TodayScreen: View {
 extension TodayScreen {
     /// "I've practised today". On a day the question is asked (about once a week, v2 item 25) it goes to
     /// "How did it feel?"; otherwise the day counts at once and the kept screen follows.
-    /// "Just two minutes": counts as kept straight away (v2 item 10).
+    /// "Just two minutes": the two-minute timer (v2 items 10 and 24).
     func twoMinutes(_ r: RoutineSnapshot) {
-        TwoMinute.keep(r.id, model: model)
-        path.append(.kept(r.id))
+        path.append(.timer(r.id, twoMinute: true))
+    }
+
+    /// Timed routines start the practice timer; Cut Sugar, with no length, is simply marked.
+    func startTitle(_ r: RoutineSnapshot) -> String {
+        r.routineKind.isTimed ? "Start, \(Words.length(r.durationMinutes))" : "I've practised today"
+    }
+
+    func start(_ r: RoutineSnapshot) {
+        if r.routineKind.isTimed { path.append(.timer(r.id, twoMinute: false)) } else { practised(r) }
     }
 
     func practised(_ r: RoutineSnapshot) {
@@ -727,8 +746,8 @@ extension TodayScreen {
     @ViewBuilder private func duoAnswers(_ r: RoutineSnapshot, _ w: TodayWords) -> some View {
         if w.showsButton {
             HStack(spacing: 10) {
-                PrimaryButton("I've practised today") { practised(r) }
-                if r.twoMinute != nil { QuietButton("Just two minutes") { twoMinutes(r) }.frame(maxWidth: 200) }
+                PrimaryButton(startTitle(r)) { start(r) }
+                if r.twoMinute != nil { GhostButton("Just two minutes") { twoMinutes(r) }.frame(maxWidth: 200) }
                 QuietButton("Not today") {
                     NotToday.answer(r.id, model: model)
                     path.append(.notToday(r.id))
@@ -740,6 +759,17 @@ extension TodayScreen {
 
     /// The quiet links that sometimes follow the card: how it felt, and the mandala from day 30.
     @ViewBuilder private func todayExtras(_ r: RoutineSnapshot, _ w: TodayWords, now: Date) -> some View {
+        if w.showsButton, r.routineKind.isTimed {
+            // Already practised without the timer: count it straight away.
+            Button { practised(r) } label: {
+                HStack(spacing: 8) {
+                    YFIcon("check", size: 16).foregroundStyle(YF.textGreen)
+                    Text("Already practised? Mark it kept").font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.textGreen)
+                }
+                .frame(minHeight: 44, alignment: .leading)
+            }
+            .padding(.top, 6)
+        }
         if w.practisedAfterAll {
             Button { practised(r) } label: {
                 Text("Practised after all? Count it").font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.textGreen)
