@@ -147,6 +147,12 @@ public final class Routine {
     /// The smallest version, for a harder day (v2 item 10), as it reads after "I": "sit on the mat for two minutes".
     /// Empty when none was chosen.
     public var twoMinuteVersion: String = ""
+    /// v2 item 18: reminders move towards when the person usually begins (on by default).
+    public var followUsualTime: Bool = true
+    /// v2 item 9: keep every reminder; otherwise they grow lighter once the routine is theirs.
+    public var keepEveryReminder: Bool = false
+    /// The "You don't need my reminder any more" moment has been shown.
+    public var fadeAnnounced: Bool = false
     /// The mandala for which the Day 30 reveal has been shown.
     public var day30SeenMandala: Int = 0
     /// The mandala for which the finishing screen has been shown.
@@ -193,6 +199,8 @@ public final class Reflection {
     public var note: String?
     /// Kept with the two-minute version (v2 item 10). It counts as kept like any other day.
     public var wasTwoMinute: Bool = false
+    /// When the practice began: the timer's start, or estimated from Done. Nil for days kept before v2.
+    public var beganAt: Date?
     public var recordedAt: Date = Date()
 
     public init(routineID: UUID, dayKey: String, mandalaNumber: Int, feeling: Feeling?, note: String?) {

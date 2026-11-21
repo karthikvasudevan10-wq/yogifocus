@@ -133,6 +133,8 @@ struct RoutineEditScreen: View {
     @State private var confirmRemove = false
     @State private var askRestart = false
     @State private var feelEveryDay = false
+    @State private var followUsual = true
+    @State private var keepEvery = false
     @Environment(\.duoPose) private var pose
 
     var body: some View {
@@ -168,16 +170,7 @@ struct RoutineEditScreen: View {
                 .padding(.top, 16)
             harderDay.padding(.top, 22)
             SectionLabel("Reminders").padding(.top, 22)
-            CardBox {
-                HStack(spacing: 12) {
-                    Text("A soft chime at \(time)").font(YFFont.body(15.5, .medium))
-                    Spacer(minLength: 0)
-                    YFSwitch(isOn: $chime, label: "A soft chime at \(time)")
-                }
-                .padding(.leading, 18)
-                .frame(minHeight: 60)
-            }
-            .padding(.top, 8)
+            reminders(time).padding(.top, 8)
             SectionLabel("How did it feel?").padding(.top, 22)
             feelingCard.padding(.top, 8)
             SectionLabel("This routine").padding(.top, 22)
@@ -199,6 +192,29 @@ struct RoutineEditScreen: View {
             VStack(alignment: .leading, spacing: 0) {
                 SectionLabel("On a harder day")
                 CardBox { TwoMinuteRow(routine: r, action: onTwoMinute) }.padding(.top, 8)
+            }
+        }
+    }
+
+    /// The chime, following the usual time (v2 item 18) and keeping every reminder (v2 item 9).
+    func reminders(_ time: String) -> some View {
+        let r = model.routine(routineID)
+        let offset = followUsual ? (r?.reminderOffsetMinutes(on: Date()) ?? 0) : 0
+        return VStack(alignment: .leading, spacing: 0) {
+            if let r, offset != 0 { FollowCard(routine: r, offset: offset).padding(.bottom, 10) }
+            CardBox {
+                SettingSwitch(title: "A soft chime at \(time)", detail: nil, isOn: $chime)
+                Divider1()
+                SettingSwitch(title: "Follow when I usually practise",
+                              detail: "Reminders move quietly towards the time you tend to begin.", isOn: $followUsual)
+                Divider1()
+                SettingSwitch(title: "Keep every reminder",
+                              detail: "Otherwise they grow lighter as the routine becomes yours.", isOn: $keepEvery)
+            }
+            if followUsual {
+                Para("Your routine still says \(time). Reminders never move more than \(RoutineSnapshot.followLimitMinutes) minutes from it.",
+                     size: 13.5, color: YF.muted)
+                    .padding(.top, 8).padding(.horizontal, 4)
             }
         }
     }
@@ -251,6 +267,8 @@ struct RoutineEditScreen: View {
         hour = r.hour; minute = r.minute; duration = r.durationMinutes
         place = r.place; things = r.things; chime = r.chimeEnabled; paused = r.isPaused
         feelEveryDay = r.feelingEveryDay ?? false
+        followUsual = r.followUsualTime ?? true
+        keepEvery = r.keepEveryReminder ?? false
     }
 
     private func save(leaving: Bool = true) {
@@ -261,6 +279,8 @@ struct RoutineEditScreen: View {
             r.things = things
             r.chimeEnabled = chime
             r.feelingEveryDay = feelEveryDay
+            r.followUsualTime = followUsual
+            r.keepEveryReminder = keepEvery
         }
         store.setPaused(routineID, paused)
         model.refresh()
@@ -409,16 +429,7 @@ extension RoutineEditScreen {
         VStack(alignment: .leading, spacing: 0) {
             harderDay
             SectionLabel("Reminders").padding(.top, 18)
-            CardBox {
-                HStack(spacing: 12) {
-                    Text("A soft chime at \(time)").font(YFFont.body(15.5, .medium))
-                    Spacer(minLength: 0)
-                    YFSwitch(isOn: $chime, label: "A soft chime at \(time)")
-                }
-                .padding(.leading, 18)
-                .frame(minHeight: 60)
-            }
-            .padding(.top, 8)
+            reminders(time).padding(.top, 8)
             SectionLabel("How did it feel?").padding(.top, 18)
             feelingCard.padding(.top, 8)
             SectionLabel("This routine").padding(.top, 18)

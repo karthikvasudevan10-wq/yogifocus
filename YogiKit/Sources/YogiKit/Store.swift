@@ -109,9 +109,23 @@ public final class YogiStore: @unchecked Sendable {
                 recentKeptDayKeys: Array(Set(mine.map(\.dayKey).filter { $0 >= recentFloor })).sorted(),
                 feelings: feelings, restartedMandalas: r.restartedMandalas,
                 notTodayKey: r.notTodayKey.isEmpty ? nil : r.notTodayKey, feelingEveryDay: r.feelingEveryDay,
-                twoMinuteVersion: r.twoMinuteVersion, twoMinuteDayKeys: Array(Set(current.filter(\.wasTwoMinute).map(\.dayKey))).sorted()))
+                twoMinuteVersion: r.twoMinuteVersion, twoMinuteDayKeys: Array(Set(current.filter(\.wasTwoMinute).map(\.dayKey))).sorted(),
+                followUsualTime: r.followUsualTime, keepEveryReminder: r.keepEveryReminder, fadeAnnounced: r.fadeAnnounced,
+                beganMinutes: Self.beganMinutes(current)))
         }
         return Routines.sorted(out)
+    }
+
+    /// dayKey → minute of the day each practice began, where known.
+    static func beganMinutes(_ reflections: [Reflection]) -> [String: Int] {
+        var out: [String: Int] = [:]
+        let cal = Calendar.current
+        for r in reflections {
+            guard let began = r.beganAt, DayKey.key(began) == r.dayKey else { continue }
+            let c = cal.dateComponents([.hour, .minute], from: began)
+            out[r.dayKey] = (c.hour ?? 0) * 60 + (c.minute ?? 0)
+        }
+        return out
     }
 
     public func note(routineID: UUID, on date: Date = Date()) -> String? {
@@ -244,7 +258,7 @@ public final class YogiStore: @unchecked Sendable {
 
     /// Records that the routine was kept on a day. A day counts once; a later call only adds the feeling or note.
     public func markKept(_ routineID: UUID, on date: Date = Date(), feeling: Feeling? = nil, note: String? = nil,
-                         twoMinute: Bool = false) {
+                         twoMinute: Bool = false, beganAt: Date? = nil) {
         let c = context()
         guard let r = routine(c, routineID) else { return }
         let key = DayKey.key(date)
@@ -253,14 +267,26 @@ public final class YogiStore: @unchecked Sendable {
             if let feeling { first.feelingRaw = feeling.rawValue }
             if let note, !note.isEmpty { first.note = note }
             if twoMinute { first.wasTwoMinute = true }
+            if first.beganAt == nil { first.beganAt = Self.began(beganAt, r, key) }
             existing.dropFirst().forEach { c.delete($0) }
         } else {
             let new = Reflection(routineID: routineID, dayKey: key, mandalaNumber: r.mandalaNumber, feeling: feeling,
                                  note: (note?.isEmpty ?? true) ? nil : note)
             new.wasTwoMinute = twoMinute
+            new.beganAt = Self.began(beganAt, r, key)
             c.insert(new)
         }
         finish(c)
+    }
+
+    /// The start of a practice: as given (the timer), or estimated as Done minus the routine's length when Done is
+    /// tapped on the day itself. Nil when it can't be known (a day marked later).
+    static func began(_ given: Date?, _ r: Routine, _ key: String, now: Date = Date()) -> Date? {
+        if let given { return given }
+        guard DayKey.key(now) == key else { return nil }
+        let length = RoutineKind(rawValue: r.kindRaw)?.isTimed == false ? 0 : r.durationMinutes
+        let estimate = now.addingTimeInterval(-Double(length) * 60)
+        return DayKey.key(estimate) == key ? estimate : now
     }
 
     // MARK: Merging (Apple Watch ⇄ iPhone, and tidying after iCloud imports)
@@ -288,6 +314,9 @@ public final class YogiStore: @unchecked Sendable {
             if let k = s.notTodayKey, k > r.notTodayKey { r.notTodayKey = k }
             if let every = s.feelingEveryDay { r.feelingEveryDay = every }
             if let two = s.twoMinuteVersion { r.twoMinuteVersion = two }
+            if let v = s.followUsualTime { r.followUsualTime = v }
+            if let v = s.keepEveryReminder { r.keepEveryReminder = v }
+            if s.fadeAnnounced == true { r.fadeAnnounced = true }
             r.createdAt = s.createdAt; r.updatedAt = s.updatedAt
             mergeKept(c, s)
         }
@@ -308,9 +337,13 @@ public final class YogiStore: @unchecked Sendable {
             if let r = have.first(where: { $0.dayKey == key }) {
                 if r.feelingRaw == nil, let feeling { r.feelingRaw = feeling.rawValue }
                 if short.contains(key) { r.wasTwoMinute = true }
+                if r.beganAt == nil, let m = s.beganMinutes?[key], let day = DayKey.date(key) {
+                    r.beganAt = day.addingTimeInterval(Double(m) * 60)
+                }
             } else {
                 let new = Reflection(routineID: s.id, dayKey: key, mandalaNumber: s.mandalaNumber, feeling: feeling, note: nil)
                 new.wasTwoMinute = short.contains(key)
+                if let m = s.beganMinutes?[key], let day = DayKey.date(key) { new.beganAt = day.addingTimeInterval(Double(m) * 60) }
                 c.insert(new)
             }
         }

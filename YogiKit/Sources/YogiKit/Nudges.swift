@@ -52,21 +52,26 @@ public enum Nudges {
             for r in active {
                 // "How did it feel?" about once a week: assume each scheduled question is answered.
                 var lastAsk = r.lastFeelingDay(before: now)
+                // v2 items 18 and 9: reminders follow the usual start, and grow lighter once the routine is theirs.
+                let shift = Double(r.reminderOffsetMinutes(on: now)) * 60
+                let fade = r.fadeLevel(on: now)
                 for offset in 0..<days {
                     guard let day = cal.date(byAdding: .day, value: offset, to: cal.startOfDay(for: now)) else { continue }
                     if offset == 0 && (r.keptToday(now) || r.saidNotToday(now)) { continue }
                     let n = r.dayNumber(on: day)
                     guard n >= 1 else { continue }
                     let phase = Phase.forDay(n)
-                    let hour = r.hourDate(on: day)
+                    let hour = r.hourDate(on: day).addingTimeInterval(shift)
                     let key = DayKey.key(day)
 
-                    add(center, id: id(r, key, "pre"), at: hour.addingTimeInterval(-Double(Mandala.nudgeBeforeMinutes) * 60), now: now,
-                        title: "In \(Mandala.nudgeBeforeMinutes) minutes",
-                        body: phase == .boringMiddle
-                            ? "\(r.name). No need to feel like it. Just go to \(r.placeInSentence)."
-                            : [r.name, r.placeTitle, r.thingsList].filter { !$0.isEmpty }.joined(separator: ". ") + ".",
-                        sound: true, category: nil, routine: r, key: key)
+                    if fade == 0 {
+                        add(center, id: id(r, key, "pre"), at: hour.addingTimeInterval(-Double(Mandala.nudgeBeforeMinutes) * 60), now: now,
+                            title: "In \(Mandala.nudgeBeforeMinutes) minutes",
+                            body: phase == .boringMiddle
+                                ? "\(r.name). No need to feel like it. Just go to \(r.placeInSentence)."
+                                : [r.name, r.placeTitle, r.thingsList].filter { !$0.isEmpty }.joined(separator: ". ") + ".",
+                            sound: true, category: nil, routine: r, key: key)
+                    }
 
                     let line: String
                     switch phase {
@@ -74,9 +79,11 @@ public enum Nudges {
                     case .boringMiddle: line = "Don't decide. Just start."
                     case .becomingYours, .afterMandala: line = "You know the way."
                     }
-                    add(center, id: id(r, key, "hour"), at: hour, now: now,
-                        title: "It's time", body: "\(r.name). \(line)",
-                        sound: r.chimeEnabled, category: r.twoMinute == nil ? hourCategory : hourTwoCategory, routine: r, key: key)
+                    if fade <= 1 {
+                        add(center, id: id(r, key, "hour"), at: hour, now: now,
+                            title: "It's time", body: "\(r.name). \(line)",
+                            sound: r.chimeEnabled, category: r.twoMinute == nil ? hourCategory : hourTwoCategory, routine: r, key: key)
+                    }
 
                     let asks = r.feelingEveryDay == true || lastAsk.map { RoutineSnapshot.daysBetween($0, day) >= 7 } ?? true
                     if asks {

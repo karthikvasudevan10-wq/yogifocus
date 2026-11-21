@@ -72,10 +72,13 @@ enum DebugSeed {
                                   minute: Int(opts["minute"] ?? "0") ?? 0, place: "the balcony", things: ["Yoga mat", "Grey shawl"])
         store.updateRoutine(id) { $0.startedOn = start }
         let feelings: [Feeling] = [.steady, .absorbed, .steady, .scattered, .steady, .absorbed]
+        // began=HH:MM records each kept day as begun at that time (v2 reminders that follow and fade).
+        let began = opts["began"].map { $0.split(separator: ":").compactMap { Int($0) } }
         for d in 1...min(day, Mandala.days) where !missed.contains(d) {
             if d == day && !keptToday { continue }
             let date = cal.date(byAdding: .day, value: d - 1, to: start) ?? start
-            store.markKept(id, on: date, feeling: feelings[d % feelings.count])
+            let start = began.flatMap { $0.count == 2 ? cal.date(bySettingHour: $0[0], minute: $0[1], second: 0, of: date) : nil }
+            store.markKept(id, on: date, feeling: feelings[d % feelings.count], beganAt: start)
         }
         store.hasOnboarded = true
     }

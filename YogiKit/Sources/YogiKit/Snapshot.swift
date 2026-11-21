@@ -43,6 +43,12 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
     public var twoMinuteVersion: String?
     /// Days in this mandala kept with the two-minute version.
     public var twoMinuteDayKeys: [String]?
+    /// v2 items 9 and 18. Optional so 1.0 snapshots still decode.
+    public var followUsualTime: Bool?
+    public var keepEveryReminder: Bool?
+    public var fadeAnnounced: Bool?
+    /// dayKey → minute of the day the practice began, for the current mandala.
+    public var beganMinutes: [String: Int]?
     public var createdAt: Date
     public var updatedAt: Date
     /// Days kept in the current mandala.
@@ -58,7 +64,9 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
                 startedOn: Date = Date(), mandalaNumber: Int = 1, day30SeenMandala: Int = 0, completeSeenMandala: Int = 0,
                 createdAt: Date = Date(), updatedAt: Date = Date(), keptDayKeys: [String] = [], recentKeptDayKeys: [String] = [],
                 feelings: [String: String] = [:], restartedMandalas: Int = 0, notTodayKey: String? = nil,
-                feelingEveryDay: Bool? = nil, twoMinuteVersion: String? = nil, twoMinuteDayKeys: [String]? = nil) {
+                feelingEveryDay: Bool? = nil, twoMinuteVersion: String? = nil, twoMinuteDayKeys: [String]? = nil,
+                followUsualTime: Bool? = nil, keepEveryReminder: Bool? = nil, fadeAnnounced: Bool? = nil,
+                beganMinutes: [String: Int]? = nil) {
         self.id = id; self.name = name; self.kind = kind; self.hour = hour; self.minute = minute
         self.durationMinutes = durationMinutes; self.place = place; self.things = things
         self.chimeEnabled = chimeEnabled; self.isPaused = isPaused; self.pausedSince = pausedSince
@@ -71,6 +79,10 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
         self.feelingEveryDay = feelingEveryDay
         self.twoMinuteVersion = twoMinuteVersion
         self.twoMinuteDayKeys = twoMinuteDayKeys
+        self.followUsualTime = followUsualTime
+        self.keepEveryReminder = keepEveryReminder
+        self.fadeAnnounced = fadeAnnounced
+        self.beganMinutes = beganMinutes
     }
 
     public var routineKind: RoutineKind { RoutineKind(rawValue: kind) ?? .own }
@@ -172,6 +184,58 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
         if now < h { return .soon(minutes: max(1, Int((h.timeIntervalSince(now) / 60).rounded(.up)))) }
         if now < h.addingTimeInterval(Double(Mandala.hourWindowMinutes) * 60) { return .itsTime }
         return .passed
+    }
+
+    // MARK: Reminders that follow and fade (v2 items 18 and 9)
+
+    /// Reminders never move further than this from the routine's own hour.
+    public static let followLimitMinutes = 45
+
+    /// Begin times (minute of the day) on kept days in the two weeks before a date, oldest first.
+    func recentBegins(before date: Date, days: Int = 14) -> [(key: String, minute: Int)] {
+        let today = DayKey.key(date)
+        let floor = DayKey.key(cal.date(byAdding: .day, value: -days, to: cal.startOfDay(for: date)) ?? date)
+        return (beganMinutes ?? [:]).filter { $0.key >= floor && $0.key < today }
+            .sorted { $0.key < $1.key }.map { ($0.key, $0.value) }
+    }
+
+    /// v2 item 18: how far the reminders have moved towards the usual start, in minutes (0 when not following).
+    /// Needs five recent days with a start time; the median start, at most 45 minutes away, ignoring under 10.
+    public func reminderOffsetMinutes(on date: Date) -> Int {
+        guard followUsualTime ?? true else { return 0 }
+        let begins = recentBegins(before: date).map(\.minute).sorted()
+        guard begins.count >= 5 else { return 0 }
+        let median = begins[begins.count / 2]
+        let offset = median - (hour * 60 + minute)
+        guard abs(offset) >= 10 else { return 0 }
+        return max(-Self.followLimitMinutes, min(Self.followLimitMinutes, offset))
+    }
+
+    /// When the reminders come on a day: the routine's hour, moved by `reminderOffsetMinutes`.
+    public func reminderDate(on date: Date) -> Date {
+        hourDate(on: date).addingTimeInterval(Double(reminderOffsetMinutes(on: date)) * 60)
+    }
+
+    /// v2 item 9: 0 every reminder, 1 without the 20-minute nudge, 2 without the nudge at the hour too.
+    /// Only once the routine is becoming theirs (day 30 on), and only while most days begin before being asked.
+    /// Two misses in the last five days bring every reminder back, quietly.
+    public func fadeLevel(on date: Date) -> Int {
+        guard !(keepEveryReminder ?? false), dayNumber(on: date) >= Mandala.progressHiddenUntilDay else { return 0 }
+        let n = dayNumber(on: date)
+        let keys = dayKeys(count: n - 1).suffix(10)
+        guard keys.count == 10 else { return 0 }
+        let kept = Set(keptDayKeys)
+        if keys.suffix(5).filter({ !kept.contains($0) }).count >= 2 { return 0 }
+        let reminder = hour * 60 + minute + reminderOffsetMinutes(on: date)
+        let early = keys.filter { k in (beganMinutes?[k]).map { $0 <= reminder } ?? false }.count
+        if early >= 9 && n >= 40 { return 2 }
+        if early >= 7 { return 1 }
+        return 0
+    }
+
+    /// Show "You don't need my reminder any more" once, the first time the reminders grow lighter.
+    public func needsFadeMoment(on date: Date) -> Bool {
+        !(fadeAnnounced ?? false) && fadeLevel(on: date) >= 1
     }
 
     /// The two-minute version, if one was chosen.

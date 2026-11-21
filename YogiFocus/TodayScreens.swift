@@ -70,6 +70,7 @@ struct TodayScreen: View {
     @Binding var path: [Route]
     @State private var reveal: UUID?
     @State private var complete: UUID?
+    @State private var fadeMoment: UUID?
     @Environment(\.duoPose) private var pose
     /// The routine shown on the trailing side of the wide Duo display.
     @State private var selected: UUID?
@@ -99,6 +100,9 @@ struct TodayScreen: View {
                 path.append(.choose)
             }))
         }
+        .fullScreenCover(item: Binding(get: { fadeMoment.map(IDBox.init) }, set: { fadeMoment = $0?.id })) { box in
+            debugFramed(FadeMomentScreen(routineID: box.id) { fadeMoment = nil })
+        }
         .onAppear(perform: checkMilestones)
         .onChange(of: model.routines) { _, _ in checkMilestones() }
         .onChange(of: path) { _, p in if p.isEmpty { checkMilestones() } }
@@ -106,10 +110,11 @@ struct TodayScreen: View {
 
     /// Day 30 reveals the lotus once. Day 48 completes the mandala whatever the count.
     private func checkMilestones() {
-        guard path.isEmpty, reveal == nil, complete == nil else { return }
+        guard path.isEmpty, reveal == nil, complete == nil, fadeMoment == nil else { return }
         let now = Date()
         if let r = model.routines.first(where: { $0.needsCompleteScreen(on: now) }) { complete = r.id }
         else if let r = model.routines.first(where: { $0.needsDay30Reveal(on: now) }) { reveal = r.id }
+        else if let r = model.routines.first(where: { $0.needsFadeMoment(on: now) }) { fadeMoment = r.id }
     }
 
     @ViewBuilder private func content(now: Date) -> some View {

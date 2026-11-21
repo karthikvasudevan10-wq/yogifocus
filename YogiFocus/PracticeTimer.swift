@@ -30,7 +30,7 @@ struct RunningTimer: Codable, Equatable {
     @MainActor static func settleIfFinished(now: Date = Date()) {
         guard let t = current, now >= t.end else { return }
         current = nil
-        YogiStore.shared.markKept(t.routineID, on: t.start, twoMinute: t.twoMinute)
+        YogiStore.shared.markKept(t.routineID, on: t.start, twoMinute: t.twoMinute, beganAt: t.start)
         Nudges.cancelToday(t.routineID, now: t.start)
     }
 }
@@ -112,7 +112,7 @@ struct PracticeTimerScreen: View {
         RunningTimer.current = nil
         if !early, routine?.chimeEnabled ?? true { Chime.play() }
         UINotificationFeedbackGenerator().notificationOccurred(.success)
-        YogiStore.shared.markKept(t.routineID, on: t.start, twoMinute: t.twoMinute)
+        YogiStore.shared.markKept(t.routineID, on: t.start, twoMinute: t.twoMinute, beganAt: t.start)
         Nudges.cancelToday(t.routineID, now: t.start)
         model.refresh()
         onKept()
