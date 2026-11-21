@@ -6,7 +6,7 @@ Features planned for after 1.0. Each item has the idea as asked, then notes on w
 
 Agreed 18 November 2026. No server of our own: everything runs on the phone or through Apple services (iCloud/CloudKit, WeatherKit). Building starts 19 November 2026.
 
-**v2.0: build first**
+**v2.0: build first** (all built on the `v2` branch, 21 November 2026)
 - 1 Restart a mandala
 - 2 "Not today" as an answer
 - 10 A two-minute version
@@ -44,7 +44,7 @@ Agreed 18 November 2026. No server of our own: everything runs on the phone or t
 
 ## 1. Restart a mandala
 
-- [ ] Let people restart the mandala for any routine, so they can make a fresh start if they missed too many days and get a chance to correct course.
+- [x] Let people restart the mandala for any routine, so they can make a fresh start if they missed too many days and get a chance to correct course.
 
 Notes:
 - **Design rule 10:** "A missed day never resets the mandala." That rule is about the app never resetting it automatically. A restart the person chooses is different, but it must stay their choice. The app should never suggest it because of missed days, and never word it as a failure ("start again" or "a fresh start", not "you missed too many").
@@ -54,7 +54,7 @@ Notes:
 
 ## 2. "Not today" as an answer
 
-- [ ] When the Apple Watch, the widgets (all sizes) or the notifications ask whether the practice was done, also offer a way to say it was missed that day.
+- [x] When the Apple Watch, the widgets (all sizes) or the notifications ask whether the practice was done, also offer a way to say it was missed that day.
 
 Notes:
 - **Today, a day counts as missed** only when the calendar day ends without Done. An explicit answer would let the day close sooner and stop the remaining nudges, including the "How did it feel?" one.
@@ -64,7 +64,7 @@ Notes:
 
 ## 3. Do Not Disturb during the practice
 
-- [ ] From 5 minutes before the routine until its length is up, put the phone into Do Not Disturb automatically, after asking the person's permission.
+- [x] From 5 minutes before the routine until its length is up, put the phone into Do Not Disturb automatically, after asking the person's permission.
 
 Notes:
 - **iOS limit:** iOS does not let an app turn on Do Not Disturb or a Focus by itself. There is no public API for it.
@@ -79,7 +79,7 @@ Notes:
 
 ## 4. Dynamic Island and Live Activity
 
-- [ ] Find intelligent ways to use the Dynamic Island, and show progress there.
+- [x] Find intelligent ways to use the Dynamic Island, and show progress there.
 
 Ideas:
 - **Before:** about 20 minutes ahead, a compact countdown ("Meditate in 12 min") with the place and things in the expanded view: same time, same place, same things.
@@ -112,7 +112,7 @@ Add new v2 requests below this line, numbered on from 6.
 
 ## 6. Share a completed mandala to Instagram and TikTok
 
-- [ ] On the mandala complete screen, add sharing to Instagram and TikTok. Tell the person this is a very special screen that not many people in the world ever reach, and show how many mandalas they have completed.
+- [x] On the mandala complete screen, add sharing to Instagram and TikTok. Tell the person this is a very special screen that not many people in the world ever reach, and show how many mandalas they have completed.
 
 Notes:
 - **What is shared:** a ready-made image (and perhaps a short clip of the lotus opening) in the app's style: the full lotus, the routine's name, "49 days" and "Mandala 3". Nothing private: no place, things, feelings or times.
@@ -145,7 +145,7 @@ Notes:
 
 ## 9. Fading nudges
 
-- [ ] As days are kept on time, make reminders gentler and less frequent. Near the end of the mandala, tell the person: "You don't need my reminder any more."
+- [x] As days are kept on time, make reminders gentler and less frequent. Near the end of the mandala, tell the person: "You don't need my reminder any more."
 
 Notes:
 - **How:** from day 30, if most recent days were kept before the reminder fired, drop the 20-minute nudge first, then the on-time one. Bring them back quietly after a few misses, without saying why (design rule 5).
@@ -154,7 +154,7 @@ Notes:
 
 ## 10. A two-minute version
 
-- [ ] During setup, let the person choose a tiny fallback (for example "sit on the mat for two minutes"). On a hard day, offer it, and count it as kept.
+- [x] During setup, let the person choose a tiny fallback (for example "sit on the mat for two minutes"). On a hard day, offer it, and count it as kept.
 
 Notes:
 - **Where:** an optional step in setup; a "Just the two-minute version" button on Today, the widget and the watch.
@@ -191,7 +191,7 @@ Notes:
 
 ## 14. Siri, Shortcuts and the Action button
 
-- [ ] "Hey Siri, I've done my meditation." App Shortcuts for Done, the two-minute version and "How am I doing?", available to Siri, Spotlight and the Action button.
+- [x] "Hey Siri, I've done my meditation." App Shortcuts for Done, the two-minute version and "How am I doing?", available to Siri, Spotlight and the Action button.
 
 Notes:
 - **How:** the Done App Intent already exists for the widget; publish it with `AppShortcutsProvider` and phrases per routine.
@@ -226,7 +226,7 @@ Notes:
 
 ## 18. Learn when they really do it
 
-- [ ] Move reminders quietly to match when Done is usually tapped. If the routine is set for 7:00 but is usually finished at 7:40, the nudge follows, with nothing to set up and no question.
+- [x] Move reminders quietly to match when Done is usually tapped. If the routine is set for 7:00 but is usually finished at 7:40, the nudge follows, with nothing to set up and no question.
 
 Notes:
 - **How:** keep the time of each Done; after a week or two, shift the nudge towards the typical time, within limits (say ±45 minutes). The routine's set time stays as written.
@@ -259,7 +259,7 @@ Notes:
 
 ## 22. A gentle alarm
 
-- [ ] For people who want it, ring the routine like a soft alarm at its time, with Start and Later buttons.
+- [x] For people who want it, ring the routine like a soft alarm at its time, with Start and Later buttons.
 
 Notes:
 - **How:** AlarmKit (iOS 26), which shows on the Lock Screen, Dynamic Island and watch, and breaks through silent mode.
@@ -275,7 +275,7 @@ Notes:
 
 ## 24. Open straight into the practice
 
-- [ ] Tapping the nudge goes straight to a timer with the chime, not a screen of choices. Done is marked when the timer ends.
+- [x] Tapping the nudge goes straight to a timer with the chime, not a screen of choices. Done is marked when the timer ends.
 
 Notes:
 - **Untimed routines:** Cut Sugar has no timer; the nudge opens to Done.
@@ -284,7 +284,7 @@ Notes:
 
 ## 25. Ask "How did it feel?" less
 
-- [ ] Ask about once a week, or only when the answer would teach the app something, instead of every day.
+- [x] Ask about once a week, or only when the answer would teach the app something, instead of every day.
 
 Notes:
 - **Why:** fewer questions, less burden. Reflections still build up for the insights in item 15.
@@ -293,7 +293,7 @@ Notes:
 
 ## 26. A missed day leaves no trace in the moment
 
-- [ ] The day after a miss, the nudge is exactly as warm as always. No "welcome back", no "let's get back on track". The app simply carries on.
+- [x] The day after a miss, the nudge is exactly as warm as always. No "welcome back", no "let's get back on track". The app simply carries on.
 
 Notes:
 - **Design rules 5 and 10:** this makes the existing rules explicit for every nudge, widget and watch message, and for anything added in v2.
@@ -319,7 +319,7 @@ Notes:
 
 ## 29. Ask for a rating at a happy moment
 
-- [ ] Use Apple's built-in rating prompt (`requestReview`) at a good moment, such as day 30 or mandala complete, never after a miss.
+- [x] Use Apple's built-in rating prompt (`requestReview`) at a good moment, such as day 30 or mandala complete, never after a miss.
 
 Notes:
 - **Limit:** Apple shows it at most three times a year per person and may choose not to show it at all.
@@ -345,7 +345,7 @@ Notes:
 
 ## 32. "Share Yogi Focus" inside the app
 
-- [ ] Add a quiet way to share the app's App Store link (https://apps.apple.com/app/id6835473975) with friends, and a "Rate Yogi Focus" link beside it.
+- [x] Add a quiet way to share the app's App Store link (https://apps.apple.com/app/id6835473975) with friends, and a "Rate Yogi Focus" link beside it.
 
 Notes:
 - **Where:** at the bottom of the routines screen, and on the mandala complete screen next to item 6's sharing. Never as a pop-up or nudge.
