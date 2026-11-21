@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Today is kept</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#8AE264}a:hover{color:#EEF5E8}
+button,input{font-family:inherit}
+button{cursor:pointer}
+@keyframes yf-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes yf-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes yf-fall{from{transform:translateY(0)}to{transform:translateY(940px)}}
+@keyframes yf-sway{from{transform:translateX(-18px) rotate(-50deg)}to{transform:translateX(18px) rotate(70deg)}}
+@keyframes yf-rota{0%,40%{opacity:1}48%,90%{opacity:0}98%,100%{opacity:1}}
+@keyframes yf-rotb{0%,40%{opacity:0}48%,90%{opacity:1}98%,100%{opacity:0}}
+@keyframes yf-spin{to{transform:rotate(360deg)}}
+@keyframes yf-levitate{0%,100%{transform:translateY(4px)}50%{transform:translateY(-9px)}}
+@keyframes yf-shadow{0%,100%{transform:scale(1);opacity:0.26}50%{transform:scale(0.74);opacity:0.14}}
+@keyframes yf-rise{from{transform:translateY(70px)}to{transform:translateY(0)}}
+@keyframes yf-draw{from{stroke-dashoffset:420}to{stroke-dashoffset:0}}
+@keyframes yf-pop{from{transform:scale(0.4);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes yf-open{from{transform:scale(0.15);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes yf-ring{from{transform:scale(0.8);opacity:0.8}to{transform:scale(1.35);opacity:0}}
+@keyframes yf-up{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes yf-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.7);opacity:0.5}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+@keyframes yf-fly{0%{transform:translateY(0) scale(0.2);opacity:0}10%{opacity:1}55%{transform:translateY(-92px) scale(1);opacity:1}78%,100%{transform:translateY(-118px) scale(1);opacity:0}}
+@keyframes yf-halo{0%{transform:scale(0.6);opacity:0}12%{opacity:0.9}62%,100%{transform:scale(1.9);opacity:0}}
+</style>
+</helmet>
+<div style="position: relative; width: 390px; height: 844px; box-sizing: border-box; padding: 56px 28px 34px; display: flex; flex-direction: column; background: #111F10; color: #EEF5E8; font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 16px; line-height: 1.55; overflow: hidden">
+<div aria-hidden="true" style="position: absolute; left: -505px; top: -518px; width: 1400px; height: 1400px; border-radius: 50%; background: repeating-conic-gradient(from -5.2deg, #182B17 0deg 10.4deg, transparent 10.4deg 22.5deg); will-change: transform; animation: yf-spin 140s linear infinite"></div>
+<div style="position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column">
+<svg role="img" aria-label="A smiling yogi floats while petals burst out around him" viewBox="0 0 300 262" width="300" height="262" style="display: block; align-self: center; flex: none; overflow: visible"><circle cx="150" cy="118" r="70" fill="none" stroke="#FFFFFF" stroke-width="7" style="transform-box: fill-box; transform-origin: 50% 50%; opacity: 0; animation: yf-halo 4.5s ease-out infinite"></circle><g transform="translate(150 118) rotate(-120) translate(0 -58)"><path d="M0 0C10 -9.1 10 -19.5 0 -26C-10 -19.5 -10 -9.1 0 0Z" fill="#FFFFFF" style="transform-box: fill-box; transform-origin: 50% 100%; animation: yf-fly 4.5s ease-out 0.00s infinite"></path></g><g transform="translate(150 118) rotate(-90) translate(0 -58)"><path d="M0 0C10 -9.1 10 -19.5 0 -26C-10 -19.5 -10 -9.1 0 0Z" fill="#17933F" style="transform-box: fill-box; transform-origin: 50% 100%; animation: yf-fly 4.5s ease-out 0.07s infinite"></path></g><g transform="translate(150 118) rotate(-60) translate(0 -58)"><path d="M0 0C10 -9.1 10 -19.5 0 -26C-10 -19.5 -10 -9.1 0 0Z" fill="#FF7A1A" style="transform-box: fill-box; transform-origin: 50% 100%; animation: yf-fly 4.5s ease-out 0.14s infinite"></path></g><g transform="translate(150 118) rotate(-30) translate(0 -58)"><path d="M0 0C10 -9.1 10 -19.5 0 -26C-10 -19.5 -10 -9.1 0 0Z" fill="#FFFFFF" style="transform-box: fill-box; transform-origin: 50% 100%; animation: yf-fly 4.5s ease-out 0.21s infinite"></path></g><g transform="translate(150 118) rotate(0) translate(0 -58)"><path d="M0 0C10 -9.1 10 -19.5 0 -26C-10 -19.5 -10 -9.1 0 0Z" fill="#3DBB45" style="transform-box: fill-box; transform-origin: 50% 100%; animation: yf-fly 4.5s ease-out 0.28s infinite"></path></g><g transform="translate(150 118) rotate(30) translate(0 -58)"><path d="M0 0C10 -9.1 10 -19.5 0 -26C-10 -19.5 -10 -9.1 0 0Z" fill="#FF8FB1" style="transform-box: fill-box; transform-origin: 50% 100%; animation: yf-fly 4.5s ease-out 0.35s infinite"></path></g><g transform="translate(150 118) rotate(60) translate(0 -58)"><path d="M0 0C10 -9.1 10 -19.5 0 -26C-10 -19.5 -10 -9.1 0 0Z" fill="#FFFFFF" style="transform-box: fill-box; transform-origin: 50% 100%; animation: yf-fly 4.5s ease-out 0.42s infinite"></path></g><g transform="translate(150 118) rotate(90) translate(0 -58)"><path d="M0 0C10 -9.1 10 -19.5 0 -26C-10 -19.5 -10 -9.1 0 0Z" fill="#17933F" style="transform-box: fill-box; transform-origin: 50% 100%; animation: yf-fly 4.5s ease-out 0.49s infinite"></path></g><g transform="translate(150 118) rotate(120) translate(0 -58)"><path d="M0 0C10 -9.1 10 -19.5 0 -26C-10 -19.5 -10 -9.1 0 0Z" fill="#FF7A1A" style="transform-box: fill-box; transform-origin: 50% 100%; animation: yf-fly 4.5s ease-out 0.56s infinite"></path></g><ellipse cx="150" cy="240" rx="48" ry="8" fill="#7A5B00" style="transform-box: fill-box; transform-origin: 50% 50%; opacity: 0.26; animation: yf-shadow 4.5s ease-in-out infinite"></ellipse><g style="animation: yf-levitate 4.5s ease-in-out infinite"><g transform="translate(35 8) scale(1.15)"><path d="M66 150Q100 134 134 150L128 168L72 168Z" fill="#FFFFFF"></path><path d="M56 160Q86 142 122 165" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round" fill="none"></path><path d="M144 160Q114 142 78 165" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round" fill="none"></path><path d="M70 163Q92 150 114 164" stroke="#E9DDB8" stroke-width="2" stroke-linecap="round" fill="none"></path><path d="M134 156Q120 150 106 156" stroke="#E9DDB8" stroke-width="2" stroke-linecap="round" fill="none"></path><ellipse cx="80" cy="170" rx="10" ry="4.5" fill="#EDBE94"></ellipse><ellipse cx="121" cy="170" rx="10" ry="4.5" fill="#EDBE94"></ellipse><path d="M80 92Q70 107 66 126" stroke="#FF7A1A" stroke-width="12" stroke-linecap="round" fill="none"></path><path d="M120 92Q130 107 134 126" stroke="#EDBE94" stroke-width="9" stroke-linecap="round" fill="none"></path><path d="M66 127Q61 140 58 151" stroke="#EDBE94" stroke-width="8" stroke-linecap="round" fill="none"></path><path d="M134 127Q139 140 142 151" stroke="#EDBE94" stroke-width="8" stroke-linecap="round" fill="none"></path><circle cx="56" cy="154" r="5.5" fill="#EDBE94"></circle><circle cx="144" cy="154" r="5.5" fill="#EDBE94"></circle><circle cx="52.5" cy="157.5" r="2.6" fill="none" stroke="#DDA77C" stroke-width="1.6"></circle><circle cx="147.5" cy="157.5" r="2.6" fill="none" stroke="#DDA77C" stroke-width="1.6"></circle><path d="M77 92Q77 81 89 80L111 80Q123 81 123 92L117 149Q100 154 83 149Z" fill="#EDBE94"></path><path d="M77 92Q77 81 89 80L98 80Q112 100 121 118L117 149Q100 154 83 149Z" fill="#FF7A1A"></path><path d="M89 80L98 80Q112 100 121 118L120 128Q104 108 89 80Z" fill="#FF9D4D"></path><path d="M84 104Q94 122 112 140M82 120Q90 134 102 146" stroke="#E2600A" stroke-width="1.8" stroke-linecap="round" fill="none"></path><path d="M83 149Q100 154 117 149L116 156Q100 160 84 156Z" fill="#E2600A"></path><rect x="94" y="66" width="12" height="17" rx="5" fill="#DDA77C"></rect><path d="M89 82Q100 104 111 82" stroke="#8A3B2E" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 4.2" fill="none"></path><circle cx="80.5" cy="55" r="4" fill="#DDA77C"></circle><circle cx="119.5" cy="55" r="4" fill="#DDA77C"></circle><circle cx="100" cy="53" r="20" fill="#EDBE94"></circle><path d="M80 53A20 20 0 0 1 120 53Q113 41 100 44Q87 41 80 53Z" fill="#4A3229"></path><circle cx="100" cy="27" r="8.5" fill="#4A3229"></circle><path d="M94 34.5L106 34.5" stroke="#FF7A1A" stroke-width="3" stroke-linecap="round" fill="none"></path><circle cx="89" cy="61" r="3.2" fill="#F29C7B" opacity="0.55"></circle><circle cx="111" cy="61" r="3.2" fill="#F29C7B" opacity="0.55"></circle><path d="M88.5 48.5q4.5 -3 8.5 -0.5" stroke="#4A3229" stroke-linecap="round" fill="none" stroke-width="1.5"></path><path d="M103 48q4 -2.5 8.5 0.5" stroke="#4A3229" stroke-linecap="round" fill="none" stroke-width="1.5"></path><circle cx="93.5" cy="55" r="3" fill="#4A3229"></circle><circle cx="106.5" cy="55" r="3" fill="#4A3229"></circle><circle cx="94.5" cy="54" r="1" fill="#FFFFFF"></circle><circle cx="107.5" cy="54" r="1" fill="#FFFFFF"></circle><path d="M92.5 61.5Q100 71.5 107.5 61.5Z" fill="#7A2B1E" stroke="#7A2B1E" stroke-width="1.5" stroke-linejoin="round"></path><path d="M94.5 62.200L105.5 62.200Q103.5 64.800 100 64.800Q96.5 64.800 94.5 62.200Z" fill="#FFFFFF"></path></g></g></svg>
+<h1 style="margin: 10px 0 0; font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 700; font-size: 38px; line-height: 1.1; color: #EEF5E8; text-wrap: balance">That's today, kept.</h1>
+<p style="margin: 6px 0 0; font-size: 17px; color: #EEF5E8; text-wrap: pretty">Forever was never the job. Today was, and you did it.</p>
+<div style="margin-top: 18px; display: flex; align-items: center; gap: 8px">
+<div style="flex: 1; min-width: 0; box-sizing: border-box; min-height: 116px; padding: 14px 16px; border-radius: 22px; background: #6FD43A; color: #14301F; display: flex; flex-direction: column; animation: yf-pop 0.5s cubic-bezier(0.3, 1.4, 0.5, 1) 0.3s both"><span style="font-size: 13px; font-weight: 600">Today</span><span style="margin-top: 2px; font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 700; font-size: 30px; line-height: 1.1">Kept</span><span style="margin-top: auto; width: 30px; height: 30px; border-radius: 15px; background: #14301F; color: #FFD21F; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span></div>
+<span style="flex: none; color: #EEF5E8; display: flex"><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block"><path d="M9 5l7 7-7 7"></path></svg></span>
+<div style="flex: 1; min-width: 0; box-sizing: border-box; min-height: 116px; padding: 14px 16px; border-radius: 22px; background: #18271B; color: #EEF5E8; display: flex; flex-direction: column; animation: yf-up 0.5s ease-out 0.9s both"><span style="font-size: 13px; font-weight: 600; color: #8AE264">Only tomorrow</span><span style="margin-top: 2px; font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 700; font-size: 30px; line-height: 1.1">7:00 am</span><span style="margin-top: auto; font-size: 14px; font-weight: 500">The balcony</span></div>
+</div>
+<p style="margin: 14px 0 0; font-size: 15px; color: #EEF5E8; text-wrap: pretty">Don't think about the week. One day is all you ever have to keep, and the next one is tomorrow.</p>
+<a href="Today-Dark.dc.html" style="margin-top: auto; flex: none; display: flex; align-items: center; justify-content: center; min-height: 56px; border-radius: 28px; background: #6FD43A; color: #14301F; font-size: 17px; font-weight: 600; text-decoration: none">Done</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview": {"width": 390, "height": 844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

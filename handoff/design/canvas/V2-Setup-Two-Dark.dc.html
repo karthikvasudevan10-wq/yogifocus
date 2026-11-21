@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The two-minute version</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#8AE264}a:hover{color:#EEF5E8}
+button,input{font-family:inherit}
+button{cursor:pointer}
+@keyframes yf-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes yf-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes yf-fall{from{transform:translateY(0)}to{transform:translateY(940px)}}
+@keyframes yf-sway{from{transform:translateX(-18px) rotate(-50deg)}to{transform:translateX(18px) rotate(70deg)}}
+@keyframes yf-rota{0%,40%{opacity:1}48%,90%{opacity:0}98%,100%{opacity:1}}
+@keyframes yf-rotb{0%,40%{opacity:0}48%,90%{opacity:1}98%,100%{opacity:0}}
+@keyframes yf-spin{to{transform:rotate(360deg)}}
+@keyframes yf-levitate{0%,100%{transform:translateY(4px)}50%{transform:translateY(-9px)}}
+@keyframes yf-shadow{0%,100%{transform:scale(1);opacity:0.26}50%{transform:scale(0.74);opacity:0.14}}
+@keyframes yf-rise{from{transform:translateY(70px)}to{transform:translateY(0)}}
+@keyframes yf-draw{from{stroke-dashoffset:420}to{stroke-dashoffset:0}}
+@keyframes yf-pop{from{transform:scale(0.4);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes yf-open{from{transform:scale(0.15);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes yf-ring{from{transform:scale(0.8);opacity:0.8}to{transform:scale(1.35);opacity:0}}
+@keyframes yf-up{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes yf-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.7);opacity:0.5}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 56px 28px 34px; display: flex; flex-direction: column; background: #0E1A11; color: #EEF5E8; font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 16px; line-height: 1.55; overflow: hidden">
+<div style="display: flex; align-items: center; justify-content: space-between; height: 44px; flex: none"><a href="Anchor.dc.html" aria-label="Back" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin-left: -12px; color: #EEF5E8"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block"><path d="M15 5l-7 7 7 7"></path></svg></a><a href="Widget-Setup.dc.html" style="display: flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 500; text-decoration: none">Skip</a></div>
+<h1 style="margin: 6px 0 0; font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 700; font-size: 34px; line-height: 1.1; color: #EEF5E8; text-wrap: balance">And on a harder day?</h1>
+<p style="margin: 8px 0 0; font-size: 17px; color: #EEF5E8; text-wrap: pretty">Choose the smallest version of Meditate. On a day when ten minutes feels too much, two minutes still keeps the day.</p>
+<div style="margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" aria-pressed="true" style="display: flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 22px; border: 2px solid #8AE264; background: #1C3A21; color: #EEF5E8; font-size: 15px; font-weight: 600; text-align: left">Sit on the mat for two minutes</button><button type="button" aria-pressed="false" style="display: flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 22px; border: 2px solid #2C3D2E; background: #18271B; color: #EEF5E8; font-size: 15px; font-weight: 500; text-align: left">Three slow breaths</button><button type="button" aria-pressed="false" style="display: flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 22px; border: 2px solid #2C3D2E; background: #18271B; color: #EEF5E8; font-size: 15px; font-weight: 500; text-align: left">Just unroll the mat</button><button type="button" aria-pressed="false" style="display: flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 22px; border: 2px solid #2C3D2E; background: #18271B; color: #EEF5E8; font-size: 15px; font-weight: 500; text-align: left">Write my own</button>
+</div>
+<div style="margin-top: 20px; padding: 16px 22px; border-radius: 22px; background: #FFD21F; color: #14301F; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; font-weight: 600">On a harder day</span><div style="font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 600; font-size: 20px; line-height: 1.3">I go to the balcony and sit on the mat for two minutes.</div></div>
+<p style="margin: 12px 0 0; font-size: 14px; color: #A9B8A5; text-wrap: pretty">It counts as kept. Showing up is the habit.</p>
+<a href="Widget-Setup.dc.html" style="margin-top: auto; flex: none; display: flex; align-items: center; justify-content: center; min-height: 56px; border-radius: 28px; background: #6FD43A; color: #14301F; font-size: 17px; font-weight: 600; text-decoration: none">Keep this</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview": {"width": 390, "height": 844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

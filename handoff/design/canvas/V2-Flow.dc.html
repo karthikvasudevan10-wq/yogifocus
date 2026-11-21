@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>From the nudge to kept</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#127A35}a:hover{color:#14301F}
+button,input{font-family:inherit}
+button{cursor:pointer}
+@keyframes yf-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes yf-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes yf-fall{from{transform:translateY(0)}to{transform:translateY(940px)}}
+@keyframes yf-sway{from{transform:translateX(-18px) rotate(-50deg)}to{transform:translateX(18px) rotate(70deg)}}
+@keyframes yf-rota{0%,40%{opacity:1}48%,90%{opacity:0}98%,100%{opacity:1}}
+@keyframes yf-rotb{0%,40%{opacity:0}48%,90%{opacity:1}98%,100%{opacity:0}}
+@keyframes yf-spin{to{transform:rotate(360deg)}}
+@keyframes yf-levitate{0%,100%{transform:translateY(4px)}50%{transform:translateY(-9px)}}
+@keyframes yf-shadow{0%,100%{transform:scale(1);opacity:0.26}50%{transform:scale(0.74);opacity:0.14}}
+@keyframes yf-rise{from{transform:translateY(70px)}to{transform:translateY(0)}}
+@keyframes yf-draw{from{stroke-dashoffset:420}to{stroke-dashoffset:0}}
+@keyframes yf-pop{from{transform:scale(0.4);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes yf-open{from{transform:scale(0.15);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes yf-ring{from{transform:scale(0.8);opacity:0.8}to{transform:scale(1.35);opacity:0}}
+@keyframes yf-up{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes yf-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.7);opacity:0.5}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</helmet>
+<div style="width: 1000px; height: 700px; box-sizing: border-box; padding: 40px 48px; background: #FFFFFF; color: #14301F; font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 15px; line-height: 1.45; display: flex; flex-direction: column; overflow: hidden">
+<div style="font-size: 14px; font-weight: 600">Items 24, 25 and 26</div><div style="font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 700; font-size: 30px; line-height: 1.15">From the nudge to kept, in as few taps as possible</div>
+<div style="margin-top: 22px; display: flex; gap: 10px">
+<div style="flex: 1; min-width: 0; padding: 18px 20px; border-radius: 22px; background: #FFD21F; color: #14301F; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; font-weight: 600">At 7:00 am</span><span style="font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 700; font-size: 22px; line-height: 1.15">The nudge</span><span style="font-size: 14px; line-height: 1.45">“It's time. Meditate. Your mat is waiting.” One tap opens the timer, already running.</span></div><span style="flex: none; align-self: center; display: flex; color: #14301F"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block"><path d="M9 5l7 7-7 7"></path></svg></span>
+<div style="flex: 1; min-width: 0; padding: 18px 20px; border-radius: 22px; background: #FFFFFF; color: #14301F; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; font-weight: 600">For 10 minutes</span><span style="font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 700; font-size: 22px; line-height: 1.15">The timer</span><span style="font-size: 14px; line-height: 1.45">A ring, the yogi and the time left. A chime at the end marks the day kept.</span></div><span style="flex: none; align-self: center; display: flex; color: #14301F"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block"><path d="M9 5l7 7-7 7"></path></svg></span>
+<div style="flex: 1; min-width: 0; padding: 18px 20px; border-radius: 22px; background: #6FD43A; color: #14301F; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; font-weight: 600">Most days</span><span style="font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 700; font-size: 22px; line-height: 1.15">That's today, kept.</span><span style="font-size: 14px; line-height: 1.45">Straight to the kept screen. No question.</span></div>
+</div>
+<div style="margin-top: 12px; display: flex; gap: 10px; padding-left: 0">
+<div style="flex: 1"></div><div style="flex: none; width: 24px"></div><div style="flex: 1"></div><div style="flex: none; width: 24px"></div>
+<div style="flex: 1; min-width: 0; padding: 18px 20px; border-radius: 22px; background: #E6F8D2; color: #14301F; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; font-weight: 600">About once a week</span><span style="font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 700; font-size: 22px; line-height: 1.15">How did it feel?</span><span style="font-size: 14px; line-height: 1.45">Asked first, then kept. Every day if they choose that in settings.</span></div>
+</div>
+<div style="margin-top: 26px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 24px; font-weight: 500">
+<div style="display: flex; gap: 10px; align-items: flex-start"><span style="flex: none; width: 6px; height: 6px; margin-top: 8px; border-radius: 3px; background: #14301F"></span><span>Cut Sugar has no length, so its nudge opens straight to Done.</span></div>
+<div style="display: flex; gap: 10px; align-items: flex-start"><span style="flex: none; width: 6px; height: 6px; margin-top: 8px; border-radius: 3px; background: #14301F"></span><span>Finishing early still counts as kept, as does the two-minute version.</span></div>
+<div style="display: flex; gap: 10px; align-items: flex-start"><span style="flex: none; width: 6px; height: 6px; margin-top: 8px; border-radius: 3px; background: #14301F"></span><span>The morning after a miss looks exactly like any other morning: same words, same warmth, no “welcome back”.</span></div>
+</div>
+<div style="margin-top: 26px; padding: 18px 22px; border-radius: 22px; background: #E6F8D2; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 14px; font-weight: 600">Words that change in v2 because they looked back at yesterday</span>
+<span><b>Today, after a missed day:</b> “Yesterday is finished. Nothing to catch up…” becomes the usual “A new day. How will you keep your practice today?”</span>
+<span><b>Widget, the morning after a miss:</b> “Nothing to catch up. Just start.” becomes the usual line for that stage.</span>
+<span><b>Still the same:</b> “Still today” after the hour, which is about today only.</span>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview": {"width": 1000, "height": 700}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How did it feel?</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#127A35}a:hover{color:#14301F}
+button,input{font-family:inherit}
+button{cursor:pointer}
+@keyframes yf-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes yf-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes yf-fall{from{transform:translateY(0)}to{transform:translateY(940px)}}
+@keyframes yf-sway{from{transform:translateX(-18px) rotate(-50deg)}to{transform:translateX(18px) rotate(70deg)}}
+@keyframes yf-rota{0%,40%{opacity:1}48%,90%{opacity:0}98%,100%{opacity:1}}
+@keyframes yf-rotb{0%,40%{opacity:0}48%,90%{opacity:1}98%,100%{opacity:0}}
+@keyframes yf-spin{to{transform:rotate(360deg)}}
+@keyframes yf-levitate{0%,100%{transform:translateY(4px)}50%{transform:translateY(-9px)}}
+@keyframes yf-shadow{0%,100%{transform:scale(1);opacity:0.26}50%{transform:scale(0.74);opacity:0.14}}
+@keyframes yf-rise{from{transform:translateY(70px)}to{transform:translateY(0)}}
+@keyframes yf-draw{from{stroke-dashoffset:420}to{stroke-dashoffset:0}}
+@keyframes yf-pop{from{transform:scale(0.4);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes yf-open{from{transform:scale(0.15);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes yf-ring{from{transform:scale(0.8);opacity:0.8}to{transform:scale(1.35);opacity:0}}
+@keyframes yf-up{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes yf-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.7);opacity:0.5}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 56px 28px 34px; display: flex; flex-direction: column; background: #FFFEF8; color: #14301F; font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 16px; line-height: 1.55; overflow: hidden">
+<div style="display: flex; align-items: center; justify-content: space-between; height: 44px; flex: none"><a href="Today.dc.html" aria-label="Back" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin-left: -12px; color: #14301F"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block"><path d="M15 5l-7 7 7 7"></path></svg></a></div>
+<h1 style="margin: 6px 0 0; font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 700; font-size: 34px; line-height: 1.1; color: #14301F; text-wrap: balance">You practised today.</h1>
+<p style="margin: 8px 0 0; font-size: 17px; color: #14301F; text-wrap: pretty">How did it feel? There is no wrong answer.</p>
+<div style="margin-top: 18px; display: flex; flex-direction: column; gap: 10px">
+<button type="button" onClick="{{a.pick}}" aria-pressed="{{a.on}}" style="display: flex; align-items: center; gap: 14px; min-height: 72px; padding: 0 16px; border-radius: 20px; border: 2px solid {{a.bd}}; background: {{a.bg}}; color: #14301F; text-align: left"><span style="flex: none; width: 44px; height: 44px; border-radius: 22px; background: #FFD21F; color: #14301F; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block"><circle cx="6" cy="7" r="1.4"></circle><circle cx="17" cy="5" r="1.4"></circle><circle cx="12" cy="13" r="1.4"></circle><circle cx="5" cy="18" r="1.4"></circle><circle cx="19" cy="16" r="1.4"></circle></svg></span><span style="display: flex; flex-direction: column"><span style="font-size: 17px; font-weight: 600">Scattered</span><span style="font-size: 14px; color: #4F6355">My mind was everywhere</span></span></button>
+<button type="button" onClick="{{b.pick}}" aria-pressed="{{b.on}}" style="display: flex; align-items: center; gap: 14px; min-height: 72px; padding: 0 16px; border-radius: 20px; border: 2px solid {{b.bd}}; background: {{b.bg}}; color: #14301F; text-align: left"><span style="flex: none; width: 44px; height: 44px; border-radius: 22px; background: #FFD21F; color: #14301F; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block"><path d="M3 9c3-3 6 3 9 0s6 3 9 0M3 16c3-3 6 3 9 0s6 3 9 0"></path></svg></span><span style="display: flex; flex-direction: column"><span style="font-size: 17px; font-weight: 600">Steady</span><span style="font-size: 14px; color: #4F6355">I stayed with it, mostly</span></span></button>
+<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="display: flex; align-items: center; gap: 14px; min-height: 72px; padding: 0 16px; border-radius: 20px; border: 2px solid {{c.bd}}; background: {{c.bg}}; color: #14301F; text-align: left"><span style="flex: none; width: 44px; height: 44px; border-radius: 22px; background: #FFD21F; color: #14301F; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block"><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="10"></circle></svg></span><span style="display: flex; flex-direction: column"><span style="font-size: 17px; font-weight: 600">Absorbed</span><span style="font-size: 14px; color: #4F6355">I lost track of time</span></span></button>
+</div>
+<sc-if value="{{a.on}}" hint-placeholder-val="{{ false }}"><div style="margin-top: 14px; padding: 18px 22px; border-radius: 22px; background: #FFD21F; color: #14301F; font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 600; font-size: 20px; line-height: 1.3; animation: yf-up 0.35s ease-out both">Scattered days build the habit more than easy ones. You came anyway.</div></sc-if>
+<sc-if value="{{b.on}}" hint-placeholder-val="{{ true }}"><div style="margin-top: 14px; padding: 18px 22px; border-radius: 22px; background: #FFD21F; color: #14301F; font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 600; font-size: 20px; line-height: 1.3; animation: yf-up 0.35s ease-out both">Steady is exactly how a practice grows.</div></sc-if>
+<sc-if value="{{c.on}}" hint-placeholder-val="{{ false }}"><div style="margin-top: 14px; padding: 18px 22px; border-radius: 22px; background: #FFD21F; color: #14301F; font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 600; font-size: 20px; line-height: 1.3; animation: yf-up 0.35s ease-out both">Hold on to this feeling. It is what the practice gives back.</div></sc-if>
+<div style="margin-top: 14px; display: flex; flex-direction: column; gap: 6px"><label for="note" style="font-size: 13px; font-weight: 500; color: #4F6355">A note for yourself (optional)</label><input id="note" type="text" value="{{note}}" onChange="{{setNote}}" placeholder="Anything you noticed" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: 14px; border: 1px solid #4F6355; background: #FFFFFF; font-size: 16px; color: #14301F"></div>
+<a href="Kept.dc.html" style="margin-top: auto; flex: none; display: flex; align-items: center; justify-content: center; min-height: 56px; border-radius: 28px; background: #6FD43A; color: #14301F; font-size: 17px; font-weight: 600; text-decoration: none">Done</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"feeling": {"editor": "enum", "options": ["scattered", "steady", "absorbed"], "default": "steady", "section": "Preview"}, "$preview": {"width": 390, "height": 844}}'>
+class Component extends DCLogic {
+renderVals() {
+const s = this.state || {};
+const f = s.feeling ?? this.props.feeling ?? 'steady';
+const mk = (id) => ({
+on: f === id,
+bd: f === id ? '#127A35' : '#E2EBD6',
+bg: f === id ? '#E6F8D2' : '#FFFFFF',
+pick: () => this.setState({ feeling: id })
+});
+return {
+a: mk('scattered'),
+b: mk('steady'),
+c: mk('absorbed'),
+note: s.note ?? '',
+setNote: (e) => this.setState({ note: e.target.value })
+};
+}
+}
+</script>
+</body>
+</html>

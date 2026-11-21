@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reminders</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#8AE264}a:hover{color:#EEF5E8}
+button,input{font-family:inherit}
+button{cursor:pointer}
+@keyframes yf-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes yf-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes yf-fall{from{transform:translateY(0)}to{transform:translateY(940px)}}
+@keyframes yf-sway{from{transform:translateX(-18px) rotate(-50deg)}to{transform:translateX(18px) rotate(70deg)}}
+@keyframes yf-rota{0%,40%{opacity:1}48%,90%{opacity:0}98%,100%{opacity:1}}
+@keyframes yf-rotb{0%,40%{opacity:0}48%,90%{opacity:1}98%,100%{opacity:0}}
+@keyframes yf-spin{to{transform:rotate(360deg)}}
+@keyframes yf-levitate{0%,100%{transform:translateY(4px)}50%{transform:translateY(-9px)}}
+@keyframes yf-shadow{0%,100%{transform:scale(1);opacity:0.26}50%{transform:scale(0.74);opacity:0.14}}
+@keyframes yf-rise{from{transform:translateY(70px)}to{transform:translateY(0)}}
+@keyframes yf-draw{from{stroke-dashoffset:420}to{stroke-dashoffset:0}}
+@keyframes yf-pop{from{transform:scale(0.4);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes yf-open{from{transform:scale(0.15);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes yf-ring{from{transform:scale(0.8);opacity:0.8}to{transform:scale(1.35);opacity:0}}
+@keyframes yf-up{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes yf-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.7);opacity:0.5}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 56px 28px 34px; display: flex; flex-direction: column; background: #0E1A11; color: #EEF5E8; font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 16px; line-height: 1.55; overflow: hidden">
+<div style="display: flex; align-items: center; justify-content: space-between; height: 44px; flex: none"><a href="V2-Settings-Dark.dc.html" aria-label="Back" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin-left: -12px; color: #EEF5E8"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block"><path d="M15 5l-7 7 7 7"></path></svg></a></div>
+<div style="margin-top: 6px; font-size: 14px; font-weight: 600; color: #A9B8A5">Meditate</div>
+<h1 style="margin: 0px 0 0; font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 700; font-size: 34px; line-height: 1.1; color: #EEF5E8; text-wrap: balance">Reminders</h1>
+<div style="margin-top: 14px; padding: 14px 16px; border-radius: 24px; background: #1C3A21; display: flex; align-items: center; gap: 14px"><svg role="img" aria-label="Set for 7:00 am, reminders now come at about 7:40" viewBox="0 0 220 220" width="132" height="132" style="display: block; flex: none"><circle cx="110" cy="110" r="102" fill="#18271B"></circle><line x1="110.0" y1="14.0" x2="110.0" y2="8.0" stroke="#A9B8A5" stroke-width="2" stroke-linecap="round"></line><line x1="158.0" y1="26.9" x2="161.0" y2="21.7" stroke="#A9B8A5" stroke-width="2" stroke-linecap="round"></line><line x1="193.1" y1="62.0" x2="198.3" y2="59.0" stroke="#A9B8A5" stroke-width="2" stroke-linecap="round"></line><line x1="206.0" y1="110.0" x2="212.0" y2="110.0" stroke="#A9B8A5" stroke-width="2" stroke-linecap="round"></line><line x1="193.1" y1="158.0" x2="198.3" y2="161.0" stroke="#A9B8A5" stroke-width="2" stroke-linecap="round"></line><line x1="158.0" y1="193.1" x2="161.0" y2="198.3" stroke="#A9B8A5" stroke-width="2" stroke-linecap="round"></line><line x1="110.0" y1="206.0" x2="110.0" y2="212.0" stroke="#A9B8A5" stroke-width="2" stroke-linecap="round"></line><line x1="62.0" y1="193.1" x2="59.0" y2="198.3" stroke="#A9B8A5" stroke-width="2" stroke-linecap="round"></line><line x1="26.9" y1="158.0" x2="21.7" y2="161.0" stroke="#A9B8A5" stroke-width="2" stroke-linecap="round"></line><line x1="14.0" y1="110.0" x2="8.0" y2="110.0" stroke="#A9B8A5" stroke-width="2" stroke-linecap="round"></line><line x1="26.9" y1="62.0" x2="21.7" y2="59.0" stroke="#A9B8A5" stroke-width="2" stroke-linecap="round"></line><line x1="62.0" y1="26.9" x2="59.0" y2="21.7" stroke="#A9B8A5" stroke-width="2" stroke-linecap="round"></line><path d="M110.0 26.0 A84 84 0 0 1 37.3 152.0" fill="none" stroke="#FFD21F" stroke-width="14" stroke-linecap="round"></path><circle cx="110.0" cy="26.0" r="9" fill="#A9B8A5"></circle><circle cx="37.3" cy="152.0" r="11" fill="#3DBB45"></circle><text x="110" y="104" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="700" font-size="30" fill="#EEF5E8">7:40</text><text x="110" y="128" text-anchor="middle" font-family="Inter, sans-serif" font-weight="500" font-size="13" fill="#A9B8A5">reminders now</text></svg>
+<div style="display: flex; flex-direction: column; gap: 4px"><span style="font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 700; font-size: 19px; line-height: 1.2">They follow you.</span><span style="font-size: 13.5px; line-height: 1.45">You set 7:00 am and tend to begin nearer 7:40, so the reminders come then.</span></div></div>
+<div style="margin-top: 16px; border-radius: 22px; border: 1px solid #2C3D2E; background: #18271B; display: flex; flex-direction: column"><div data-row style="padding: 8px 0 8px 18px; min-height: 60px; box-sizing: border-box; display: flex; align-items: center; gap: 10px"><span style="display: flex; flex-direction: column; flex: 1; min-width: 0"><span id="r1" style="font-size: 15.5px; font-weight: 500; line-height: 1.35">Follow when I usually practise</span></span><button type="button" role="switch" aria-checked="true" aria-labelledby="r1" style="flex: none; width: 76px; height: 58px; border: none; background: transparent; display: flex; align-items: center; justify-content: center"><span style="width: 52px; height: 32px; border-radius: 16px; background: #6FD43A; display: flex; align-items: center; justify-content: flex-end; padding: 0 3px; box-sizing: border-box"><span style="width: 26px; height: 26px; border-radius: 13px; background: #FFFFFF"></span></span></button></div><div data-row style="border-top: 1px solid #2C3D2E; padding: 8px 0 8px 18px; min-height: 60px; box-sizing: border-box; display: flex; align-items: center; gap: 10px"><span style="display: flex; flex-direction: column; flex: 1; min-width: 0"><span id="r2" style="font-size: 15.5px; font-weight: 500; line-height: 1.35">Ring like a gentle alarm</span><span style="font-size: 13px; line-height: 1.4; color: #A9B8A5">Start and Later on the Lock Screen and your watch, even when the phone is silent.</span></span><button type="button" role="switch" aria-checked="false" aria-labelledby="r2" style="flex: none; width: 76px; height: 58px; border: none; background: transparent; display: flex; align-items: center; justify-content: center"><span style="width: 52px; height: 32px; border-radius: 16px; background: #B8C4B4; display: flex; align-items: center; justify-content: flex-start; padding: 0 3px; box-sizing: border-box"><span style="width: 26px; height: 26px; border-radius: 13px; background: #FFFFFF"></span></span></button></div><div data-row style="border-top: 1px solid #2C3D2E; padding: 8px 0 8px 18px; min-height: 60px; box-sizing: border-box; display: flex; align-items: center; gap: 10px"><span style="display: flex; flex-direction: column; flex: 1; min-width: 0"><span id="r3" style="font-size: 15.5px; font-weight: 500; line-height: 1.35">Keep every reminder</span><span style="font-size: 13px; line-height: 1.4; color: #A9B8A5">Otherwise, once the routine is yours, they grow lighter.</span></span><button type="button" role="switch" aria-checked="false" aria-labelledby="r3" style="flex: none; width: 76px; height: 58px; border: none; background: transparent; display: flex; align-items: center; justify-content: center"><span style="width: 52px; height: 32px; border-radius: 16px; background: #B8C4B4; display: flex; align-items: center; justify-content: flex-start; padding: 0 3px; box-sizing: border-box"><span style="width: 26px; height: 26px; border-radius: 13px; background: #FFFFFF"></span></span></button></div></div>
+<p style="margin: 12px 0 0; font-size: 14px; color: #A9B8A5; text-wrap: pretty">Your routine still says 7:00 am. Reminders never move more than 45 minutes from it.</p>
+<a href="V2-Settings-Dark.dc.html" style="margin-top: auto; flex: none; display: flex; align-items: center; justify-content: center; min-height: 56px; border-radius: 28px; background: #6FD43A; color: #14301F; font-size: 17px; font-weight: 600; text-decoration: none">Done</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview": {"width": 390, "height": 844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

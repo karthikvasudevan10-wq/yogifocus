@@ -108,11 +108,11 @@ An original character. Files in `assets/svg/yogi/`, drawn in a 200 × 200 box.
 
 ## App icon
 
-A calm yogi seated on a green lotus rosette, on Sunny yellow. Files in `assets/svg/app-icon/`, all 1024 × 1024 with square corners; the system applies the mask.
+Version 2. The yogi's head and shoulders, large, in front of a bold eight-petal lotus in two greens, on Sunny yellow. Eyes closed in a happy upward curve, like ^ ^ (calm but awake, never sleepy), gentle smile, hair bun with a saffron band, saffron robe over one shoulder, prayer beads. Chosen because it stays readable at the smallest sizes, down to the 32 pt watch icon. The options considered are in `design/app-icon-v2-options/` (the chosen one is `G-smile`). Files in `assets/svg/app-icon/`, all 1024 × 1024 with square corners; the system applies the mask.
 
 - `ios-icon-light.svg`: the default.
 - `ios-icon-dark.svg`: the same on a dark green ground `#10281A`.
 - `ios-icon-tinted.svg`: a greyscale version for the system tint.
-- `watch-icon.svg`: the light design scaled to 86% so it clears the circular mask.
+- `watch-icon.svg`: the same design; the lotus and face already sit clear of the circular mask.
 
-The dark and tinted versions were derived from the light one and have not been tuned by hand.
+The dark and tinted versions were derived from the light one and have not been tuned by hand. Version 1 (a small seated yogi on a rosette) was replaced because the yogi was too small to see on the watch. The shipped app (1.0) still uses version 1; swapping the app's AppIcon set is part of v2.

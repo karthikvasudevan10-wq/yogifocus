@@ -778,7 +778,7 @@ _fix = lambda m: m.replace('<rect width="1024" height="1024" fill', '<rect x="0"
 pages["App-Icon.dc.html"] = page("App icon",
   f'<div style="width: 960px; height: 330px; box-sizing: border-box; padding: 44px 48px; background: {WHITE}; font-family: {FB}; display: flex; justify-content: space-between; align-items: flex-start">\n'
   + icon_cell("iPhone", _fix(ICON.icon_svg(**ICON.LIGHT)), "22.4%") + "\n" + icon_cell("iPhone, dark", _fix(ICON.icon_svg(**ICON.DARK)), "22.4%") + "\n"
-  + icon_cell("iPhone, tinted", _fix(ICON.grey(ICON.icon_svg(**ICON.DARK))), "22.4%") + "\n" + icon_cell("Apple Watch", _fix(ICON.icon_svg(scale=0.86, **ICON.LIGHT)), "50%") + "\n</div>",
+  + icon_cell("iPhone, tinted", _fix(ICON.grey(ICON.icon_svg(**ICON.DARK))), "22.4%") + "\n" + icon_cell("Apple Watch", _fix(ICON.icon_svg(**ICON.LIGHT)), "50%") + "\n</div>",
   w=960, h=330)
 
 exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "duo.py"), encoding="utf-8").read())

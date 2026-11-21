@@ -18,6 +18,8 @@ Website: https://karthikvasudevan10-wq.github.io/yogifocus/
 | `Config/` | Entitlements and Info.plist files |
 | `docs/` | The website, served by GitHub Pages |
 | `handoff/` | The design handoff the app was built from: product rules, screens, motion, tokens and vector artwork |
+| `handoff/design/canvas/` | Source files of the full design canvas, including the iPhone Duo screens, dark appearance and app icon v2 options |
+| `marketing/` | App Store screenshots, the v2 app icon, the product page header and a promotional video brief |
 
 ## Building
 

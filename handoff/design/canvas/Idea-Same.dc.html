@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Same time, same place, same things</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#127A35}a:hover{color:#14301F}
+button,input{font-family:inherit}
+button{cursor:pointer}
+@keyframes yf-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes yf-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes yf-fall{from{transform:translateY(0)}to{transform:translateY(940px)}}
+@keyframes yf-sway{from{transform:translateX(-18px) rotate(-50deg)}to{transform:translateX(18px) rotate(70deg)}}
+@keyframes yf-rota{0%,40%{opacity:1}48%,90%{opacity:0}98%,100%{opacity:1}}
+@keyframes yf-rotb{0%,40%{opacity:0}48%,90%{opacity:1}98%,100%{opacity:0}}
+@keyframes yf-spin{to{transform:rotate(360deg)}}
+@keyframes yf-levitate{0%,100%{transform:translateY(4px)}50%{transform:translateY(-9px)}}
+@keyframes yf-shadow{0%,100%{transform:scale(1);opacity:0.26}50%{transform:scale(0.74);opacity:0.14}}
+@keyframes yf-rise{from{transform:translateY(70px)}to{transform:translateY(0)}}
+@keyframes yf-draw{from{stroke-dashoffset:420}to{stroke-dashoffset:0}}
+@keyframes yf-pop{from{transform:scale(0.4);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes yf-open{from{transform:scale(0.15);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes yf-ring{from{transform:scale(0.8);opacity:0.8}to{transform:scale(1.35);opacity:0}}
+@keyframes yf-up{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes yf-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.7);opacity:0.5}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+@keyframes yf-min{0%{transform:rotate(-360deg)}55%,88%{transform:rotate(0deg)}100%{transform:rotate(720deg)}}
+@keyframes yf-hour{0%{transform:rotate(-30deg)}55%,88%{transform:rotate(0deg)}100%{transform:rotate(330deg)}}
+@keyframes yf-drop{0%{transform:translateY(-52px);opacity:0}14%{opacity:1}52%{transform:translateY(0)}58%{transform:translateY(-8px)}64%,90%{transform:translateY(0);opacity:1}100%{transform:translateY(-52px);opacity:0}}
+@keyframes yf-unroll{0%{stroke-dashoffset:196}55%,88%{stroke-dashoffset:0}100%{stroke-dashoffset:196}}
+@keyframes yf-roll{0%{transform:translateX(-196px)}55%,88%{transform:translateX(0)}100%{transform:translateX(-196px)}}
+@keyframes yf-chime{0%,53%{transform:scale(0.9);opacity:0}58%{opacity:0.9}82%,100%{transform:scale(1.55);opacity:0}}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 56px 28px 34px; display: flex; flex-direction: column; background: #FFFEF8; color: #14301F; font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 16px; line-height: 1.55; overflow: hidden">
+<div style="display: flex; align-items: center; justify-content: space-between; height: 44px; flex: none"><a href="Idea-Today.dc.html" aria-label="Back" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin-left: -12px; color: #14301F"><svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block"><path d="M15 5l-7 7 7 7"></path></svg></a><span style="font-size: 14px; font-weight: 500; color: #4F6355">2 of 3</span></div>
+<svg role="img" aria-label="A clock settles at seven, a pin drops on the same spot and a mat unrolls, again and again" viewBox="0 0 334 170" width="334" height="170" style="display: block; margin-top: 8px; flex: none"><rect x="0" y="0" width="334" height="170" rx="26" fill="#E6F8D2"></rect><circle cx="104" cy="66" r="40" fill="none" stroke="#FF7A1A" stroke-width="4" style="transform-box: fill-box; transform-origin: 50% 50%; opacity: 0; animation: yf-chime 6.5s ease-in-out -4.3s infinite"></circle><circle cx="104" cy="66" r="40" fill="#FFD21F"></circle><path d="M0 -33L0 -29" transform="translate(104 66) rotate(0)" stroke="#14301F" stroke-width="2.5" stroke-linecap="round"></path><path d="M0 -33L0 -29" transform="translate(104 66) rotate(90)" stroke="#14301F" stroke-width="2.5" stroke-linecap="round"></path><path d="M0 -33L0 -29" transform="translate(104 66) rotate(180)" stroke="#14301F" stroke-width="2.5" stroke-linecap="round"></path><path d="M0 -33L0 -29" transform="translate(104 66) rotate(270)" stroke="#14301F" stroke-width="2.5" stroke-linecap="round"></path><g style="transform-box: fill-box; transform-origin: 50% 50%; animation: yf-hour 6.5s ease-in-out -4.3s infinite"><circle cx="104" cy="66" r="30" fill="none"></circle><path d="M104 66L94 83" stroke="#14301F" stroke-width="4.5" stroke-linecap="round" fill="none"></path></g><g style="transform-box: fill-box; transform-origin: 50% 50%; animation: yf-min 6.5s ease-in-out -4.3s infinite"><circle cx="104" cy="66" r="30" fill="none"></circle><path d="M104 66L104 39" stroke="#14301F" stroke-width="3.5" stroke-linecap="round" fill="none"></path></g><circle cx="104" cy="66" r="3.5" fill="#14301F"></circle><ellipse cx="226" cy="106" rx="18" ry="5" fill="none" stroke="#FF7A1A" stroke-width="3" style="transform-box: fill-box; transform-origin: 50% 50%; opacity: 0; animation: yf-chime 6.5s ease-in-out -4.3s infinite"></ellipse><g style="animation: yf-drop 6.5s ease-in-out -4.3s infinite"><path d="M226 104C206 78 202 68 202 58a24 24 0 1 1 48 0c0 10-4 20-24 46Z" fill="#FF7A1A"></path><circle cx="226" cy="58" r="9" fill="#FFFFFF"></circle></g><path d="M65 135L269 135" fill="none" stroke="#6FD43A" stroke-width="26" stroke-linecap="round" style="stroke-dasharray: 204 400; animation: yf-unroll 6.5s ease-in-out -4.3s infinite"></path><rect x="248" y="122" width="34" height="26" rx="13" fill="#127A35" style="animation: yf-roll 6.5s ease-in-out -4.3s infinite"></rect></svg>
+<h1 style="margin: 18px 0 0; font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 700; font-size: 36px; line-height: 1.1; color: #14301F; text-wrap: balance">Same time.<br>Same place.<br>Same things.</h1>
+<p style="margin: 12px 0 0; font-size: 17px; color: #14301F; text-wrap: pretty">A yogi practises at the exact hour, in the exact spot, with the same mat and the same clothes.</p>
+<p style="margin: 12px 0 0; font-size: 17px; color: #14301F; text-wrap: pretty">When nothing around the routine changes, there is nothing to decide and nothing to remember. The moment itself reminds you.</p>
+<a href="Idea-Mandala.dc.html" style="margin-top: auto; flex: none; display: flex; align-items: center; justify-content: center; min-height: 56px; border-radius: 28px; background: #6FD43A; color: #14301F; font-size: 17px; font-weight: 600; text-decoration: none">Next</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview": {"width": 390, "height": 844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>
