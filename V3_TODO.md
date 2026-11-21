@@ -53,6 +53,97 @@ Notes:
 - **Choice:** a switch in routine settings to turn quotes off for people who prefer the plain widget.
 - **Length:** short enough for the small widget, about 6 to 10 words; longer ones for medium and large.
 
+## 5. Start from Control Centre and the Lock Screen
+
+- [ ] An iOS control that starts the practice timer in one press, from Control Centre, the Lock Screen or the Action button.
+
+Notes:
+- **How:** a `ControlWidget` (iOS 18) running the Start App Intent from v2 item 14, which opens the timer already running.
+- **Label:** the routine's name and hour; with several routines, the next one not yet kept.
+- **Lock Screen:** placeable in the bottom corners in place of the torch or camera.
+
+## 6. StandBy
+
+- [ ] A calm bedside view while the phone charges on its side: tomorrow's routine overnight, then a sunrise "It's time".
+
+Notes:
+- **How:** the existing widgets with StandBy-specific layouts (`.widgetRenderingMode`, full-colour and the red night mode).
+- **Night:** dim, no counts, nothing that wakes anyone. The morning nudge still comes from the alarm or notification.
+
+## 7. A gentle voice for the first week
+
+- [ ] Short spoken guidance inside the timer during days 1 to 6, when starting is hardest.
+
+Notes:
+- **What:** a few calm sentences at the start ("Settle in. Nothing to get right.") and one near the end. Silence otherwise.
+- **How:** recorded audio clips, or on-device speech (`AVSpeechSynthesizer` with a premium voice). No streaming.
+- **Choice:** off after day 6 unless the person keeps it; a switch in routine settings.
+- **Routines:** wording per kind (meditate, stretch, read…), never instructions that assume ability.
+
+## 8. Ambient sound in the timer
+
+- [ ] Rain, birds or a soft drone, chosen once, playing only while the practice timer runs.
+
+Notes:
+- **How:** a few short, original, seamlessly looping files in the app; `AVAudioSession` set so other audio pauses politely.
+- **Ends:** fades out a few seconds before the chime.
+- **Choice:** per routine, with "Silence" as the default.
+
+## 9. Your mandala garden
+
+- [ ] A gallery of every completed mandala: the lotus, its routine, its dates, and the day-1 letter (v2 item 8).
+
+Notes:
+- **Where:** from Your routines, and the mandala complete screen.
+- **Builds on:** v2 item 16 (the yogi's year) and the mandala video (v2 item 6): each lotus can be shared again.
+- **Restarts:** a mandala begun again shows its days kept in the history but is never shown as unfinished or failed.
+
+## 10. Lotus colours you grow into
+
+- [ ] Each completed mandala unlocks a new lotus palette for the widget and the app.
+
+Notes:
+- **Only adds:** nothing is ever taken away; there is no way to lose a colour.
+- **Examples:** sunrise, monsoon, dusk, snow. The person chooses which to use; the default stays green.
+- **Design rule 4:** nothing before day 30 hints at what's coming.
+
+## 11. Practice circles
+
+- [ ] A small private group of family or friends doing the same routine, each seeing only "kept today".
+
+Notes:
+- **Widens v2 item 17** from one partner to a few (up to about 6).
+- **How:** iCloud sharing (`CKShare`) of one small record per person; no server of ours.
+- **Shown:** names and a kept-today tick. Never misses, streaks or rankings; never place, things or feelings.
+- **Leaving:** anyone can leave or remove the circle at any time.
+
+## 12. On-device insights with Apple Intelligence
+
+- [ ] Warmer, more personal "What we've noticed" lines (v2 item 15), written on the phone.
+
+Notes:
+- **How:** Apple's on-device Foundation Models framework, where available; the existing simple insights as the fallback.
+- **Guardrails:** generated lines pass the same tone rules as the rest of the app: kind, no blame, no counts before day 30, never mention misses. Prefer a short fixed template the model only fills.
+- **Privacy:** nothing leaves the device.
+
+## 13. iPad, Mac and Vision Pro
+
+- [ ] Yogi Focus on iPad, Mac and Vision Pro, with the same routines through iCloud.
+
+Notes:
+- **iPad and Mac:** the iPhone Duo layouts (wide and tall) are a strong starting point; Mac via Mac Catalyst or "Designed for iPad".
+- **Vision Pro:** a quiet space for the practice timer: the lotus and yogi in a calm surrounding.
+- **Sync:** already handled by CloudKit; widgets on iPad and Mac follow.
+
+## 14. The whole app in more languages
+
+- [ ] Translate the app itself, not only the App Store text (v2 items 27 and 28): Spanish, German, French, Japanese, Hindi and Chinese.
+
+Notes:
+- **How:** move all text to a String Catalog; plural rules for counts after day 30.
+- **Tone:** native speakers review every line; the no-blame wording is easy to lose in translation.
+- **Fonts:** check Baloo 2 and Inter cover Devanagari and Chinese, or fall back to system fonts for those scripts.
+
 ---
 
-Add new v3 requests below this line, numbered on from 5.
+Add new v3 requests below this line, numbered on from 15.
