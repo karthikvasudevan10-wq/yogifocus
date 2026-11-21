@@ -83,6 +83,26 @@ struct NotTodayIntent: AppIntent {
     }
 }
 
+/// "Two minutes", tapped on the large widget: the day counts as kept with the two-minute version.
+struct TwoMinutesIntent: AppIntent {
+    static var title: LocalizedStringResource = "Two minutes"
+    static var description = IntentDescription("Marks today's routine as kept with its two-minute version.")
+    static var isDiscoverable = false
+
+    @Parameter(title: "Routine") var routineID: String
+
+    init() {}
+    init(routineID: UUID) { self.routineID = routineID.uuidString }
+
+    func perform() async throws -> some IntentResult {
+        if let id = UUID(uuidString: routineID) {
+            YogiStore.shared.markKept(id, twoMinute: true)
+            Nudges.cancelToday(id)
+        }
+        return .result()
+    }
+}
+
 struct YogiWidgetView: View {
     @Environment(\.widgetFamily) private var family
     let entry: YogiEntry
@@ -101,6 +121,7 @@ struct YogiWidgetView: View {
                 switch answer {
                 case .done: Button(intent: DoneIntent(routineID: id)) { label }.buttonStyle(.plain)
                 case .notToday: Button(intent: NotTodayIntent(routineID: id)) { label }.buttonStyle(.plain)
+                case .twoMinutes: Button(intent: TwoMinutesIntent(routineID: id)) { label }.buttonStyle(.plain)
                 }
             } else {
                 label

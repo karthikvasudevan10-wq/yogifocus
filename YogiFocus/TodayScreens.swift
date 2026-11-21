@@ -24,7 +24,8 @@ struct TodayWords {
             showsButton = false
         case .kept:
             heading = "That's today, kept."
-            sub = "Forever was never the job. Today was, and you did it."
+            sub = r.keptTwoMinute(now) ? "Two minutes, and you came. Showing up is the habit."
+                                       : "Forever was never the job. Today was, and you did it."
             chip = "Kept today"
             chipKept = true
             under = "Only tomorrow is next: \(r.timeText), \(r.placeInSentence)."
@@ -184,9 +185,12 @@ struct TodayScreen: View {
             } bottom: {
                 if w.showsButton {
                     PrimaryButton("I've practised today") { practised(r) }
-                    QuietButton("Not today") {
-                        NotToday.answer(r.id, model: model)
-                        path.append(.notToday(r.id))
+                    HStack(spacing: 10) {
+                        if r.twoMinute != nil { QuietButton("Just two minutes") { twoMinutes(r) } }
+                        QuietButton("Not today") {
+                            NotToday.answer(r.id, model: model)
+                            path.append(.notToday(r.id))
+                        }
                     }
                 }
             }
@@ -199,6 +203,12 @@ struct TodayScreen: View {
 extension TodayScreen {
     /// "I've practised today". On a day the question is asked (about once a week, v2 item 25) it goes to
     /// "How did it feel?"; otherwise the day counts at once and the kept screen follows.
+    /// "Just two minutes": counts as kept straight away (v2 item 10).
+    func twoMinutes(_ r: RoutineSnapshot) {
+        TwoMinute.keep(r.id, model: model)
+        path.append(.kept(r.id))
+    }
+
     func practised(_ r: RoutineSnapshot) {
         let now = Date()
         if r.asksFeeling(on: now) {
@@ -416,7 +426,9 @@ struct KeptScreen: View {
         } content: {
             VStack(alignment: .leading, spacing: 0) {
                 H1("That's today, kept.", size: 38).padding(.top, 10)
-                Para("Forever was never the job. Today was, and you did it.").padding(.top, 6)
+                Para(r?.keptTwoMinute(Date()) == true
+                     ? "Two minutes, and you came. Showing up is the habit."
+                     : "Forever was never the job. Today was, and you did it.").padding(.top, 6)
                 HStack(spacing: 8) {
                     VStack(alignment: .leading, spacing: 0) {
                         Text("Today").font(YFFont.body(13, .semibold))
@@ -716,11 +728,12 @@ extension TodayScreen {
         if w.showsButton {
             HStack(spacing: 10) {
                 PrimaryButton("I've practised today") { practised(r) }
+                if r.twoMinute != nil { QuietButton("Just two minutes") { twoMinutes(r) }.frame(maxWidth: 200) }
                 QuietButton("Not today") {
                     NotToday.answer(r.id, model: model)
                     path.append(.notToday(r.id))
                 }
-                .frame(maxWidth: 200)
+                .frame(maxWidth: 160)
             }
         }
     }

@@ -10,6 +10,9 @@ public enum Nudges {
     public static let askCategory = "YF_ASK"
     public static let doneAction = "YF_DONE"
     public static let notTodayAction = "YF_NOT_TODAY"
+    public static let twoMinuteAction = "YF_TWO_MINUTES"
+    /// The hour's category when the routine has a two-minute version.
+    public static let hourTwoCategory = "YF_HOUR_TWO"
     public static let feelingPrefix = "YF_FEEL_"
     public static let routineKey = "routineID"
     public static let dayKey = "dayKey"
@@ -19,9 +22,11 @@ public enum Nudges {
     public static func registerCategories() {
         let done = UNNotificationAction(identifier: doneAction, title: "Done", options: [])
         let notToday = UNNotificationAction(identifier: notTodayAction, title: "Not today", options: [])
+        let two = UNNotificationAction(identifier: twoMinuteAction, title: "Just two minutes, done", options: [])
         let feelings = Feeling.allCases.map { UNNotificationAction(identifier: feelingPrefix + $0.rawValue, title: $0.title, options: []) }
         UNUserNotificationCenter.current().setNotificationCategories([
             UNNotificationCategory(identifier: hourCategory, actions: [done, notToday], intentIdentifiers: []),
+            UNNotificationCategory(identifier: hourTwoCategory, actions: [done, two, notToday], intentIdentifiers: []),
             UNNotificationCategory(identifier: askCategory, actions: feelings, intentIdentifiers: []),
         ])
     }
@@ -68,7 +73,7 @@ public enum Nudges {
                     }
                     add(center, id: id(r, key, "hour"), at: hour, now: now,
                         title: "It's time", body: "\(r.name). \(line)",
-                        sound: r.chimeEnabled, category: hourCategory, routine: r, key: key)
+                        sound: r.chimeEnabled, category: r.twoMinute == nil ? hourCategory : hourTwoCategory, routine: r, key: key)
 
                     let asks = r.feelingEveryDay == true || lastAsk.map { RoutineSnapshot.daysBetween($0, day) >= 7 } ?? true
                     if asks {
@@ -117,6 +122,8 @@ public enum Nudges {
         let day = (userInfo[dayKey] as? String).flatMap { DayKey.date($0) } ?? Date()
         if action == doneAction {
             YogiStore.shared.markKept(id, on: day)
+        } else if action == twoMinuteAction {
+            YogiStore.shared.markKept(id, on: day, twoMinute: true)
         } else if action == notTodayAction {
             YogiStore.shared.markNotToday(id, on: day)
         } else if action.hasPrefix(feelingPrefix), let f = Feeling(rawValue: String(action.dropFirst(feelingPrefix.count))) {

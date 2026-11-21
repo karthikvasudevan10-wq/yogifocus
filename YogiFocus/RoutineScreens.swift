@@ -120,6 +120,7 @@ struct RoutineEditScreen: View {
     @Environment(AppModel.self) private var model
     let routineID: UUID
     let onBack: () -> Void
+    var onTwoMinute: () -> Void = {}
 
     @State private var loaded = false
     @State private var hour = 7
@@ -165,6 +166,8 @@ struct RoutineEditScreen: View {
             AnchorCard(hour: $hour, minute: $minute, duration: $duration, place: $place, things: $things,
                        timed: model.routine(routineID)?.routineKind.isTimed ?? true)
                 .padding(.top, 16)
+            harderDay.padding(.top, 22)
+            SectionLabel("Reminders").padding(.top, 22)
             CardBox {
                 HStack(spacing: 12) {
                     Text("A soft chime at \(time)").font(YFFont.body(15.5, .medium))
@@ -174,7 +177,7 @@ struct RoutineEditScreen: View {
                 .padding(.leading, 18)
                 .frame(minHeight: 60)
             }
-            .padding(.top, 14)
+            .padding(.top, 8)
             SectionLabel("How did it feel?").padding(.top, 22)
             feelingCard.padding(.top, 8)
             SectionLabel("This routine").padding(.top, 22)
@@ -187,6 +190,16 @@ struct RoutineEditScreen: View {
             .padding(.top, 8)
         } bottom: {
             PrimaryButton("Save", enabled: !place.trimmingCharacters(in: .whitespaces).isEmpty) { save() }
+        }
+    }
+
+    /// "On a harder day": the two-minute version (v2 item 10). Not for routines with no length.
+    @ViewBuilder var harderDay: some View {
+        if let r = model.routine(routineID), r.routineKind.isTimed {
+            VStack(alignment: .leading, spacing: 0) {
+                SectionLabel("On a harder day")
+                CardBox { TwoMinuteRow(routine: r, action: onTwoMinute) }.padding(.top, 8)
+            }
         }
     }
 
@@ -394,6 +407,8 @@ extension RoutineEditScreen {
 
     private func switches(_ time: String) -> some View {
         VStack(alignment: .leading, spacing: 0) {
+            harderDay
+            SectionLabel("Reminders").padding(.top, 18)
             CardBox {
                 HStack(spacing: 12) {
                     Text("A soft chime at \(time)").font(YFFont.body(15.5, .medium))
@@ -403,6 +418,7 @@ extension RoutineEditScreen {
                 .padding(.leading, 18)
                 .frame(minHeight: 60)
             }
+            .padding(.top, 8)
             SectionLabel("How did it feel?").padding(.top, 18)
             feelingCard.padding(.top, 8)
             SectionLabel("This routine").padding(.top, 18)

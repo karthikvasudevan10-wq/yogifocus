@@ -90,7 +90,10 @@ struct WatchRootView: View {
                 WTitle(r.name, u: u)
                 WLine("Just start when you can.", u: u).padding(.top, 8 * u)
             } footer: {
-                answers(r, u: u)
+                VStack(spacing: 6 * u) {
+                    if r.twoMinute != nil { WButton("Just two minutes", u: u, quiet: true) { model.twoMinutes(r) } }
+                    answers(r, u: u)
+                }
             }
         case .notToday(let r):
             VStack(spacing: 0) {

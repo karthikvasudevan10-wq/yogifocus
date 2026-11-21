@@ -94,6 +94,27 @@ public enum RoutineKind: String, Codable, CaseIterable, Sendable, Identifiable {
     }
 }
 
+// MARK: - The two-minute version (v2 item 10)
+
+public extension RoutineKind {
+    /// Three small versions to choose from, as they read after "I". The first is the suggestion.
+    var twoMinuteSuggestions: [String] {
+        switch self {
+        case .meditate: return ["sit on the mat for two minutes", "take three slow breaths", "just unroll the mat"]
+        case .stretch: return ["stretch for two minutes", "do one long stretch", "just roll out the mat"]
+        case .exercise: return ["move for two minutes", "put on my gym clothes", "just walk in the door"]
+        case .walk: return ["walk for two minutes", "walk to the end of the street", "just put on my shoes"]
+        case .read: return ["read one page", "read for two minutes", "just open the book"]
+        case .journal: return ["write one line", "write for two minutes", "just open the journal"]
+        case .music: return ["play for two minutes", "play one piece through", "just take out the instrument"]
+        case .study: return ["study for two minutes", "read one page of notes", "just open my books"]
+        case .tidy: return ["tidy for two minutes", "put away one thing", "just clear one surface"]
+        case .plan: return ["write the one thing that matters today", "plan for two minutes", "just open my planner"]
+        case .eat, .own: return ["do it for two minutes", "do just the first step", "just get things ready"]
+        }
+    }
+}
+
 // MARK: - Stored models (SwiftData, mirrored to the person's private iCloud database)
 // CloudKit rules: every property has a default or is optional, and nothing is marked unique.
 
@@ -123,6 +144,9 @@ public final class Routine {
     public var notTodayKey: String = ""
     /// "How did it feel?" every day (true) or about once a week (false, the v2 default).
     public var feelingEveryDay: Bool = false
+    /// The smallest version, for a harder day (v2 item 10), as it reads after "I": "sit on the mat for two minutes".
+    /// Empty when none was chosen.
+    public var twoMinuteVersion: String = ""
     /// The mandala for which the Day 30 reveal has been shown.
     public var day30SeenMandala: Int = 0
     /// The mandala for which the finishing screen has been shown.
@@ -167,6 +191,8 @@ public final class Reflection {
     /// scattered | steady | absorbed. Nil when Done was tapped and the question has not been answered yet.
     public var feelingRaw: String?
     public var note: String?
+    /// Kept with the two-minute version (v2 item 10). It counts as kept like any other day.
+    public var wasTwoMinute: Bool = false
     public var recordedAt: Date = Date()
 
     public init(routineID: UUID, dayKey: String, mandalaNumber: Int, feeling: Feeling?, note: String?) {

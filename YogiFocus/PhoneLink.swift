@@ -48,7 +48,7 @@ final class PhoneLink: NSObject, WCSessionDelegate, @unchecked Sendable {
         }
         guard let raw = info["kept"] as? String, let id = UUID(uuidString: raw) else { return }
         let feeling = (info["feeling"] as? String).flatMap(Feeling.init(rawValue:))
-        YogiStore.shared.markKept(id, on: day, feeling: feeling)
+        YogiStore.shared.markKept(id, on: day, feeling: feeling, twoMinute: info["twoMinute"] as? Bool ?? false)
         Nudges.cancelToday(id, now: day)
     }
 

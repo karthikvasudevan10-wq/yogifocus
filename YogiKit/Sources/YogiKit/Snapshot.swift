@@ -39,6 +39,10 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
     public var notTodayKey: String?
     /// Ask how it felt every day. Optional so 1.0 snapshots still decode; nil means about once a week.
     public var feelingEveryDay: Bool?
+    /// The two-minute version, as it reads after "I". Optional so 1.0 snapshots still decode; nil or empty when none.
+    public var twoMinuteVersion: String?
+    /// Days in this mandala kept with the two-minute version.
+    public var twoMinuteDayKeys: [String]?
     public var createdAt: Date
     public var updatedAt: Date
     /// Days kept in the current mandala.
@@ -54,7 +58,7 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
                 startedOn: Date = Date(), mandalaNumber: Int = 1, day30SeenMandala: Int = 0, completeSeenMandala: Int = 0,
                 createdAt: Date = Date(), updatedAt: Date = Date(), keptDayKeys: [String] = [], recentKeptDayKeys: [String] = [],
                 feelings: [String: String] = [:], restartedMandalas: Int = 0, notTodayKey: String? = nil,
-                feelingEveryDay: Bool? = nil) {
+                feelingEveryDay: Bool? = nil, twoMinuteVersion: String? = nil, twoMinuteDayKeys: [String]? = nil) {
         self.id = id; self.name = name; self.kind = kind; self.hour = hour; self.minute = minute
         self.durationMinutes = durationMinutes; self.place = place; self.things = things
         self.chimeEnabled = chimeEnabled; self.isPaused = isPaused; self.pausedSince = pausedSince
@@ -65,6 +69,8 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
         self.restartedMandalas = restartedMandalas
         self.notTodayKey = notTodayKey
         self.feelingEveryDay = feelingEveryDay
+        self.twoMinuteVersion = twoMinuteVersion
+        self.twoMinuteDayKeys = twoMinuteDayKeys
     }
 
     public var routineKind: RoutineKind { RoutineKind(rawValue: kind) ?? .own }
@@ -167,6 +173,15 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
         if now < h.addingTimeInterval(Double(Mandala.hourWindowMinutes) * 60) { return .itsTime }
         return .passed
     }
+
+    /// The two-minute version, if one was chosen.
+    public var twoMinute: String? {
+        guard let t = twoMinuteVersion?.trimmingCharacters(in: .whitespaces), !t.isEmpty else { return nil }
+        return t
+    }
+
+    /// Today was kept with the two-minute version.
+    public func keptTwoMinute(_ date: Date) -> Bool { twoMinuteDayKeys?.contains(DayKey.key(date)) ?? false }
 
     /// v2 item 25: "How did it feel?" is asked about once a week, unless the person chose every day.
     /// It is asked on a kept day when no answer has been given in the six days before it.

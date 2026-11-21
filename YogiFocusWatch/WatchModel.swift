@@ -94,6 +94,16 @@ final class WatchModel {
         refresh()
     }
 
+    /// "Just two minutes": counts as kept with the two-minute version.
+    func twoMinutes(_ r: RoutineSnapshot) {
+        YogiStore.shared.markKept(r.id, on: now, twoMinute: true)
+        Nudges.cancelToday(r.id, now: now)
+        WatchLink.shared.sendKept(r.id, dayKey: DayKey.key(now), feeling: nil, twoMinute: true)
+        showingKept = r.id
+        WKInterfaceDevice.current().play(.success)
+        refresh()
+    }
+
     /// "Not today": closes the day here and on the phone. No haptic.
     func notToday(_ r: RoutineSnapshot) {
         YogiStore.shared.markNotToday(r.id, on: now)

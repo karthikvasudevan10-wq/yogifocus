@@ -108,7 +108,8 @@ public final class YogiStore: @unchecked Sendable {
                 keptDayKeys: Array(Set(current.map(\.dayKey))).sorted(),
                 recentKeptDayKeys: Array(Set(mine.map(\.dayKey).filter { $0 >= recentFloor })).sorted(),
                 feelings: feelings, restartedMandalas: r.restartedMandalas,
-                notTodayKey: r.notTodayKey.isEmpty ? nil : r.notTodayKey, feelingEveryDay: r.feelingEveryDay))
+                notTodayKey: r.notTodayKey.isEmpty ? nil : r.notTodayKey, feelingEveryDay: r.feelingEveryDay,
+                twoMinuteVersion: r.twoMinuteVersion, twoMinuteDayKeys: Array(Set(current.filter(\.wasTwoMinute).map(\.dayKey))).sorted()))
         }
         return Routines.sorted(out)
     }
@@ -242,7 +243,8 @@ public final class YogiStore: @unchecked Sendable {
     // MARK: Days kept
 
     /// Records that the routine was kept on a day. A day counts once; a later call only adds the feeling or note.
-    public func markKept(_ routineID: UUID, on date: Date = Date(), feeling: Feeling? = nil, note: String? = nil) {
+    public func markKept(_ routineID: UUID, on date: Date = Date(), feeling: Feeling? = nil, note: String? = nil,
+                         twoMinute: Bool = false) {
         let c = context()
         guard let r = routine(c, routineID) else { return }
         let key = DayKey.key(date)
@@ -250,10 +252,13 @@ public final class YogiStore: @unchecked Sendable {
         if let first = existing.first {
             if let feeling { first.feelingRaw = feeling.rawValue }
             if let note, !note.isEmpty { first.note = note }
+            if twoMinute { first.wasTwoMinute = true }
             existing.dropFirst().forEach { c.delete($0) }
         } else {
-            c.insert(Reflection(routineID: routineID, dayKey: key, mandalaNumber: r.mandalaNumber, feeling: feeling,
-                                note: (note?.isEmpty ?? true) ? nil : note))
+            let new = Reflection(routineID: routineID, dayKey: key, mandalaNumber: r.mandalaNumber, feeling: feeling,
+                                 note: (note?.isEmpty ?? true) ? nil : note)
+            new.wasTwoMinute = twoMinute
+            c.insert(new)
         }
         finish(c)
     }
@@ -282,6 +287,7 @@ public final class YogiStore: @unchecked Sendable {
             r.completeSeenMandala = s.completeSeenMandala; r.restartedMandalas = s.restartedMandalas ?? r.restartedMandalas
             if let k = s.notTodayKey, k > r.notTodayKey { r.notTodayKey = k }
             if let every = s.feelingEveryDay { r.feelingEveryDay = every }
+            if let two = s.twoMinuteVersion { r.twoMinuteVersion = two }
             r.createdAt = s.createdAt; r.updatedAt = s.updatedAt
             mergeKept(c, s)
         }
@@ -296,12 +302,16 @@ public final class YogiStore: @unchecked Sendable {
 
     private func mergeKept(_ c: ModelContext, _ s: RoutineSnapshot) {
         let have = reflections(c, routineID: s.id)
+        let short = Set(s.twoMinuteDayKeys ?? [])
         for key in s.keptDayKeys {
             let feeling = s.feelings[key].flatMap(Feeling.init(rawValue:))
             if let r = have.first(where: { $0.dayKey == key }) {
                 if r.feelingRaw == nil, let feeling { r.feelingRaw = feeling.rawValue }
+                if short.contains(key) { r.wasTwoMinute = true }
             } else {
-                c.insert(Reflection(routineID: s.id, dayKey: key, mandalaNumber: s.mandalaNumber, feeling: feeling, note: nil))
+                let new = Reflection(routineID: s.id, dayKey: key, mandalaNumber: s.mandalaNumber, feeling: feeling, note: nil)
+                new.wasTwoMinute = short.contains(key)
+                c.insert(new)
             }
         }
     }

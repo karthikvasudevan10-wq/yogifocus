@@ -18,6 +18,8 @@ public struct WidgetModel: Hashable, Sendable {
     public var showsDone = false
     /// "Not today" beside Done: medium and large only, where there is room for two answers.
     public var showsNotToday = false
+    /// "Two minutes" beside Done on the large widget, when the routine has a two-minute version.
+    public var showsTwoMinutes = false
     /// Small: one or two short lines.
     public var small1 = ""
     public var small2 = ""
@@ -150,6 +152,7 @@ public struct WidgetModel: Hashable, Sendable {
             m.dot = true
             m.showsDone = true
             m.showsNotToday = true
+            m.showsTwoMinutes = r.twoMinute != nil
             switch phase {
             case .boringMiddle:
                 m.small1 = "Don't decide. Just start."
@@ -170,6 +173,7 @@ public struct WidgetModel: Hashable, Sendable {
             m.label = "Still today"
             m.showsDone = true
             m.showsNotToday = true
+            m.showsTwoMinutes = r.twoMinute != nil
             m.small1 = "Just start when you can."
             m.mediumLine = "Just start when you can."
             m.largeLine = "Still today. Just start when you can."

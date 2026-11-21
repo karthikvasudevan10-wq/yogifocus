@@ -16,8 +16,9 @@ final class WatchLink: NSObject, WCSessionDelegate, @unchecked Sendable {
     }
 
     /// Sent at once when the phone is reachable; otherwise queued and delivered later.
-    func sendKept(_ routineID: UUID, dayKey: String, feeling: Feeling?) {
+    func sendKept(_ routineID: UUID, dayKey: String, feeling: Feeling?, twoMinute: Bool = false) {
         var info: [String: Any] = ["kept": routineID.uuidString, "dayKey": dayKey]
+        if twoMinute { info["twoMinute"] = true }
         if let feeling { info["feeling"] = feeling.rawValue }
         send(info)
     }

@@ -81,7 +81,7 @@ public struct YogiWidgetBackground: View {
 }
 
 /// The two answers a widget can give at the hour.
-public enum WidgetAnswer: Sendable { case done, notToday }
+public enum WidgetAnswer: Sendable { case done, notToday, twoMinutes }
 
 /// The widget's content. `answer` makes the Done and Not today buttons tappable, supplied by the widget so it can run App Intents.
 public struct YogiWidgetContent<Done: View>: View {
@@ -170,6 +170,16 @@ public struct YogiWidgetContent<Done: View>: View {
         ))
     }
 
+    private func twoMinutesButton(_ u: CGFloat, height: CGFloat, font: CGFloat) -> some View {
+        answer(.twoMinutes, AnyView(
+            Text("Two minutes")
+                .font(YFFont.fixedBody(font * u, .semibold))
+                .foregroundStyle(model.tone.text)
+                .frame(maxWidth: .infinity, minHeight: height * u)
+                .overlay(Capsule().strokeBorder(model.tone.text.opacity(0.45), lineWidth: 1.2 * u))
+        ))
+    }
+
     private func notTodayLink(_ u: CGFloat) -> some View {
         answer(.notToday, AnyView(
             Text("Not today")
@@ -237,7 +247,10 @@ public struct YogiWidgetContent<Done: View>: View {
                 .id(model.largeLine).transition(.opacity)
             Spacer(minLength: 0)
             if model.showsDone {
-                doneButton(u, height: 48, font: 15)
+                HStack(spacing: 10 * u) {
+                    doneButton(u, height: 48, font: 15)
+                    if model.showsTwoMinutes { twoMinutesButton(u, height: 48, font: 15) }
+                }
                 if model.showsNotToday { notTodayLink(u).padding(.top, 6 * u) }
             } else if !model.largeFoot.isEmpty {
                 Text(model.largeFoot).font(YFFont.fixedBody(14 * u, .medium)).foregroundStyle(model.tone.secondary)

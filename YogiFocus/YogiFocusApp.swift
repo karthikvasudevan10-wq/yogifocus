@@ -111,6 +111,7 @@ enum Route: Hashable {
     case reflect(UUID)
     case kept(UUID)
     case notToday(UUID)
+    case twoMinute(UUID, editing: Bool)
     case routines
     case edit(UUID)
     case mandala(UUID)
@@ -151,6 +152,11 @@ struct RootView: View {
         }
     }
 
+    /// The widget is set up once, with the first routine. Later routines go straight back to Today.
+    private func afterSetup(_ id: UUID) {
+        if model.routines.count > 1 { path.removeAll() } else { path.append(.widgetSetup(id)) }
+    }
+
     @ViewBuilder private func destination(_ route: Route) -> some View {
         let back = { if !path.isEmpty { path.removeLast() } }
         switch route {
@@ -163,8 +169,12 @@ struct RootView: View {
             AnchorScreen(kind: kind, onBack: back) { id in
                 YogiStore.shared.hasOnboarded = true
                 model.refresh()
-                // The widget is set up once, with the first routine. Later routines go straight back to Today.
-                if model.routines.count > 1 { path.removeAll() } else { path.append(.widgetSetup(id)) }
+                // v2 item 10: then the two-minute version for a harder day (not for Cut Sugar, which has no length).
+                if kind.isTimed { path.append(.twoMinute(id, editing: false)) } else { afterSetup(id) }
+            }
+        case .twoMinute(let id, let editing):
+            TwoMinuteScreen(routineID: id, editing: editing, onBack: back) {
+                if editing { back() } else { afterSetup(id) }
             }
         case .widgetSetup(let id): WidgetSetupScreen(routineID: id, onBack: back) { path.removeAll() }
         case .reflect(let id): ReflectScreen(routineID: id, onBack: back) { path.append(.kept(id)) }
@@ -172,7 +182,7 @@ struct RootView: View {
         case .notToday(let id): NotTodayScreen(routineID: id) { path.removeAll() }
         case .routines:
             RoutinesScreen(onBack: back, onEdit: { path.append(.edit($0)) }, onAdd: { path.append(.choose) })
-        case .edit(let id): RoutineEditScreen(routineID: id, onBack: back)
+        case .edit(let id): RoutineEditScreen(routineID: id, onBack: back, onTwoMinute: { path.append(.twoMinute(id, editing: true)) })
         case .mandala(let id): MandalaScreen(routineID: id, onBack: back) { path.append(.edit(id)) }
         }
     }
