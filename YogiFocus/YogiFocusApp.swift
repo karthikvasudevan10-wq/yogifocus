@@ -114,7 +114,7 @@ final class AppModel {
         // Practice time stays clear on the routines' schedules; a day already answered lifts the quiet (v2 item 3).
         QuietPractice.reschedule(fresh)
         for r in fresh where r.keptToday(now) || r.saidNotToday(now) {
-            if QuietPractice.isEnabled(r.id) { QuietPractice.clear(r.id) }
+            if QuietPractice.isAvailable, QuietPractice.isEnabled(r.id) { QuietPractice.clear(r.id) }
         }
         // A day answered some other way closes its Live Activity (v2 item 4).
         Task {

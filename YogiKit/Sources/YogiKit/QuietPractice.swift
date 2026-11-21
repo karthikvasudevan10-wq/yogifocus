@@ -10,6 +10,10 @@ import ManagedSettings
 // the shield extension (which draws "It's practice time.").
 
 public enum QuietPractice {
+    /// Off for v2: quieting apps needs Apple's Family Controls (Distribution) approval, requested separately.
+    /// It moves to v3 (V3_TODO.md). Turning this on also needs the entitlement and the two extensions embedded again.
+    public static let isAvailable = false
+
     static let selectionKey = "yf.quiet.selection."
     static let enabledKey = "yf.quiet.enabled."
     static let nowKey = "yf.quiet.now"
@@ -52,6 +56,7 @@ public enum QuietPractice {
 
     /// Matches the daily schedules to the routines: one repeating window per routine that has the quiet on.
     public static func reschedule(_ routines: [RoutineSnapshot]) {
+        guard isAvailable else { return }
         let center = DeviceActivityCenter()
         let wanted = routines.filter { isEnabled($0.id) && hasApps(selection($0.id)) && !$0.isPaused }
         for name in center.activities where !wanted.contains(where: { activityName($0.id) == name }) {

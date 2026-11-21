@@ -66,8 +66,6 @@
 			dstSubfolderSpec = 13;
 			files = (
 				AA0000000000000000000029 /* YogiFocusWidgets.appex in Embed Foundation Extensions */,
-				AA0000000000000000000062 /* YogiFocusShield.appex in Embed Foundation Extensions */,
-				AA0000000000000000000052 /* YogiFocusQuiet.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -309,8 +307,6 @@
 			dependencies = (
 				AA000000000000000000002E /* PBXTargetDependency */,
 				AA0000000000000000000033 /* PBXTargetDependency */,
-				AA0000000000000000000064 /* PBXTargetDependency */,
-				AA0000000000000000000054 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				AA0000000000000000000002 /* YogiFocus */,

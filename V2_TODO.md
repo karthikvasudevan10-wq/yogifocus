@@ -21,7 +21,7 @@ Agreed 18 November 2026. No server of our own: everything runs on the phone or t
 - 6 Share a completed mandala (share sheet first; Instagram Stories needs a free Facebook App ID)
 - 32 "Share Yogi Focus" inside the app
 - 29 Ask for a rating at a happy moment
-- 3 Do Not Disturb alternatives: block distracting apps with Screen Time, plus the one-tap shortcut (needs Apple's Family Controls entitlement; request it early)
+- 3 Do Not Disturb alternatives: the Shortcuts set-up guide ships in v2. Quieting apps with Screen Time moved to v3 (V3_TODO.md item 15) while Apple reviews the Family Controls (Distribution) request; its code stays in the project, switched off.
 
 **v2.1: next (permissions or more care)**
 - 5, 19, 20 Calendar: block the time, suggest a new time, hold nudges while busy
@@ -64,7 +64,7 @@ Notes:
 
 ## 3. Do Not Disturb during the practice
 
-- [x] From 5 minutes before the routine until its length is up, put the phone into Do Not Disturb automatically, after asking the person's permission.
+- [x] (v2: the Shortcuts guide. Quieting apps moved to v3 item 15.) From 5 minutes before the routine until its length is up, put the phone into Do Not Disturb automatically, after asking the person's permission.
 
 Notes:
 - **iOS limit:** iOS does not let an app turn on Do Not Disturb or a Focus by itself. There is no public API for it.

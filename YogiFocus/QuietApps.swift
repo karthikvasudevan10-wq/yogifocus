@@ -12,8 +12,10 @@ struct PracticeTimeRows: View {
     let action: () -> Void
     var body: some View {
         CardBox {
-            row(icon: "settings", title: "Quiet distracting apps", detail: quietDetail)
-            Divider1()
+            if QuietPractice.isAvailable {
+                row(icon: "settings", title: "Quiet distracting apps", detail: quietDetail)
+                Divider1()
+            }
             row(icon: "clock", title: "Do Not Disturb with one tap", detail: "Set up once in Shortcuts")
         }
     }
@@ -66,8 +68,8 @@ struct QuietAppsScreen: View {
                 H1("Keep practice time clear", size: 32)
                 Para("From five minutes before until your \(r.routineKind.isTimed ? Words.spokenLength(r.durationMinutes) : "practice") \(r.durationMinutes == 60 ? "is" : "are") up.",
                      size: 16, color: YF.muted).padding(.top, 6)
-                quietCard(r).padding(.top, 18)
-                dndCard(r).padding(.top, 12)
+                if QuietPractice.isAvailable { quietCard(r).padding(.top, 18) }
+                dndCard(r).padding(.top, QuietPractice.isAvailable ? 12 : 18)
                 Para("If you change the hour or length, update the Shortcuts automation too.", size: 13.5, color: YF.muted)
                     .padding(.top, 12).padding(.horizontal, 4)
             }
@@ -100,6 +102,7 @@ struct QuietAppsScreen: View {
     }
 
     private func save() {
+        guard QuietPractice.isAvailable else { onDone(); return }
         QuietPractice.setSelection(selection, for: routineID)
         QuietPractice.setEnabled(enabled && QuietPractice.hasApps(selection), for: routineID)
         QuietPractice.reschedule(model.routines)
