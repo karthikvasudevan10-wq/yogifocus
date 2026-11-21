@@ -79,7 +79,8 @@ public enum Nudges {
                     case .boringMiddle: line = "Don't decide. Just start."
                     case .becomingYours, .afterMandala: line = "You know the way."
                     }
-                    if fade <= 1 {
+                    // The gentle alarm, when chosen, rings at the hour instead (v2 item 22).
+                    if fade <= 1 && r.alarmEnabled != true {
                         add(center, id: id(r, key, "hour"), at: hour, now: now,
                             title: "It's time", body: "\(r.name). \(line)",
                             sound: r.chimeEnabled, category: r.twoMinute == nil ? hourCategory : hourTwoCategory, routine: r, key: key)

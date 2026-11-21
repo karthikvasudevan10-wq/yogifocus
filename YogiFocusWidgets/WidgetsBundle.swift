@@ -147,5 +147,8 @@ struct YogiFocusWidget: Widget {
 
 @main
 struct YogiWidgetsBundle: WidgetBundle {
-    var body: some Widget { YogiFocusWidget() }
+    var body: some Widget {
+        YogiFocusWidget()
+        if #available(iOS 26.0, *) { GentleAlarmActivity() }
+    }
 }

@@ -153,6 +153,8 @@ public final class Routine {
     public var keepEveryReminder: Bool = false
     /// The "You don't need my reminder any more" moment has been shown.
     public var fadeAnnounced: Bool = false
+    /// v2 item 22: ring a gentle alarm at the hour (AlarmKit) instead of the "It's time" notification. Off by default.
+    public var alarmEnabled: Bool = false
     /// The mandala for which the Day 30 reveal has been shown.
     public var day30SeenMandala: Int = 0
     /// The mandala for which the finishing screen has been shown.

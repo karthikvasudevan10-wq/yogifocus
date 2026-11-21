@@ -218,5 +218,12 @@ struct PracticeTimerScreen: View {
 /// Where a tapped notification asks the app to go, held until the screens are ready to read it.
 @MainActor enum PendingOpen {
     static var timer: UUID?
+    static var twoMinute = false
     static let notice = Notification.Name("yf.openTimer")
+
+    static func open(_ id: UUID, twoMinute: Bool) {
+        timer = id
+        self.twoMinute = twoMinute
+        NotificationCenter.default.post(name: notice, object: nil)
+    }
 }

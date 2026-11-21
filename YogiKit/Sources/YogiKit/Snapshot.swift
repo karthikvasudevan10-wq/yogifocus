@@ -49,6 +49,8 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
     public var fadeAnnounced: Bool?
     /// dayKey → minute of the day the practice began, for the current mandala.
     public var beganMinutes: [String: Int]?
+    /// v2 item 22. Optional so 1.0 snapshots still decode.
+    public var alarmEnabled: Bool?
     public var createdAt: Date
     public var updatedAt: Date
     /// Days kept in the current mandala.
@@ -66,7 +68,7 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
                 feelings: [String: String] = [:], restartedMandalas: Int = 0, notTodayKey: String? = nil,
                 feelingEveryDay: Bool? = nil, twoMinuteVersion: String? = nil, twoMinuteDayKeys: [String]? = nil,
                 followUsualTime: Bool? = nil, keepEveryReminder: Bool? = nil, fadeAnnounced: Bool? = nil,
-                beganMinutes: [String: Int]? = nil) {
+                beganMinutes: [String: Int]? = nil, alarmEnabled: Bool? = nil) {
         self.id = id; self.name = name; self.kind = kind; self.hour = hour; self.minute = minute
         self.durationMinutes = durationMinutes; self.place = place; self.things = things
         self.chimeEnabled = chimeEnabled; self.isPaused = isPaused; self.pausedSince = pausedSince
@@ -83,6 +85,7 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
         self.keepEveryReminder = keepEveryReminder
         self.fadeAnnounced = fadeAnnounced
         self.beganMinutes = beganMinutes
+        self.alarmEnabled = alarmEnabled
     }
 
     public var routineKind: RoutineKind { RoutineKind(rawValue: kind) ?? .own }

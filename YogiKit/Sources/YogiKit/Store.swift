@@ -111,7 +111,7 @@ public final class YogiStore: @unchecked Sendable {
                 notTodayKey: r.notTodayKey.isEmpty ? nil : r.notTodayKey, feelingEveryDay: r.feelingEveryDay,
                 twoMinuteVersion: r.twoMinuteVersion, twoMinuteDayKeys: Array(Set(current.filter(\.wasTwoMinute).map(\.dayKey))).sorted(),
                 followUsualTime: r.followUsualTime, keepEveryReminder: r.keepEveryReminder, fadeAnnounced: r.fadeAnnounced,
-                beganMinutes: Self.beganMinutes(current)))
+                beganMinutes: Self.beganMinutes(current), alarmEnabled: r.alarmEnabled))
         }
         return Routines.sorted(out)
     }
@@ -317,6 +317,7 @@ public final class YogiStore: @unchecked Sendable {
             if let v = s.followUsualTime { r.followUsualTime = v }
             if let v = s.keepEveryReminder { r.keepEveryReminder = v }
             if s.fadeAnnounced == true { r.fadeAnnounced = true }
+            if let v = s.alarmEnabled { r.alarmEnabled = v }
             r.createdAt = s.createdAt; r.updatedAt = s.updatedAt
             mergeKept(c, s)
         }

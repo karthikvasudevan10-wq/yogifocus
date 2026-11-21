@@ -58,10 +58,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
             || (response.actionIdentifier == UNNotificationDefaultActionIdentifier
                 && [Nudges.hourCategory, Nudges.hourTwoCategory].contains(content.categoryIdentifier))
         if opensTimer, let raw = content.userInfo[Nudges.routineKey] as? String, let id = UUID(uuidString: raw) {
-            await MainActor.run {
-                PendingOpen.timer = id
-                NotificationCenter.default.post(name: PendingOpen.notice, object: nil)
-            }
+            await MainActor.run { PendingOpen.open(id, twoMinute: false) }
             return
         }
         Nudges.handle(action: response.actionIdentifier, userInfo: content.userInfo)
@@ -106,6 +103,8 @@ final class AppModel {
         hasOnboarded = store.hasOnboarded
         cloudHasRoutines = store.cloudHasRoutines
         Nudges.reschedule(fresh)
+        YogiShortcuts.updateAppShortcutParameters()
+        if #available(iOS 26.0, *) { Task { await GentleAlarm.reschedule(fresh) } }
     }
 
     func routine(_ id: UUID) -> RoutineSnapshot? { routines.first { $0.id == id } }
@@ -170,10 +169,12 @@ struct RootView: View {
 
     /// A tapped "It's time" notification opens the timer, already running (v2 item 24).
     private func openPendingTimer() {
+        // Start on the gentle alarm leaves its routine in the app group.
+        if PendingOpen.timer == nil, let id = PendingTimer.take() { PendingOpen.timer = id; PendingOpen.twoMinute = false }
         guard let id = PendingOpen.timer, model.routine(id) != nil else { return }
         PendingOpen.timer = nil
         guard model.routine(id)?.routineKind.isTimed == true, model.routine(id)?.keptToday(Date()) == false else { return }
-        path = [.timer(id, twoMinute: false)]
+        path = [.timer(id, twoMinute: PendingOpen.twoMinute)]
     }
 
     /// A timer still running when the app was closed is picked up where it is.

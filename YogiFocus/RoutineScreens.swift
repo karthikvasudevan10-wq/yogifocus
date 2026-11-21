@@ -135,6 +135,8 @@ struct RoutineEditScreen: View {
     @State private var feelEveryDay = false
     @State private var followUsual = true
     @State private var keepEvery = false
+    @State private var alarm = false
+    @State private var alarmRefused = false
     @Environment(\.duoPose) private var pose
 
     var body: some View {
@@ -205,11 +207,27 @@ struct RoutineEditScreen: View {
             CardBox {
                 SettingSwitch(title: "A soft chime at \(time)", detail: nil, isOn: $chime)
                 Divider1()
+                if #available(iOS 26.0, *) {
+                    SettingSwitch(title: "Ring like a gentle alarm",
+                                  detail: "With Start and Later, even when the phone is silent.", isOn: $alarm)
+                        .onChange(of: alarm) { _, on in
+                            guard on else { return }
+                            Task {
+                                if !(await GentleAlarm.authorize()) { alarm = false; alarmRefused = true }
+                            }
+                        }
+                    Divider1()
+                }
                 SettingSwitch(title: "Follow when I usually practise",
                               detail: "Reminders move quietly towards the time you tend to begin.", isOn: $followUsual)
                 Divider1()
                 SettingSwitch(title: "Keep every reminder",
                               detail: "Otherwise they grow lighter as the routine becomes yours.", isOn: $keepEvery)
+            }
+            if alarmRefused {
+                Para("Alarms are turned off for Yogi Focus. You can allow them in Settings, under Yogi Focus.",
+                     size: 13.5, color: YF.muted)
+                    .padding(.top, 8).padding(.horizontal, 4)
             }
             if followUsual {
                 Para("Your routine still says \(time). Reminders never move more than \(RoutineSnapshot.followLimitMinutes) minutes from it.",
@@ -269,6 +287,7 @@ struct RoutineEditScreen: View {
         feelEveryDay = r.feelingEveryDay ?? false
         followUsual = r.followUsualTime ?? true
         keepEvery = r.keepEveryReminder ?? false
+        alarm = r.alarmEnabled ?? false
     }
 
     private func save(leaving: Bool = true) {
@@ -281,6 +300,7 @@ struct RoutineEditScreen: View {
             r.feelingEveryDay = feelEveryDay
             r.followUsualTime = followUsual
             r.keepEveryReminder = keepEvery
+            r.alarmEnabled = alarm
         }
         store.setPaused(routineID, paused)
         model.refresh()
