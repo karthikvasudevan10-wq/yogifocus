@@ -42,6 +42,8 @@ public enum Nudges {
             // iOS keeps at most 64 pending requests.
             let days = max(1, min(daysAhead, 60 / (active.count * 3)))
             for r in active {
+                // "How did it feel?" about once a week: assume each scheduled question is answered.
+                var lastAsk = r.lastFeelingDay(before: now)
                 for offset in 0..<days {
                     guard let day = cal.date(byAdding: .day, value: offset, to: cal.startOfDay(for: now)) else { continue }
                     if offset == 0 && (r.keptToday(now) || r.saidNotToday(now)) { continue }
@@ -68,9 +70,13 @@ public enum Nudges {
                         title: "It's time", body: "\(r.name). \(line)",
                         sound: r.chimeEnabled, category: hourCategory, routine: r, key: key)
 
-                    add(center, id: id(r, key, "ask"), at: hour.addingTimeInterval(Double(Mandala.feedbackAfterMinutes) * 60), now: now,
-                        title: "How did it feel?", body: "\(r.name). There is no wrong answer.",
-                        sound: true, category: askCategory, routine: r, key: key)
+                    let asks = r.feelingEveryDay == true || lastAsk.map { RoutineSnapshot.daysBetween($0, day) >= 7 } ?? true
+                    if asks {
+                        lastAsk = day
+                        add(center, id: id(r, key, "ask"), at: hour.addingTimeInterval(Double(Mandala.feedbackAfterMinutes) * 60), now: now,
+                            title: "How did it feel?", body: "\(r.name). There is no wrong answer.",
+                            sound: true, category: askCategory, routine: r, key: key)
+                    }
                 }
             }
         }

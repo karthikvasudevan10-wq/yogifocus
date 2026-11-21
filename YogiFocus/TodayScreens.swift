@@ -10,7 +10,6 @@ struct TodayWords {
     var chip = ""
     var chipKept = false
     var under: String?
-    var tryAnotherHour = false
     var showsButton = true
     /// After "Not today": a quiet way to count the day if it happened after all.
     var practisedAfterAll = false
@@ -46,10 +45,8 @@ struct TodayWords {
             if case .soon(let m) = r.moment(at: now) { chip = "In \(m) minute\(m == 1 ? "" : "s")" }
             else if r.moment(at: now) == .itsTime { chip = "It's time" }
             else { chip = "Today at \(r.timeText)" }
-            if r.isMorningAfterMiss(now) {
-                sub = "Yesterday is finished. Nothing to catch up, nothing to make good. Just start today."
-                tryAnotherHour = true
-            } else {
+            // v2 item 26: the morning after a missed day reads exactly like any other morning.
+            do {
                 switch phase {
                 case .cappedStart:
                     under = !r.routineKind.isTimed ? nil : r.durationMinutes == Mandala.minimumMinutes
@@ -154,21 +151,13 @@ struct TodayScreen: View {
                 if let under = w.under {
                     Para(under, size: 14, color: YF.muted).padding(.top, 14)
                 }
-                if w.tryAnotherHour {
-                    Button { path.append(.edit(r.id)) } label: {
-                        Text("Is \(r.timeText) hard to keep? Try another hour")
-                            .font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.textGreen)
-                            .frame(minHeight: 44, alignment: .leading)
-                    }
-                    .padding(.top, 6)
-                }
                 if w.practisedAfterAll {
-                    Button { path.append(.reflect(r.id)) } label: {
+                    Button { practised(r) } label: {
                         Text("Practised after all? Count it").font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.textGreen)
                             .frame(minHeight: 44, alignment: .leading)
                     }
                     .padding(.top, 2)
-                } else if w.chipKept, r.feelings[DayKey.key(now)] == nil {
+                } else if w.chipKept, r.feelings[DayKey.key(now)] == nil, r.asksFeeling(on: now) {
                     Button { path.append(.reflect(r.id)) } label: {
                         Text("How did it feel?").font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.textGreen)
                             .frame(minHeight: 44, alignment: .leading)
@@ -194,7 +183,7 @@ struct TodayScreen: View {
                 }
             } bottom: {
                 if w.showsButton {
-                    PrimaryButton("I've practised today") { path.append(.reflect(r.id)) }
+                    PrimaryButton("I've practised today") { practised(r) }
                     QuietButton("Not today") {
                         NotToday.answer(r.id, model: model)
                         path.append(.notToday(r.id))
@@ -203,6 +192,22 @@ struct TodayScreen: View {
             }
         } else {
             Color.clear
+        }
+    }
+}
+
+extension TodayScreen {
+    /// "I've practised today". On a day the question is asked (about once a week, v2 item 25) it goes to
+    /// "How did it feel?"; otherwise the day counts at once and the kept screen follows.
+    func practised(_ r: RoutineSnapshot) {
+        let now = Date()
+        if r.asksFeeling(on: now) {
+            path.append(.reflect(r.id))
+        } else {
+            YogiStore.shared.markKept(r.id, on: now)
+            Nudges.cancelToday(r.id, now: now)
+            model.refresh()
+            path.append(.kept(r.id))
         }
     }
 }
@@ -710,7 +715,7 @@ extension TodayScreen {
     @ViewBuilder private func duoAnswers(_ r: RoutineSnapshot, _ w: TodayWords) -> some View {
         if w.showsButton {
             HStack(spacing: 10) {
-                PrimaryButton("I've practised today") { path.append(.reflect(r.id)) }
+                PrimaryButton("I've practised today") { practised(r) }
                 QuietButton("Not today") {
                     NotToday.answer(r.id, model: model)
                     path.append(.notToday(r.id))
@@ -720,23 +725,15 @@ extension TodayScreen {
         }
     }
 
-    /// The quiet links that sometimes follow the card: another hour, how it felt, and the mandala from day 30.
+    /// The quiet links that sometimes follow the card: how it felt, and the mandala from day 30.
     @ViewBuilder private func todayExtras(_ r: RoutineSnapshot, _ w: TodayWords, now: Date) -> some View {
-        if w.tryAnotherHour {
-            Button { path.append(.edit(r.id)) } label: {
-                Text("Is \(r.timeText) hard to keep? Try another hour")
-                    .font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.textGreen)
-                    .frame(minHeight: 44, alignment: .leading)
-            }
-            .padding(.top, 6)
-        }
         if w.practisedAfterAll {
-            Button { path.append(.reflect(r.id)) } label: {
+            Button { practised(r) } label: {
                 Text("Practised after all? Count it").font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.textGreen)
                     .frame(minHeight: 44, alignment: .leading)
             }
             .padding(.top, 2)
-        } else if w.chipKept, r.feelings[DayKey.key(now)] == nil {
+        } else if w.chipKept, r.feelings[DayKey.key(now)] == nil, r.asksFeeling(on: now) {
             Button { path.append(.reflect(r.id)) } label: {
                 Text("How did it feel?").font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.textGreen)
                     .frame(minHeight: 44, alignment: .leading)

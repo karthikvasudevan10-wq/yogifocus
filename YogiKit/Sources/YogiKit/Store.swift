@@ -108,7 +108,7 @@ public final class YogiStore: @unchecked Sendable {
                 keptDayKeys: Array(Set(current.map(\.dayKey))).sorted(),
                 recentKeptDayKeys: Array(Set(mine.map(\.dayKey).filter { $0 >= recentFloor })).sorted(),
                 feelings: feelings, restartedMandalas: r.restartedMandalas,
-                notTodayKey: r.notTodayKey.isEmpty ? nil : r.notTodayKey))
+                notTodayKey: r.notTodayKey.isEmpty ? nil : r.notTodayKey, feelingEveryDay: r.feelingEveryDay))
         }
         return Routines.sorted(out)
     }
@@ -281,6 +281,7 @@ public final class YogiStore: @unchecked Sendable {
             r.mandalaNumber = s.mandalaNumber; r.day30SeenMandala = s.day30SeenMandala
             r.completeSeenMandala = s.completeSeenMandala; r.restartedMandalas = s.restartedMandalas ?? r.restartedMandalas
             if let k = s.notTodayKey, k > r.notTodayKey { r.notTodayKey = k }
+            if let every = s.feelingEveryDay { r.feelingEveryDay = every }
             r.createdAt = s.createdAt; r.updatedAt = s.updatedAt
             mergeKept(c, s)
         }

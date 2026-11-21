@@ -101,14 +101,8 @@ public struct WidgetModel: Hashable, Sendable {
 
         case .earlier:
             m.state = .earlier
-            let afterMiss = r.isMorningAfterMiss(now)
-            if afterMiss {
-                m.label = "A new day"
-                m.small1 = time
-                m.small2 = "Nothing to catch up. Just start."
-                m.mediumLine = "Nothing to catch up. Just start."
-                m.largeLine = "A new day. Nothing to catch up. Just start."
-            } else if boring {
+            // The morning after a missed day looks like any other morning (v2 item 26).
+            if boring {
                 m.label = "Today, \(time)"
                 m.small1 = "Dull is normal now."
                 m.small2 = "It passes. Just show up."
@@ -124,7 +118,7 @@ public struct WidgetModel: Hashable, Sendable {
             m.mediumFoot = [anchor, r.thingsList].filter { !$0.isEmpty }
             m.largeFoot = startsIn(r.hourDate(on: now), from: now)
             // Now and then, in this calm state only, the line is swapped for the reminder.
-            if !afterMiss, isReminderWindow(now) {
+            if isReminderWindow(now) {
                 m.small1 = WidgetModel.reminder
                 m.small2 = ""
                 m.mediumLine = WidgetModel.reminder

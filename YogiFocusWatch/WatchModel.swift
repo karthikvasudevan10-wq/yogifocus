@@ -78,7 +78,7 @@ final class WatchModel {
         case .notToday: return .notToday(r)
         case .kept:
             // Done was tapped (widget, phone or here) and the question has not been answered yet.
-            if r.dayNumber(on: now) >= 1, r.feelings[DayKey.key(now)] == nil, !askDeclined(r) { return .ask(r) }
+            if r.dayNumber(on: now) >= 1, r.feelings[DayKey.key(now)] == nil, r.asksFeeling(on: now), !askDeclined(r) { return .ask(r) }
             return .kept(r)
         }
     }
@@ -89,7 +89,8 @@ final class WatchModel {
     func done(_ r: RoutineSnapshot) {
         YogiStore.shared.markKept(r.id, on: now)
         WatchLink.shared.sendKept(r.id, dayKey: DayKey.key(now), feeling: nil)
-        asking = r.id
+        // The question comes about once a week (v2 item 25); other days go straight to kept.
+        if r.asksFeeling(on: now) { asking = r.id } else { showingKept = r.id }
         refresh()
     }
 

@@ -84,3 +84,34 @@ struct RestartSheet: View {
         .presentationBackground(YF.ground)
     }
 }
+
+/// A two-way choice on a pale green track, the chosen side raised on paper (`V2-Settings`).
+struct Segmented: View {
+    let options: [String]
+    @Binding var selection: Int
+    var body: some View {
+        HStack(spacing: 4) {
+            ForEach(options.indices, id: \.self) { i in
+                let on = i == selection
+                Button { withAnimation(.easeOut(duration: 0.2)) { selection = i } } label: {
+                    Text(options[i])
+                        .font(YFFont.body(15, on ? .semibold : .medium))
+                        .foregroundStyle(on ? YF.ink : YF.textGreen)
+                        .lineLimit(1).minimumScaleFactor(0.8)
+                        .frame(maxWidth: .infinity, minHeight: 40)
+                        .background {
+                            if on {
+                                Capsule().fill(YF.paper)
+                                    .shadow(color: .black.opacity(0.08), radius: 3, y: 1)
+                            }
+                        }
+                        .contentShape(Capsule())
+                }
+                .buttonStyle(.plain)
+                .accessibilityAddTraits(on ? .isSelected : [])
+            }
+        }
+        .padding(4)
+        .background(YF.softGreen, in: Capsule())
+    }
+}

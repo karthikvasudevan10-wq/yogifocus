@@ -37,6 +37,8 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
     public var restartedMandalas: Int?
     /// The day key of the last "Not today" answer. Optional so 1.0 snapshots still decode.
     public var notTodayKey: String?
+    /// Ask how it felt every day. Optional so 1.0 snapshots still decode; nil means about once a week.
+    public var feelingEveryDay: Bool?
     public var createdAt: Date
     public var updatedAt: Date
     /// Days kept in the current mandala.
@@ -51,7 +53,8 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
                 chimeEnabled: Bool = true, isPaused: Bool = false, pausedSince: Date? = nil, skippedDayKeys: [String] = [],
                 startedOn: Date = Date(), mandalaNumber: Int = 1, day30SeenMandala: Int = 0, completeSeenMandala: Int = 0,
                 createdAt: Date = Date(), updatedAt: Date = Date(), keptDayKeys: [String] = [], recentKeptDayKeys: [String] = [],
-                feelings: [String: String] = [:], restartedMandalas: Int = 0, notTodayKey: String? = nil) {
+                feelings: [String: String] = [:], restartedMandalas: Int = 0, notTodayKey: String? = nil,
+                feelingEveryDay: Bool? = nil) {
         self.id = id; self.name = name; self.kind = kind; self.hour = hour; self.minute = minute
         self.durationMinutes = durationMinutes; self.place = place; self.things = things
         self.chimeEnabled = chimeEnabled; self.isPaused = isPaused; self.pausedSince = pausedSince
@@ -61,6 +64,7 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
         self.keptDayKeys = keptDayKeys; self.recentKeptDayKeys = recentKeptDayKeys; self.feelings = feelings
         self.restartedMandalas = restartedMandalas
         self.notTodayKey = notTodayKey
+        self.feelingEveryDay = feelingEveryDay
     }
 
     public var routineKind: RoutineKind { RoutineKind(rawValue: kind) ?? .own }
@@ -164,17 +168,28 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
         return .passed
     }
 
+    /// v2 item 25: "How did it feel?" is asked about once a week, unless the person chose every day.
+    /// It is asked on a kept day when no answer has been given in the six days before it.
+    public func asksFeeling(on date: Date) -> Bool {
+        if feelingEveryDay == true { return true }
+        guard let last = lastFeelingDay(before: date) else { return true }
+        return Self.daysBetween(last, date) >= 7
+    }
+
+    /// The latest day in this mandala with an answer, before the given day.
+    public func lastFeelingDay(before date: Date) -> Date? {
+        let key = DayKey.key(date)
+        return feelings.keys.filter { $0 < key }.max().flatMap { DayKey.date($0) }
+    }
+
+    public static func daysBetween(_ a: Date, _ b: Date) -> Int {
+        let cal = Calendar.current
+        return cal.dateComponents([.day], from: cal.startOfDay(for: a), to: cal.startOfDay(for: b)).day ?? 0
+    }
+
     /// "Not today" was the answer for this day, and it hasn't been kept since. A kept day always wins.
     public func saidNotToday(_ now: Date) -> Bool {
         notTodayKey == DayKey.key(now) && !keptToday(now)
-    }
-
-    /// The morning after a missed day. Never mentioned as a miss: the screen only says "A new day."
-    public func isMorningAfterMiss(_ now: Date) -> Bool {
-        let n = dayNumber(on: now)
-        guard n >= 2, n <= Mandala.days, moment(at: now) == .earlier else { return false }
-        let keys = dayKeys(count: n)
-        return !keptDayKeys.contains(keys[n - 2])
     }
 
     // MARK: Words

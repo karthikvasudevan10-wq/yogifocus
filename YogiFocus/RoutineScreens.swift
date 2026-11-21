@@ -131,6 +131,7 @@ struct RoutineEditScreen: View {
     @State private var paused = false
     @State private var confirmRemove = false
     @State private var askRestart = false
+    @State private var feelEveryDay = false
     @Environment(\.duoPose) private var pose
 
     var body: some View {
@@ -174,6 +175,8 @@ struct RoutineEditScreen: View {
                 .frame(minHeight: 60)
             }
             .padding(.top, 14)
+            SectionLabel("How did it feel?").padding(.top, 22)
+            feelingCard.padding(.top, 8)
             SectionLabel("This routine").padding(.top, 22)
             thisRoutine.padding(.top, 8)
             Button { confirmRemove = true } label: {
@@ -184,6 +187,22 @@ struct RoutineEditScreen: View {
             .padding(.top, 8)
         } bottom: {
             PrimaryButton("Save", enabled: !place.trimmingCharacters(in: .whitespaces).isEmpty) { save() }
+        }
+    }
+
+    /// How often "How did it feel?" is asked (v2 item 25). About once a week by default.
+    var feelingCard: some View {
+        CardBox {
+            VStack(alignment: .leading, spacing: 0) {
+                Text("How often to ask").font(YFFont.body(15.5, .medium))
+                Text("Your answers still build up for later. There is no wrong answer.")
+                    .font(YFFont.body(13)).foregroundStyle(YF.muted)
+                    .fixedSize(horizontal: false, vertical: true)
+                Segmented(options: ["About once a week", "Every day"], selection: Binding(
+                    get: { feelEveryDay ? 1 : 0 }, set: { feelEveryDay = $0 == 1 }))
+                    .padding(.top, 12)
+            }
+            .padding(18)
         }
     }
 
@@ -218,6 +237,7 @@ struct RoutineEditScreen: View {
         loaded = true
         hour = r.hour; minute = r.minute; duration = r.durationMinutes
         place = r.place; things = r.things; chime = r.chimeEnabled; paused = r.isPaused
+        feelEveryDay = r.feelingEveryDay ?? false
     }
 
     private func save(leaving: Bool = true) {
@@ -227,6 +247,7 @@ struct RoutineEditScreen: View {
             r.place = place.trimmingCharacters(in: .whitespaces)
             r.things = things
             r.chimeEnabled = chime
+            r.feelingEveryDay = feelEveryDay
         }
         store.setPaused(routineID, paused)
         model.refresh()
@@ -382,6 +403,8 @@ extension RoutineEditScreen {
                 .padding(.leading, 18)
                 .frame(minHeight: 60)
             }
+            SectionLabel("How did it feel?").padding(.top, 18)
+            feelingCard.padding(.top, 8)
             SectionLabel("This routine").padding(.top, 18)
             thisRoutine.padding(.top, 8)
         }

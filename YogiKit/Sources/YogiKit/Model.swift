@@ -121,6 +121,8 @@ public final class Routine {
     public var restartedMandalas: Int = 0
     /// The day the person answered "Not today" (a day key), so that day closes early. Empty when never.
     public var notTodayKey: String = ""
+    /// "How did it feel?" every day (true) or about once a week (false, the v2 default).
+    public var feelingEveryDay: Bool = false
     /// The mandala for which the Day 30 reveal has been shown.
     public var day30SeenMandala: Int = 0
     /// The mandala for which the finishing screen has been shown.
