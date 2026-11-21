@@ -923,6 +923,156 @@
       "h": 844,
       "title": "Share · the video, ready · dark",
       "radius": 44
+    },
+    "Duo-V2-Outer-Today.dc.html": {
+      "x": 0,
+      "y": 30074,
+      "w": 466,
+      "h": 678,
+      "title": "iPhone Duo · Today, v2",
+      "radius": 30
+    },
+    "Duo-V2-Outer-Timer.dc.html": {
+      "x": 546,
+      "y": 30074,
+      "w": 466,
+      "h": 678,
+      "title": "iPhone Duo · The practice timer",
+      "radius": 30
+    },
+    "Duo-V2-Outer-Not-Today.dc.html": {
+      "x": 1092,
+      "y": 30074,
+      "w": 466,
+      "h": 678,
+      "title": "iPhone Duo · Not today",
+      "radius": 30
+    },
+    "Duo-V2-Wide-Today.dc.html": {
+      "x": 1638,
+      "y": 30074,
+      "w": 951,
+      "h": 669,
+      "title": "iPhone Duo · Today, v2",
+      "radius": 30,
+      "guides": [
+        {
+          "kind": "columns",
+          "count": 2,
+          "gutter": 40,
+          "margin": 0,
+          "color": "rgba(255,90,60,0.14)"
+        }
+      ]
+    },
+    "Duo-V2-Wide-Timer.dc.html": {
+      "x": 2669,
+      "y": 30074,
+      "w": 951,
+      "h": 669,
+      "title": "iPhone Duo · The practice timer",
+      "radius": 30,
+      "guides": [
+        {
+          "kind": "columns",
+          "count": 2,
+          "gutter": 40,
+          "margin": 0,
+          "color": "rgba(255,90,60,0.14)"
+        }
+      ]
+    },
+    "Duo-V2-Wide-Share.dc.html": {
+      "x": 3700,
+      "y": 30074,
+      "w": 951,
+      "h": 669,
+      "title": "iPhone Duo · Share your mandala",
+      "radius": 30,
+      "guides": [
+        {
+          "kind": "columns",
+          "count": 2,
+          "gutter": 40,
+          "margin": 0,
+          "color": "rgba(255,90,60,0.14)"
+        }
+      ]
+    },
+    "Duo-V2-Outer-Today-Dark.dc.html": {
+      "x": 0,
+      "y": 31172,
+      "w": 466,
+      "h": 678,
+      "title": "iPhone Duo · Today, v2 · dark",
+      "radius": 30
+    },
+    "Duo-V2-Outer-Timer-Dark.dc.html": {
+      "x": 546,
+      "y": 31172,
+      "w": 466,
+      "h": 678,
+      "title": "iPhone Duo · The practice timer · dark",
+      "radius": 30
+    },
+    "Duo-V2-Outer-Not-Today-Dark.dc.html": {
+      "x": 1092,
+      "y": 31172,
+      "w": 466,
+      "h": 678,
+      "title": "iPhone Duo · Not today · dark",
+      "radius": 30
+    },
+    "Duo-V2-Wide-Today-Dark.dc.html": {
+      "x": 1638,
+      "y": 31172,
+      "w": 951,
+      "h": 669,
+      "title": "iPhone Duo · Today, v2 · dark",
+      "radius": 30,
+      "guides": [
+        {
+          "kind": "columns",
+          "count": 2,
+          "gutter": 40,
+          "margin": 0,
+          "color": "rgba(255,90,60,0.14)"
+        }
+      ]
+    },
+    "Duo-V2-Wide-Timer-Dark.dc.html": {
+      "x": 2669,
+      "y": 31172,
+      "w": 951,
+      "h": 669,
+      "title": "iPhone Duo · The practice timer · dark",
+      "radius": 30,
+      "guides": [
+        {
+          "kind": "columns",
+          "count": 2,
+          "gutter": 40,
+          "margin": 0,
+          "color": "rgba(255,90,60,0.14)"
+        }
+      ]
+    },
+    "Duo-V2-Wide-Share-Dark.dc.html": {
+      "x": 3700,
+      "y": 31172,
+      "w": 951,
+      "h": 669,
+      "title": "iPhone Duo · Share your mandala · dark",
+      "radius": 30,
+      "guides": [
+        {
+          "kind": "columns",
+          "count": 2,
+          "gutter": 40,
+          "margin": 0,
+          "color": "rgba(255,90,60,0.14)"
+        }
+      ]
     }
   },
   "order": [
@@ -1026,7 +1176,19 @@
     "V2-Quiet-Apps-Dark.dc.html",
     "V2-Shield-Dark.dc.html",
     "V2-Share-Making-Dark.dc.html",
-    "V2-Share-Video-Dark.dc.html"
+    "V2-Share-Video-Dark.dc.html",
+    "Duo-V2-Outer-Today.dc.html",
+    "Duo-V2-Outer-Timer.dc.html",
+    "Duo-V2-Outer-Not-Today.dc.html",
+    "Duo-V2-Wide-Today.dc.html",
+    "Duo-V2-Wide-Timer.dc.html",
+    "Duo-V2-Wide-Share.dc.html",
+    "Duo-V2-Outer-Today-Dark.dc.html",
+    "Duo-V2-Outer-Timer-Dark.dc.html",
+    "Duo-V2-Outer-Not-Today-Dark.dc.html",
+    "Duo-V2-Wide-Today-Dark.dc.html",
+    "Duo-V2-Wide-Timer-Dark.dc.html",
+    "Duo-V2-Wide-Share-Dark.dc.html"
   ],
   "notes": {
     "row1": {
@@ -1189,6 +1351,22 @@
       "text": "22 · v2.0 · Dark appearance, continued",
       "kind": "title1",
       "maxW": 4620,
+      "w": 240
+    },
+    "row23": {
+      "x": 0,
+      "y": 29774,
+      "text": "23 · v2.0 · iPhone Duo: outer display and open wide",
+      "kind": "title1",
+      "maxW": 4651,
+      "w": 240
+    },
+    "row24": {
+      "x": 0,
+      "y": 30872,
+      "text": "24 · v2.0 · iPhone Duo, dark appearance",
+      "kind": "title1",
+      "maxW": 4651,
       "w": 240
     }
   },

@@ -19,7 +19,25 @@ Use these with the **2.0 submission only**. Apple requires screenshots to show t
 
 Apple Watch (416 × 496): It's time with Not today, the timer, the Not today reply, the gentle alarm.
 
-iPhone Duo screenshots: keep the 1.0 sets for now. The v2 screens have not been drawn for the Duo yet.
+iPhone Duo outer display (1398 × 2034), 5 screenshots:
+
+| File | Heading |
+|---|---|
+| DuoOuter-01-two-minutes-or-not-today | Ten minutes, two, or not today |
+| DuoOuter-02-timer | Tap the nudge. Begin. |
+| DuoOuter-03-not-today | Not today is a kind answer |
+| DuoOuter-04-kept | That's today, kept. |
+| DuoOuter-05-mandala | Miss a day? Nothing resets. |
+
+iPhone Duo inner display, open wide (2853 × 2007), 5 screenshots:
+
+| File | Heading |
+|---|---|
+| DuoInner-01-welcome | One small routine. One day at a time. |
+| DuoInner-02-two-minutes-or-not-today | Ten minutes, two, or not today |
+| DuoInner-03-timer | Tap the nudge. Begin. |
+| DuoInner-04-mandala | Miss a day? Nothing resets. |
+| DuoInner-05-share | 48 days. Share your mandala. |
 
 ## Real screenshots from the 2.0 build
 

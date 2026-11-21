@@ -7,7 +7,9 @@ function prep(f) {
   const tmp = OUT + '_' + f + '.html'; fs.writeFileSync(tmp, `<!doctype html><meta charset="utf-8"><style>${FF}${style}body{margin:0}</style><body>${body}</body>`); return 'file://' + tmp;
 }
 const jobs = [['V2-Today',390,844,3,800,'iphone-today'],['V2-Timer',390,844,3,800,'iphone-timer'],['V2-Not-Today',390,844,3,1500,'iphone-not-today'],
-  ['V2-Nudges-Fade',390,844,3,1600,'iphone-fade'],['V2-Share-Video',390,844,3,800,'iphone-share'],['V2-Settings',390,1660,3,500,'iphone-settings']];
+  ['V2-Nudges-Fade',390,844,3,1600,'iphone-fade'],['V2-Share-Video',390,844,3,800,'iphone-share'],['V2-Settings',390,1660,3,500,'iphone-settings'],
+  ['Duo-V2-Outer-Today',466,678,3,800,'duo-outer-today-v2'],['Duo-V2-Outer-Timer',466,678,3,800,'duo-outer-timer'],['Duo-V2-Outer-Not-Today',466,678,3,1500,'duo-outer-not-today'],
+  ['Duo-V2-Wide-Today',951,669,3,800,'duo-wide-today-v2'],['Duo-V2-Wide-Timer',951,669,3,800,'duo-wide-timer'],['Duo-V2-Wide-Share',951,669,3,800,'duo-wide-share']];
 const crops = [['V2-Widgets',1000,860,3,1200,'div[style*="position: relative; overflow: hidden; height: 170px; border-radius: 24px"]',[0],'widget-medium'],
   ['V2-Widgets',1000,860,3,1200,'div[style*="width: 364px; height: 382px"]',[0],'widget-large'],
   ['V2-Live-Activity',1300,780,3,1200,'div[style*="width: 364px; box-sizing: border-box; padding: 16px 18px; border-radius: 26px"]',[0],'live-lock'],

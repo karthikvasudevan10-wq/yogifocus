@@ -499,8 +499,7 @@ add("V2-Share-Image", "The shared mandala image", board(1000, 1080, f"""{btitle(
 
 
 # Share: the app makes the video on the phone when they tap Share my mandala, then offers it
-def thumb(dim=False):
-    k = 0.44
+def thumb(dim=False, k=0.44):
     t = (f'<div style="position: relative; width: {round(540*k)}px; height: {round(960*k)}px; border-radius: 22px; overflow: hidden; flex: none; align-self: center; box-shadow: 0 10px 30px rgba(10,40,20,0.22)">'
          f'<div style="width: 540px; height: 960px; transform: scale({k}); transform-origin: 0 0{"; filter: saturate(0.5) brightness(0.8)" if dim else ""}">{img}</div>')
     if dim:
@@ -583,6 +582,89 @@ add("V2-Shield", "It's practice time", f'''<div style="position: relative; width
 <button type="button" style="margin-top: auto; width: 100%; min-height: 56px; border-radius: 28px; border: none; background: {HBTN["bg"]}; color: {HBTN["color"]}; font-size: 17px; font-weight: 600">Go to Yogi Focus</button>
 <button type="button" style="margin-top: 8px; min-height: 44px; border: none; background: transparent; color: {INK}; font-size: 15px; font-weight: 500">Close</button></div>''')
 
+
+# =====================================================================
+# 6 iPhone Duo, v2: outer display (466 x 678) and the open inner display, wide (951 x 669)
+# =====================================================================
+def ring_svg(size, two=False):
+    return (f'<svg role="img" aria-label="7:42 left of 10 minutes" viewBox="0 0 300 300" width="{size}" height="{size}" style="display: block; flex: none">'
+            f'<circle cx="150" cy="150" r="132" fill="{SOFT}" style="animation: yf-glow 6s ease-in-out infinite"></circle>'
+            f'<circle cx="150" cy="150" r="132" fill="none" stroke="{LINE}" stroke-width="12"></circle>'
+            f'<circle cx="150" cy="150" r="132" fill="none" stroke="{TEALM}" stroke-width="12" stroke-linecap="round" stroke-dasharray="829" transform="rotate(-90 150 150)" '
+            f'style="animation: yf-timer 40s linear -9.2s infinite"></circle>'
+            f'<g transform="translate(62 46) scale(0.88)">{yogi_body(mat=False)}</g></svg>')
+def pair(a_label, a_href, b_label, b_href, h=50):
+    return (f'<div style="display: flex; gap: 8px"><a href="{a_href}" style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: {h}px; border-radius: {h//2}px; border: 1.5px solid {DEEP}; color: {DEEP}; font-size: 15.5px; font-weight: 600; text-decoration: none">{a_label}</a>'
+            f'<a href="{b_href}" style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: {h}px; border-radius: {h//2}px; border: 1.5px solid {LINE}; color: {INK}; font-size: 15.5px; font-weight: 600; text-decoration: none">{b_label}</a></div>')
+DUO_V2 = []
+def keep_duo(name):
+    V[name + ".dc.html"] = pages[name + ".dc.html"]; SIZES[name] = DUO_SIZES[name]; DUO_V2.append(name)
+ROW3 = [("clock", "7:00 am, for 10 minutes"), ("pin", "The balcony"), ("bag", "Yoga mat, grey shawl")]
+
+outer("Duo-V2-Outer-Today.dc.html", "Today v2, outer display", f"""<div style="font-size: 14px; font-weight: 500; color: {MUTED}">{DATE}</div>
+{h1("A new day.", size=36, mt=0)}
+{p("How will you keep your practice today?", mt=2, size=16)}
+<div style="margin-top: 12px">{card_routine("Meditate", "In 20 minutes", ROW3)}</div>
+{p("This first week, stop at ten minutes, even if you would like more.", size=14, color=MUTED, mt=10)}
+<div style="margin-top: auto; display: flex; flex-direction: column; gap: 8px">{btn("Start, 10 minutes", "Duo-V2-Outer-Timer.dc.html")}{pair("Just two minutes", "#", "Not today", "Duo-V2-Outer-Not-Today.dc.html")}</div>""",
+      items=(sbtn("plan", "Your routines", "V2-Routines.dc.html"),))
+keep_duo("Duo-V2-Outer-Today")
+
+outer("Duo-V2-Outer-Timer.dc.html", "The practice timer, outer display", f"""<div style="display: flex; align-items: center; justify-content: space-between; min-height: 30px"><span style="font-size: 15px; font-weight: 600; color: {DEEP}">Meditate · the balcony</span></div>
+<div style="margin-top: 8px; align-self: center">{ring_svg(268)}</div>
+<div style="margin-top: 10px; text-align: center; font-family: {FH}; font-weight: 700; font-size: 56px; line-height: 1; font-variant-numeric: tabular-nums">7:42</div>
+<div style="margin-top: 4px; text-align: center; font-size: 14.5px; color: {MUTED}">of 10 minutes · chime at the end</div>
+<div style="margin-top: auto; display: flex; flex-direction: column; align-items: center"><a href="Duo-Outer-Kept.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 26px; border-radius: 24px; border: 1.5px solid {LINE}; color: {INK}; font-size: 15.5px; font-weight: 600; text-decoration: none">Finish now</a>
+<span style="margin-top: 6px; font-size: 13px; color: {MUTED}">Finishing early still counts as kept.</span></div>""",
+      items=(back("Duo-V2-Outer-Today.dc.html"),), css=CSS_TIMER)
+keep_duo("Duo-V2-Outer-Timer")
+
+outer("Duo-V2-Outer-Not-Today.dc.html", "Not today, outer display", f"""<div style="margin-top: 6px; align-self: center; display: grid; place-items: center">
+<svg aria-hidden="true" viewBox="-150 -150 300 300" width="210" height="210" style="grid-area: 1 / 1; display: block; opacity: 0.55">{lotus_body(opened=48, open_cols=(SOFT, SOFT, SOFT), center=SOFT)}</svg>
+<div style="grid-area: 1 / 1; padding-top: 34px; animation: yf-float 6s ease-in-out infinite">{yogi(160)}</div></div>
+{h1("That's all right.", size=34, mt=8)}
+{p("Tomorrow is a new day.", mt=2, size=19, extra="; font-family: " + FH + "; font-weight: 600")}
+<div style="margin-top: 12px; padding: 14px 18px; border-radius: 20px; background: {CREAM}; color: {ONACC}; display: flex; flex-direction: column">
+<span style="font-size: 13px; font-weight: 600">Tomorrow</span><span style="font-family: {FH}; font-weight: 700; font-size: 23px; line-height: 1.15">7:00 am, the balcony</span></div>
+{p("No more reminders today.", size=14, color=MUTED, mt=10)}
+<div style="margin-top: auto">{btn("Done", "Duo-V2-Outer-Today.dc.html")}</div>""")
+keep_duo("Duo-V2-Outer-Not-Today")
+
+wide("Duo-V2-Wide-Today.dc.html", "Today v2, inner display wide",
+     f"""<div style="margin-top: auto; font-size: 14px; font-weight: 500; color: {MUTED}">{DATE}</div>
+{h1("A new day.", size=42, mt=0)}
+{p("How will you keep your practice today?", mt=4, size=17)}
+<div style="margin-top: 18px">{card_routine("Meditate", "In 20 minutes", ROW3)}</div>
+<div style="margin-bottom: auto">{p("This first week, stop at ten minutes, even if you would like more.", size=14, color=MUTED, mt=12)}</div>""",
+     f"""<div style="margin-top: auto; padding: 18px 22px; border-radius: 22px; background: {CREAM}; color: {ONACC}; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; font-weight: 600">On a harder day</span><span style="font-family: {FH}; font-weight: 600; font-size: 20px; line-height: 1.3">Sit on the mat for two minutes. It still keeps the day.</span></div>
+<div style="margin-top: 22px; display: flex; flex-direction: column; gap: 10px">{btn("Start, 10 minutes", "Duo-V2-Wide-Timer.dc.html")}{pair("Just two minutes", "#", "Not today", "Duo-V2-Outer-Not-Today.dc.html", h=52)}</div>
+<a href="#" style="margin-top: 8px; margin-bottom: auto; align-self: center; display: flex; align-items: center; gap: 8px; min-height: 44px; font-size: 15px; font-weight: 500">{icon("check", 18, DEEP, 2.4)}Already practised? Mark it kept</a>""",
+     items=(sbtn("plan", "Your routines", "V2-Routines.dc.html"),))
+keep_duo("Duo-V2-Wide-Today")
+
+wide("Duo-V2-Wide-Timer.dc.html", "The practice timer, inner display wide",
+     f'<div style="flex: 1; display: flex; align-items: center; justify-content: center">{ring_svg(370)}</div>',
+     f"""<div style="margin-top: auto; font-size: 15px; font-weight: 600; color: {DEEP}">Meditate · the balcony</div>
+<div style="margin-top: 6px; font-family: {FH}; font-weight: 700; font-size: 96px; line-height: 1; font-variant-numeric: tabular-nums">7:42</div>
+<div style="margin-top: 6px; font-size: 16px; color: {MUTED}">of 10 minutes</div>
+{p("Sit, breathe and let the timer keep the time. A soft chime marks the end.", mt=18, size=17)}
+<div style="margin-top: 26px; margin-bottom: auto; display: flex; align-items: center; gap: 14px"><a href="Duo-Wide-Kept.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 26px; border-radius: 25px; border: 1.5px solid {LINE}; color: {INK}; font-size: 15.5px; font-weight: 600; text-decoration: none">Finish now</a><span style="font-size: 13.5px; color: {MUTED}; max-width: 170px; line-height: 1.35">Finishing early still counts as kept.</span></div>""",
+     items=(back("Duo-V2-Wide-Today.dc.html"),), css=CSS_TIMER)
+keep_duo("Duo-V2-Wide-Timer")
+
+wide("Duo-V2-Wide-Share.dc.html", "Share your mandala, inner display wide",
+     f'<div style="flex: 1; display: flex; align-items: center; justify-content: center">{thumb(k=0.62)}</div>',
+     f"""<div style="margin-top: auto">{h1("Share your mandala", size=38, mt=0)}</div>
+{p("A short video of your lotus opening, made right here on your phone. Nothing is sent anywhere until you choose where it goes.", mt=8, size=16)}
+{share_seg()}
+<div style="margin-top: 22px; margin-bottom: auto; display: flex; flex-direction: column; gap: 8px">
+{btn("Instagram Stories", "#")}
+<div style="display: flex; gap: 8px">
+<a href="#" style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 50px; border-radius: 25px; border: 1.5px solid {DEEP}; color: {DEEP}; font-size: 15.5px; font-weight: 600; text-decoration: none">Save video</a>
+<a href="#" style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 50px; border-radius: 25px; border: 1.5px solid {DEEP}; color: {DEEP}; font-size: 15.5px; font-weight: 600; text-decoration: none">More</a></div></div>""",
+     items=(back("Duo-Wide-Complete.dc.html"),))
+keep_duo("Duo-V2-Wide-Share")
+
 # =====================================================================
 # layout and write
 # =====================================================================
@@ -594,6 +676,7 @@ V2_ROWS = [
  ("19 · v2.0 · Siri, Live Activity, widgets and watch (items 14, 4, 2)", ["V2-Siri", "V2-Live-Activity", "V2-Widgets", "V2-Watch"]),
  ("20 · v2.0 · Sharing, rating and practice time (items 6, 32, 29, 3)", ["V2-Complete-Share", "V2-Share-Image", "V2-Routines", "V2-Rating", "V2-Quiet-Apps", "V2-Shield", "V2-Share-Making", "V2-Share-Video"]),
 ]
+V2_DUO_ROW = ("23 · v2.0 · iPhone Duo: outer display and open wide", ["Duo-V2-Outer-Today", "Duo-V2-Outer-Timer", "Duo-V2-Outer-Not-Today", "Duo-V2-Wide-Today", "Duo-V2-Wide-Timer", "Duo-V2-Wide-Share"])
 PHONES = [n for _, names in V2_ROWS for n in names if SIZES[n][0] == 390]
 V2_DARK_ROWS = [("21 · v2.0 · Dark appearance", PHONES[:9]), ("22 · v2.0 · Dark appearance, continued", PHONES[9:])]
 TITLES = {"V2-Plan": "v2.0 · The plan, in build order", "V2-Settings": "Routine settings, v2 · full scroll", "V2-Restart": "Begin this routine again",
@@ -603,17 +686,23 @@ TITLES = {"V2-Plan": "v2.0 · The plan, in build order", "V2-Settings": "Routine
           "V2-Nudges-Fade": "You don't need my reminder any more", "V2-Alarm": "A gentle alarm (AlarmKit)", "V2-Siri": "Siri, Shortcuts, Action button",
           "V2-Live-Activity": "Dynamic Island and Live Activity", "V2-Widgets": "Widgets and notification with Not today", "V2-Watch": "Apple Watch, v2",
           "V2-Complete-Share": "Mandala complete, with sharing", "V2-Share-Image": "The shared mandala image", "V2-Routines": "Your routines · Share and Rate",
-          "V2-Rating": "Rating prompt, day 30 only", "V2-Quiet-Apps": "Keep practice time clear", "V2-Shield": "Quieted app · It's practice time", "V2-Share-Making": "Share · making the video on the phone", "V2-Share-Video": "Share · the video, ready"}
+          "V2-Rating": "Rating prompt, day 30 only", "V2-Quiet-Apps": "Keep practice time clear", "V2-Shield": "Quieted app · It's practice time", "V2-Share-Making": "Share · making the video on the phone", "V2-Share-Video": "Share · the video, ready",
+          "Duo-V2-Outer-Today": "iPhone Duo · Today, v2", "Duo-V2-Outer-Timer": "iPhone Duo · The practice timer", "Duo-V2-Outer-Not-Today": "iPhone Duo · Not today",
+          "Duo-V2-Wide-Today": "iPhone Duo · Today, v2", "Duo-V2-Wide-Timer": "iPhone Duo · The practice timer", "Duo-V2-Wide-Share": "iPhone Duo · Share your mandala"}
 
 def layout(y0=17896, gap=80):
     boards, notes, y = {}, {}, y0
-    for ri, (rt, names) in enumerate(V2_ROWS + V2_DARK_ROWS):
+    ALL = V2_ROWS + V2_DARK_ROWS + [V2_DUO_ROW, ("24 · v2.0 · iPhone Duo, dark appearance", V2_DUO_ROW[1])]
+    for ri, (rt, names) in enumerate(ALL):
         x, hmax = 0, 0
-        dark = ri >= len(V2_ROWS)
+        dark = len(V2_ROWS) <= ri < len(V2_ROWS) + len(V2_DARK_ROWS) or ri == len(ALL) - 1
         for n in names:
             w, h = SIZES[n]
             nm = n + ("-Dark" if dark else "")
             b = {"x": x, "y": y, "w": w, "h": h, "title": TITLES[n] + (" · dark" if dark else ""), "radius": 44 if w == 390 and n != "V2-Settings" else (44 if n == "V2-Settings" else 28)}
+            if n.startswith("Duo-V2"):
+                b["radius"] = 30
+                if n in DUO_GUIDES: b["guides"] = DUO_GUIDES[n]
             boards[nm + ".dc.html"] = b; x += w + gap; hmax = max(hmax, h)
         notes[f"row{15 + ri}"] = {"x": 0, "y": y - 300, "text": rt, "kind": "title1", "maxW": x - gap, "w": 240}
         y += hmax + 420
@@ -637,11 +726,11 @@ class Bal(HTMLParser):
 for n in SIZES: assert n + ".dc.html" in V, n
 for n in V: V[n] = V[n].replace('role="img" aria-label=""', 'aria-hidden="true"').replace('role="img" viewBox', 'aria-hidden="true" viewBox')
 if DARK:
-    for n in PHONES:
+    for n in PHONES + DUO_V2:
         src = V[n + ".dc.html"]
-        for m in PHONES: src = src.replace(f'href="{m}.dc.html"', f'href="{m}-Dark.dc.html"')
+        for m in PHONES + DUO_V2: src = src.replace(f'href="{m}.dc.html"', f'href="{m}-Dark.dc.html"')
         check(n, src); open(os.path.join(OUTV, n + "-Dark.dc.html"), "w", encoding="utf-8").write(src)
-    print(len(PHONES), "dark v2 boards")
+    print(len(PHONES) + len(DUO_V2), "dark v2 boards")
 else:
     for name, src in V.items():
         check(name, src); open(os.path.join(OUTV, name), "w", encoding="utf-8").write(src)

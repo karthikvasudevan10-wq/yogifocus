@@ -39,5 +39,28 @@ free = (f'<div style="position: absolute; inset: 0; display: flex; flex-directio
         f'<h1 class="h" style="font-size: 150px">Free for everyone. Always.</h1>'
         f'<p class="s" style="font-size: 54px; line-height: 1.35">No subscription. Nothing to buy. For iPhone, iPhone Duo and Apple Watch.</p></div>')
 jobs.append(slide("iphone-6.9-10", IW, IH, TEAL, free, deco=(1100, 110, 1800)))
+
+# ---------------- iPhone Duo outer: 1398 x 2034 ----------------
+def outer(n, bg, head, sub, screen):
+    c = (f'<div style="position: absolute; left: 90px; right: 90px; top: 110px; display: flex; flex-direction: column; gap: 22px; text-align: center; align-items: center">'
+         f'<h1 class="h" style="font-size: 104px">{head}</h1><p class="s" style="font-size: 42px; line-height: 1.32">{sub}</p></div>')
+    dev = f'<div style="position: absolute; left: 50%; top: 560px; transform: translateX(-50%)">{device2(screen, 1398, 2034, 960, 70, 22)}</div>'
+    jobs.append(slide(f"duo-outer-{n:02d}", 1398, 2034, bg, c + dev, deco=(820, 900, -260)))
+outer(1, CREAM, "Ten minutes, two, or not today", "On a harder day, two minutes still keeps the day.", "duo-outer-today-v2")
+outer(2, SOFT, "Tap the nudge. Begin.", "Your timer opens ready to go, with a soft chime at the end.", "duo-outer-timer")
+outer(3, TEAL, "Not today is a kind answer", "No guilt. Tomorrow is a new day.", "duo-outer-not-today")
+outer(4, CREAM, "That's today, kept.", "Forever was never the job. Today was.", "duo-outer-kept")
+outer(5, SOFT, "Miss a day? Nothing resets.", "After 30 days, watch your lotus bloom.", "duo-outer-mandala")
+# ---------------- iPhone Duo inner, wide: 2853 x 2007 ----------------
+def inner(n, bg, head, sub, screen):
+    c = (f'<div style="position: absolute; left: 150px; top: 0; bottom: 0; width: 820px; display: flex; flex-direction: column; justify-content: center; gap: 40px">'
+         f'<h1 class="h" style="font-size: 136px">{head}</h1><p class="s" style="font-size: 54px; line-height: 1.35">{sub}</p></div>')
+    dev = f'<div style="position: absolute; right: 120px; top: 50%; transform: translateY(-50%)">{device2(screen, 2853, 2007, 1660, 64, 26)}</div>'
+    jobs.append(slide(f"duo-inner-{n:02d}", 2853, 2007, bg, c + dev, deco=(1300, -380, 1100)))
+inner(1, CREAM, "One small routine. One day at a time.", "Keep a routine the way yogis have for centuries.", "duo-wide-welcome")
+inner(2, TEAL, "Ten minutes, two, or not today", "Open wide to see your routine on one side and how you'll keep it on the other.", "duo-wide-today-v2")
+inner(3, SOFT, "Tap the nudge. Begin.", "A calm timer across the whole display, with a soft chime at the end.", "duo-wide-timer")
+inner(4, CREAM, "Miss a day? Nothing resets.", "After 30 days, watch your lotus bloom, one petal for each day.", "duo-wide-mandala")
+inner(5, TEAL, "48 days. Share your mandala.", "A short video of your lotus opening, made right on your phone.", "duo-wide-share")
 json.dump(jobs, open(os.path.join(SL, "jobs.json"), "w"), indent=1)
 print(len(jobs), "slides")

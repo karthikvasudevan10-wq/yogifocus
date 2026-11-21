@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The practice timer, inner display wide</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#8AE264}a:hover{color:#EEF5E8}
+button,input{font-family:inherit}
+button{cursor:pointer}
+@keyframes yf-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes yf-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes yf-fall{from{transform:translateY(0)}to{transform:translateY(940px)}}
+@keyframes yf-sway{from{transform:translateX(-18px) rotate(-50deg)}to{transform:translateX(18px) rotate(70deg)}}
+@keyframes yf-rota{0%,40%{opacity:1}48%,90%{opacity:0}98%,100%{opacity:1}}
+@keyframes yf-rotb{0%,40%{opacity:0}48%,90%{opacity:1}98%,100%{opacity:0}}
+@keyframes yf-spin{to{transform:rotate(360deg)}}
+@keyframes yf-levitate{0%,100%{transform:translateY(4px)}50%{transform:translateY(-9px)}}
+@keyframes yf-shadow{0%,100%{transform:scale(1);opacity:0.26}50%{transform:scale(0.74);opacity:0.14}}
+@keyframes yf-rise{from{transform:translateY(70px)}to{transform:translateY(0)}}
+@keyframes yf-draw{from{stroke-dashoffset:420}to{stroke-dashoffset:0}}
+@keyframes yf-pop{from{transform:scale(0.4);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes yf-open{from{transform:scale(0.15);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes yf-ring{from{transform:scale(0.8);opacity:0.8}to{transform:scale(1.35);opacity:0}}
+@keyframes yf-up{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes yf-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.7);opacity:0.5}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+@keyframes yf-halo{0%{transform:scale(0.6);opacity:0}12%{opacity:0.9}62%,100%{transform:scale(1.9);opacity:0}}
+@keyframes yf-riseup{0%{transform:translateY(0);opacity:0}12%{opacity:1}78%{opacity:1}100%{transform:translateY(-470px);opacity:0}}
+@keyframes yf-sway{from{transform:translateX(-18px) rotate(-50deg)}to{transform:translateX(18px) rotate(70deg)}}
+@keyframes yf-fly{0%{transform:translateY(0) scale(0.2);opacity:0}10%{opacity:1}55%{transform:translateY(-92px) scale(1);opacity:1}78%,100%{transform:translateY(-118px) scale(1);opacity:0}}
+@keyframes yf-halo{0%{transform:scale(0.6);opacity:0}12%{opacity:0.9}62%,100%{transform:scale(1.9);opacity:0}}
+@keyframes yf-timer{from{stroke-dashoffset:0}to{stroke-dashoffset:829}}
+@keyframes yf-glow{0%,100%{opacity:0.35}50%{opacity:0.7}}
+</style>
+</helmet>
+<div style="position: relative; width: 951px; height: 669px; background: #0E1A11; color: #EEF5E8; font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 16px; line-height: 1.5; overflow: hidden"><div style="position: absolute; left: 0px; top: 0px; width: 456px; height: 669px; box-sizing: border-box; display: flex; flex-direction: column; padding: 28px 32px 28px 32px"><div style="flex: 1; display: flex; align-items: center; justify-content: center"><svg role="img" aria-label="7:42 left of 10 minutes" viewBox="0 0 300 300" width="370" height="370" style="display: block; flex: none"><circle cx="150" cy="150" r="132" fill="#1C3A21" style="animation: yf-glow 6s ease-in-out infinite"></circle><circle cx="150" cy="150" r="132" fill="none" stroke="#2C3D2E" stroke-width="12"></circle><circle cx="150" cy="150" r="132" fill="none" stroke="#3DBB45" stroke-width="12" stroke-linecap="round" stroke-dasharray="829" transform="rotate(-90 150 150)" style="animation: yf-timer 40s linear -9.2s infinite"></circle><g transform="translate(62 46) scale(0.88)"><path d="M66 150Q100 134 134 150L128 168L72 168Z" fill="#FFD21F"></path><path d="M56 160Q86 142 122 165" stroke="#FFD21F" stroke-width="18" stroke-linecap="round" fill="none"></path><path d="M144 160Q114 142 78 165" stroke="#FFD21F" stroke-width="18" stroke-linecap="round" fill="none"></path><path d="M70 163Q92 150 114 164" stroke="#EFB40C" stroke-width="2" stroke-linecap="round" fill="none"></path><path d="M134 156Q120 150 106 156" stroke="#EFB40C" stroke-width="2" stroke-linecap="round" fill="none"></path><ellipse cx="80" cy="170" rx="10" ry="4.5" fill="#EDBE94"></ellipse><ellipse cx="121" cy="170" rx="10" ry="4.5" fill="#EDBE94"></ellipse><path d="M80 92Q70 107 66 126" stroke="#FF7A1A" stroke-width="12" stroke-linecap="round" fill="none"></path><path d="M120 92Q130 107 134 126" stroke="#EDBE94" stroke-width="9" stroke-linecap="round" fill="none"></path><path d="M66 127Q61 140 58 151" stroke="#EDBE94" stroke-width="8" stroke-linecap="round" fill="none"></path><path d="M134 127Q139 140 142 151" stroke="#EDBE94" stroke-width="8" stroke-linecap="round" fill="none"></path><circle cx="56" cy="154" r="5.5" fill="#EDBE94"></circle><circle cx="144" cy="154" r="5.5" fill="#EDBE94"></circle><circle cx="52.5" cy="157.5" r="2.6" fill="none" stroke="#DDA77C" stroke-width="1.6"></circle><circle cx="147.5" cy="157.5" r="2.6" fill="none" stroke="#DDA77C" stroke-width="1.6"></circle><path d="M77 92Q77 81 89 80L111 80Q123 81 123 92L117 149Q100 154 83 149Z" fill="#EDBE94"></path><path d="M77 92Q77 81 89 80L98 80Q112 100 121 118L117 149Q100 154 83 149Z" fill="#FF7A1A"></path><path d="M89 80L98 80Q112 100 121 118L120 128Q104 108 89 80Z" fill="#FF9D4D"></path><path d="M84 104Q94 122 112 140M82 120Q90 134 102 146" stroke="#E2600A" stroke-width="1.8" stroke-linecap="round" fill="none"></path><path d="M83 149Q100 154 117 149L116 156Q100 160 84 156Z" fill="#E2600A"></path><rect x="94" y="66" width="12" height="17" rx="5" fill="#DDA77C"></rect><path d="M89 82Q100 104 111 82" stroke="#8A3B2E" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 4.2" fill="none"></path><circle cx="80.5" cy="55" r="4" fill="#DDA77C"></circle><circle cx="119.5" cy="55" r="4" fill="#DDA77C"></circle><circle cx="100" cy="53" r="20" fill="#EDBE94"></circle><path d="M80 53A20 20 0 0 1 120 53Q113 41 100 44Q87 41 80 53Z" fill="#4A3229"></path><circle cx="100" cy="27" r="8.5" fill="#4A3229"></circle><path d="M94 34.5L106 34.5" stroke="#FF7A1A" stroke-width="3" stroke-linecap="round" fill="none"></path><circle cx="89" cy="61" r="3.2" fill="#F29C7B" opacity="0.55"></circle><circle cx="111" cy="61" r="3.2" fill="#F29C7B" opacity="0.55"></circle><path d="M89 50.5q4.5 -2.5 8.5 0" stroke="#4A3229" stroke-linecap="round" fill="none" stroke-width="1.5"></path><path d="M102.5 50.5q4 -2.5 8.5 0" stroke="#4A3229" stroke-linecap="round" fill="none" stroke-width="1.5"></path><path d="M89.5 56q4 3.5 8 0" stroke="#4A3229" stroke-linecap="round" fill="none" stroke-width="2"></path><path d="M102.5 56q4 3.5 8 0" stroke="#4A3229" stroke-linecap="round" fill="none" stroke-width="2"></path><path d="M95 63.5q5 4 10 0" stroke="#4A3229" stroke-linecap="round" fill="none" stroke-width="2"></path></g></svg></div></div><div style="position: absolute; left: 496px; top: 0px; width: 395px; height: 669px; box-sizing: border-box; display: flex; flex-direction: column; padding: 28px 28px 28px 32px"><div style="margin-top: auto; font-size: 15px; font-weight: 600; color: #8AE264">Meditate · the balcony</div>
+<div style="margin-top: 6px; font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-weight: 700; font-size: 96px; line-height: 1; font-variant-numeric: tabular-nums">7:42</div>
+<div style="margin-top: 6px; font-size: 16px; color: #A9B8A5">of 10 minutes</div>
+<p style="margin: 18px 0 0; font-size: 17px; color: #EEF5E8; text-wrap: pretty">Sit, breathe and let the timer keep the time. A soft chime marks the end.</p>
+<div style="margin-top: 26px; margin-bottom: auto; display: flex; align-items: center; gap: 14px"><a href="Duo-Wide-Kept.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 26px; border-radius: 25px; border: 1.5px solid #2C3D2E; color: #EEF5E8; font-size: 15.5px; font-weight: 600; text-decoration: none">Finish now</a><span style="font-size: 13.5px; color: #A9B8A5; max-width: 170px; line-height: 1.35">Finishing early still counts as kept.</span></div></div><div style="position: absolute; right: 0; top: 0; width: 60px; height: 669px; background: rgba(20,48,31,0.045); display: flex; flex-direction: column; align-items: center"><span aria-hidden="true" style="margin-top: 18px; width: 30px; height: 30px; border-radius: 15px; background: #000000"></span><span aria-hidden="true" style="height: 92px"></span><div style="display: flex; flex-direction: column; align-items: center; gap: 8px"><a href="Duo-V2-Wide-Today-Dark.dc.html" aria-label="Back" style="width: 44px; height: 44px; border-radius: 22px; display: flex; align-items: center; justify-content: center; color: #EEF5E8"><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#EEF5E8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block"><path d="M15 5l-7 7 7 7"></path></svg></a></div></div></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview": {"width": 951, "height": 669}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>
