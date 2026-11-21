@@ -309,8 +309,8 @@ alarm_ls = lockscreen(f'''<div style="position: absolute; left: 50%; top: 11px; 
 <button type="button" style="flex: 1; min-height: 56px; border-radius: 28px; border: none; background: {TEAL}; color: {ONACC}; font-size: 18px; font-weight: 600">Start</button>
 <button type="button" style="flex: 1; min-height: 56px; border-radius: 28px; border: none; background: rgba(255,255,255,0.2); color: #FFFFFF; font-size: 18px; font-weight: 600">Later</button></div></div>
 <div style="position: absolute; left: 0; right: 0; bottom: 40px; text-align: center; font-size: 14px; font-weight: 500; opacity: 0.85">A soft chime, short, not a ring tone</div>''')
-WATCH_BTN2 = lambda a, b: (f'<div style="margin-top: auto; padding: 0 8px 2px; display: flex; gap: 6px"><button type="button" style="flex: 1; min-height: 44px; border-radius: 22px; border: none; background: {TEAL}; color: #14301F; font-size: 15px; font-weight: 600">{a}</button>'
-                           f'<button type="button" style="flex: 1; min-height: 44px; border-radius: 22px; border: none; background: #2A332A; color: #FFFFFF; font-size: 15px; font-weight: 600">{b}</button></div>')
+WATCH_BTN2 = lambda a, b: (f'<div style="margin-top: auto; padding: 0 12px 6px; display: flex; gap: 5px"><button type="button" style="flex: 0.8; min-height: 42px; padding: 0 4px; border-radius: 21px; border: none; background: {TEAL}; color: #14301F; font-size: 14px; font-weight: 600; white-space: nowrap">{a}</button>'
+                           f'<button type="button" style="flex: 1.2; min-height: 42px; padding: 0 4px; border-radius: 21px; border: none; background: #2A332A; color: #FFFFFF; font-size: 14px; font-weight: 600; white-space: nowrap">{b}</button></div>')
 w_alarm = watch(wyogi(70, 4, 8, mat=False) + wlabel("7:00 am", dot=True) + wtitle() + wline("The balcony", WSEC) + WATCH_BTN2("Start", "Later"))
 add("V2-Alarm", "A gentle alarm", board(1000, 1000, f"""{btitle("Item 22 · AlarmKit, off unless chosen", "A gentle alarm at the hour")}
 <div style="margin-top: 22px; display: flex; gap: 48px; align-items: flex-start">

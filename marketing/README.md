@@ -7,6 +7,7 @@ Design work for the App Store page and promotion. The store text itself lives in
 | `app-store/screenshots/` | Designed App Store screenshots at App Store Connect's exact sizes: iPhone 6.9-inch (1320 × 2868, 9), iPhone Duo outer (1398 × 2034, 4), iPhone Duo inner (2853 × 2007, 4), Apple Watch (416 × 496, 4). No transparency. |
 | `app-store/icon/` | The v2 app icon: `app-store-icon-1024.png` for App Store Connect, plus the vector light, dark, tinted and watch versions |
 | `app-store/contact-sheet.png` | Every screenshot and the icon on one page |
+| `app-store-v2/` | **For the 2.0 submission only.** Ten iPhone 6.9-inch screenshots (1320 × 2868) and four Apple Watch screenshots (416 × 496) showing the v2 features, a contact sheet, and `app-store-text-v2.md` with the 2.0 promotional text, What's New and description. Duo screenshots stay as in `app-store/` until the v2 Duo screens are drawn. |
 | `product-page-header/` | Product page header, 3840 × 1646 (21:9): one with "One day at a time.", one artwork only |
 | `video-brief-for-chatgpt.md` | Brief for a promotional video: the method, tone, colours, characters, key lines, a 30-second storyboard and voiceover, plus a shot list for recording a real App Store preview |
 
