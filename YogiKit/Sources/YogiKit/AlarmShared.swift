@@ -22,17 +22,6 @@ public struct YogiAlarmMetadata: AlarmMetadata {
     }
 }
 
-/// A routine the app should open at the practice timer, left in the app group by Start.
-public enum PendingTimer {
-    static let key = "yf.pending.timer"
-    public static func set(_ id: UUID) { UserDefaults(suiteName: YogiStore.appGroup)?.set(id.uuidString, forKey: key) }
-    /// Reads and clears it.
-    public static func take() -> UUID? {
-        let d = UserDefaults(suiteName: YogiStore.appGroup)
-        defer { d?.removeObject(forKey: key) }
-        return d?.string(forKey: key).flatMap(UUID.init(uuidString:))
-    }
-}
 
 /// Start, on the alarm: stops it and opens the practice timer, already running.
 @available(iOS 26.0, *)

@@ -14,9 +14,9 @@ struct RunningTimer: Codable, Equatable {
     var twoMinute: Bool
     var end: Date { start.addingTimeInterval(Double(minutes) * 60) }
 
-    private static let key = "yf.timer.running"
-    private static var defaults: UserDefaults? { UserDefaults(suiteName: YogiStore.appGroup) }
-    static let endNotificationID = "yf.timer.end"
+    private static let key = RunningTimerStore.key
+    private static var defaults: UserDefaults? { RunningTimerStore.defaults }
+    static let endNotificationID = RunningTimerStore.endNotificationID
 
     static var current: RunningTimer? {
         get { defaults?.data(forKey: key).flatMap { try? JSONDecoder().decode(RunningTimer.self, from: $0) } }
@@ -32,6 +32,7 @@ struct RunningTimer: Codable, Equatable {
         current = nil
         YogiStore.shared.markKept(t.routineID, on: t.start, twoMinute: t.twoMinute, beganAt: t.start)
         Nudges.cancelToday(t.routineID, now: t.start)
+        Task { await PracticeLive.finish(t.routineID) }
     }
 }
 
@@ -70,6 +71,7 @@ struct PracticeTimerScreen: View {
                 if pose == .phone { phoneBody(left: left) } else { duoBody(left: left) }
             }
             .onChange(of: left <= 0) { _, done in if done { finish(early: false) } }
+            .onChange(of: ctx.date) { _, _ in noticeDoneElsewhere() }
         }
         .navigationBarBackButtonHidden(true)
         .onAppear(perform: begin)
@@ -85,12 +87,25 @@ struct PracticeTimerScreen: View {
         UIApplication.shared.isIdleTimerDisabled = true
         if let t = RunningTimer.current, t.routineID == routineID, t.twoMinute == twoMinute, Date() < t.end {
             timer = t
-            return
+        } else {
+            let t = RunningTimer(routineID: routineID, start: Date(), minutes: minutes, twoMinute: twoMinute)
+            RunningTimer.current = t
+            timer = t
+            scheduleEnd(t)
         }
-        let t = RunningTimer(routineID: routineID, start: Date(), minutes: minutes, twoMinute: twoMinute)
-        RunningTimer.current = t
-        timer = t
-        scheduleEnd(t)
+        // The Live Activity: the ring on the Lock Screen and in the Dynamic Island (v2 item 4).
+        if let r = routine, let t = timer {
+            Task { await PracticeLive.startDuring(r, start: t.start, end: t.end, twoMinute: t.twoMinute) }
+        }
+    }
+
+    /// Done on the Live Activity counts the day while the app is away; the timer then simply moves on.
+    private func noticeDoneElsewhere() {
+        guard !finished, timer != nil, RunningTimer.current == nil else { return }
+        finished = true
+        UIApplication.shared.isIdleTimerDisabled = false
+        model.refresh()
+        onKept()
     }
 
     /// If the app is not on screen when the time is up, a notification rings the chime instead.
@@ -114,6 +129,7 @@ struct PracticeTimerScreen: View {
         UINotificationFeedbackGenerator().notificationOccurred(.success)
         YogiStore.shared.markKept(t.routineID, on: t.start, twoMinute: t.twoMinute, beganAt: t.start)
         Nudges.cancelToday(t.routineID, now: t.start)
+        Task { await PracticeLive.finish(t.routineID) }
         model.refresh()
         onKept()
     }

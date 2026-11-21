@@ -57,6 +57,12 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
         let opensTimer = response.actionIdentifier == Nudges.startAction
             || (response.actionIdentifier == UNNotificationDefaultActionIdentifier
                 && [Nudges.hourCategory, Nudges.hourTwoCategory].contains(content.categoryIdentifier))
+        // Tapping the 20-minute nudge starts the Live Activity's countdown to the hour (v2 item 4).
+        if response.actionIdentifier == UNNotificationDefaultActionIdentifier, response.notification.request.identifier.hasSuffix(".pre"),
+           let raw = content.userInfo[Nudges.routineKey] as? String, let id = UUID(uuidString: raw),
+           let r = YogiStore.shared.snapshots().first(where: { $0.id == id }) {
+            PracticeLive.startBefore(r)
+        }
         if opensTimer, let raw = content.userInfo[Nudges.routineKey] as? String, let id = UUID(uuidString: raw) {
             await MainActor.run { PendingOpen.open(id, twoMinute: false) }
             return
@@ -104,6 +110,12 @@ final class AppModel {
         cloudHasRoutines = store.cloudHasRoutines
         Nudges.reschedule(fresh)
         YogiShortcuts.updateAppShortcutParameters()
+        // A day answered some other way closes its Live Activity (v2 item 4).
+        let now = Date()
+        Task {
+            for r in fresh where r.saidNotToday(now) { await PracticeLive.cancel(r.id) }
+            for r in fresh where r.keptToday(now) && RunningTimer.current?.routineID != r.id { await PracticeLive.finish(r.id, now: now) }
+        }
         if #available(iOS 26.0, *) { Task { await GentleAlarm.reschedule(fresh) } }
     }
 
@@ -170,7 +182,7 @@ struct RootView: View {
     /// A tapped "It's time" notification opens the timer, already running (v2 item 24).
     private func openPendingTimer() {
         // Start on the gentle alarm leaves its routine in the app group.
-        if PendingOpen.timer == nil, let id = PendingTimer.take() { PendingOpen.timer = id; PendingOpen.twoMinute = false }
+        if PendingOpen.timer == nil, let p = PendingTimer.take() { PendingOpen.timer = p.id; PendingOpen.twoMinute = p.twoMinute }
         guard let id = PendingOpen.timer, model.routine(id) != nil else { return }
         PendingOpen.timer = nil
         guard model.routine(id)?.routineKind.isTimed == true, model.routine(id)?.keptToday(Date()) == false else { return }
