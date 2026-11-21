@@ -110,6 +110,7 @@ enum Route: Hashable {
     case widgetSetup(UUID)
     case reflect(UUID)
     case kept(UUID)
+    case notToday(UUID)
     case routines
     case edit(UUID)
     case mandala(UUID)
@@ -168,6 +169,7 @@ struct RootView: View {
         case .widgetSetup(let id): WidgetSetupScreen(routineID: id, onBack: back) { path.removeAll() }
         case .reflect(let id): ReflectScreen(routineID: id, onBack: back) { path.append(.kept(id)) }
         case .kept(let id): KeptScreen(routineID: id) { path.removeAll() }
+        case .notToday(let id): NotTodayScreen(routineID: id) { path.removeAll() }
         case .routines:
             RoutinesScreen(onBack: back, onEdit: { path.append(.edit($0)) }, onAdd: { path.append(.choose) })
         case .edit(let id): RoutineEditScreen(routineID: id, onBack: back)

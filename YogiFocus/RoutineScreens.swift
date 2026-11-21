@@ -92,6 +92,7 @@ struct RoutinesScreen: View {
         switch r.moment(at: now) {
         case .kept: Chip(text: "Kept today", background: YF.softGreen, foreground: YF.textGreen, check: true)
         case .paused: Chip(text: "Paused", background: YF.line, foreground: YF.ink)
+        case .notToday: Chip(text: "Tomorrow, \(r.timeText)", background: YF.softGreen, foreground: YF.textGreen)
         case .passed: Chip(text: "Whenever you're ready")
         default: Chip(text: "Next, \(r.timeText)")
         }

@@ -82,7 +82,7 @@ struct WatchRootView: View {
                 WHeader(label: WLabel("It's time", u: u, dot: true), title: r.name, u: u, yogi: true)
                 WLine(Self.hourLine(r, model.now), u: u).padding(.top, 8 * u)
             } footer: {
-                WButton("Done", u: u) { model.done(r) }
+                answers(r, u: u)
             }
         case .passed(let r):
             WatchFrame(u: u) {
@@ -90,8 +90,26 @@ struct WatchRootView: View {
                 WTitle(r.name, u: u)
                 WLine("Just start when you can.", u: u).padding(.top, 8 * u)
             } footer: {
-                WButton("Done", u: u) { model.done(r) }
+                answers(r, u: u)
             }
+        case .notToday(let r):
+            VStack(spacing: 0) {
+                Spacer(minLength: 0)
+                YogiView(.calm).frame(width: 64 * u, height: 64 * u)
+                Text("That's all right.")
+                    .font(YFFont.fixedHeading(19 * u)).foregroundStyle(YF.sunny)
+                    .lineLimit(1).minimumScaleFactor(0.8)
+                    .padding(.top, 8 * u)
+                Text("Tomorrow is a new day.").font(YFFont.fixedBody(14.5 * u, .semibold))
+                    .multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
+                    .padding(.top, 2 * u)
+                Text("\(r.timeText), \(r.placeInSentence)").font(YFFont.fixedBody(13 * u))
+                    .foregroundStyle(YF.watchSecondary)
+                    .multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
+                Spacer(minLength: 0)
+            }
+            .frame(maxWidth: .infinity)
+            .accessibilityElement(children: .combine)
         case .ask(let r):
             WatchFrame(u: u, lotus: true) {
                 Text("How did it feel?")
@@ -124,6 +142,14 @@ struct WatchRootView: View {
             WatchKeptView(routine: r, u: u)
                 .contentShape(Rectangle())
                 .onTapGesture { model.dismissKept() }
+        }
+    }
+
+    /// Done and Not today, side by side.
+    private func answers(_ r: RoutineSnapshot, u: CGFloat) -> some View {
+        HStack(spacing: 6 * u) {
+            WButton("Done", u: u) { model.done(r) }
+            WButton("Not today", u: u, quiet: true) { model.notToday(r) }
         }
     }
 
@@ -341,15 +367,20 @@ struct WRow: View {
 struct WButton: View {
     let title: String
     let u: CGFloat
+    var quiet = false
     let action: () -> Void
-    init(_ title: String, u: CGFloat, action: @escaping () -> Void) { self.title = title; self.u = u; self.action = action }
+    init(_ title: String, u: CGFloat, quiet: Bool = false, action: @escaping () -> Void) {
+        self.title = title; self.u = u; self.quiet = quiet; self.action = action
+    }
     var body: some View {
         Button(action: action) {
             Text(title)
-                .font(YFFont.fixedBody(16 * u, .semibold))
-                .foregroundStyle(YF.onAccent)
+                .font(YFFont.fixedBody((quiet ? 14.5 : 16) * u, .semibold))
+                .foregroundStyle(quiet ? Color.white : YF.onAccent)
+                .multilineTextAlignment(.center)
+                .lineLimit(2).minimumScaleFactor(0.8)
                 .frame(maxWidth: .infinity, minHeight: 44 * u)
-                .background(YF.leaf, in: Capsule())
+                .background(quiet ? YF.watchRaised : YF.leaf, in: Capsule())
                 .contentShape(Capsule())
         }
         .buttonStyle(.plain)

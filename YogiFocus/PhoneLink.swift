@@ -40,8 +40,13 @@ final class PhoneLink: NSObject, WCSessionDelegate, @unchecked Sendable {
     }
 
     private func applyKept(_ info: [String: Any]) {
-        guard let raw = info["kept"] as? String, let id = UUID(uuidString: raw) else { return }
         let day = (info["dayKey"] as? String).flatMap { DayKey.date($0) } ?? Date()
+        if let raw = info["notToday"] as? String, let id = UUID(uuidString: raw) {
+            YogiStore.shared.markNotToday(id, on: day)
+            Nudges.cancelToday(id, now: day)
+            return
+        }
+        guard let raw = info["kept"] as? String, let id = UUID(uuidString: raw) else { return }
         let feeling = (info["feeling"] as? String).flatMap(Feeling.init(rawValue:))
         YogiStore.shared.markKept(id, on: day, feeling: feeling)
         Nudges.cancelToday(id, now: day)

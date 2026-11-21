@@ -12,6 +12,8 @@ struct TodayWords {
     var under: String?
     var tryAnotherHour = false
     var showsButton = true
+    /// After "Not today": a quiet way to count the day if it happened after all.
+    var practisedAfterAll = false
 
     init(_ r: RoutineSnapshot, now: Date) {
         let phase = r.phase(on: now)
@@ -28,6 +30,14 @@ struct TodayWords {
             chipKept = true
             under = "Only tomorrow is next: \(r.timeText), \(r.placeInSentence)."
             showsButton = false
+        case .notToday:
+            heading = "That's all right."
+            sub = "Tomorrow is a new day."
+            chip = "Tomorrow, \(r.timeText)"
+            chipKept = true
+            under = "No more reminders today."
+            showsButton = false
+            practisedAfterAll = true
         case .passed:
             heading = "Still today."
             sub = "\(r.bareTimeText) has gone by, and that is all right. The day isn't over. Just start when you can."
@@ -128,7 +138,7 @@ struct TodayScreen: View {
                 CardBox(radius: 26) {
                     VStack(alignment: .leading, spacing: 0) {
                         Chip(text: w.chip, background: w.chipKept ? YF.softGreen : YF.sunny,
-                             foreground: w.chipKept ? YF.textGreen : YF.onAccent, check: w.chipKept)
+                             foreground: w.chipKept ? YF.textGreen : YF.onAccent, check: w.chipKept && !w.practisedAfterAll)
                         Text(r.name).font(YFFont.heading(32)).padding(.top, 10)
                         VStack(alignment: .leading, spacing: 4) {
                             AnchorRow(icon: "clock", text: r.whenText)
@@ -152,7 +162,13 @@ struct TodayScreen: View {
                     }
                     .padding(.top, 6)
                 }
-                if w.chipKept, r.feelings[DayKey.key(now)] == nil {
+                if w.practisedAfterAll {
+                    Button { path.append(.reflect(r.id)) } label: {
+                        Text("Practised after all? Count it").font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.textGreen)
+                            .frame(minHeight: 44, alignment: .leading)
+                    }
+                    .padding(.top, 2)
+                } else if w.chipKept, r.feelings[DayKey.key(now)] == nil {
                     Button { path.append(.reflect(r.id)) } label: {
                         Text("How did it feel?").font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.textGreen)
                             .frame(minHeight: 44, alignment: .leading)
@@ -179,6 +195,10 @@ struct TodayScreen: View {
             } bottom: {
                 if w.showsButton {
                     PrimaryButton("I've practised today") { path.append(.reflect(r.id)) }
+                    QuietButton("Not today") {
+                        NotToday.answer(r.id, model: model)
+                        path.append(.notToday(r.id))
+                    }
                 }
             }
         } else {
@@ -568,7 +588,7 @@ extension TodayScreen {
                     }
                     todayExtras(r, w, now: now)
                 } bottom: {
-                    if w.showsButton { PrimaryButton("I've practised today") { path.append(.reflect(r.id)) } }
+                    duoAnswers(r, w)
                 }
             case .tall:
                 DuoPage(leadAlignment: .top, pinsBottom: true, bar: { AnyView(todayHeader) }) {
@@ -588,7 +608,7 @@ extension TodayScreen {
                     .frame(maxWidth: .infinity)
                     todayExtras(r, w, now: now)
                 } bottom: {
-                    if w.showsButton { PrimaryButton("I've practised today") { path.append(.reflect(r.id)) } }
+                    duoAnswers(r, w)
                 }
             default:
                 DuoPage(strip: [.routines { path.append(.routines) }]) {
@@ -601,7 +621,7 @@ extension TodayScreen {
                 } trail: {
                     EmptyView()
                 } bottom: {
-                    if w.showsButton { PrimaryButton("I've practised today") { path.append(.reflect(r.id)) } }
+                    duoAnswers(r, w)
                 }
             }
         } else {
@@ -638,6 +658,7 @@ extension TodayScreen {
         let state: String = {
             switch t.moment(at: now) {
             case .kept: return "Kept today"
+            case .notToday: return "Tomorrow"
             case .paused: return "Paused"
             case .passed: return "Whenever you're ready"
             default: return "Next"
@@ -671,7 +692,7 @@ extension TodayScreen {
         return CardBox(radius: 24) {
             VStack(alignment: .leading, spacing: 0) {
                 Chip(text: w.chip, background: w.chipKept ? YF.softGreen : YF.sunny,
-                     foreground: w.chipKept ? YF.textGreen : YF.onAccent, check: w.chipKept)
+                     foreground: w.chipKept ? YF.textGreen : YF.onAccent, check: w.chipKept && !w.practisedAfterAll)
                 Text(r.name).font(YFFont.heading(nameSize)).padding(.top, compact ? 4 : 8)
                 VStack(alignment: .leading, spacing: 2) {
                     AnchorRow(icon: "clock", text: r.whenText, minHeight: row)
@@ -685,6 +706,20 @@ extension TodayScreen {
         }
     }
 
+    /// The two answers side by side on the Duo's wider displays.
+    @ViewBuilder private func duoAnswers(_ r: RoutineSnapshot, _ w: TodayWords) -> some View {
+        if w.showsButton {
+            HStack(spacing: 10) {
+                PrimaryButton("I've practised today") { path.append(.reflect(r.id)) }
+                QuietButton("Not today") {
+                    NotToday.answer(r.id, model: model)
+                    path.append(.notToday(r.id))
+                }
+                .frame(maxWidth: 200)
+            }
+        }
+    }
+
     /// The quiet links that sometimes follow the card: another hour, how it felt, and the mandala from day 30.
     @ViewBuilder private func todayExtras(_ r: RoutineSnapshot, _ w: TodayWords, now: Date) -> some View {
         if w.tryAnotherHour {
@@ -695,7 +730,13 @@ extension TodayScreen {
             }
             .padding(.top, 6)
         }
-        if w.chipKept, r.feelings[DayKey.key(now)] == nil {
+        if w.practisedAfterAll {
+            Button { path.append(.reflect(r.id)) } label: {
+                Text("Practised after all? Count it").font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.textGreen)
+                    .frame(minHeight: 44, alignment: .leading)
+            }
+            .padding(.top, 2)
+        } else if w.chipKept, r.feelings[DayKey.key(now)] == nil {
             Button { path.append(.reflect(r.id)) } label: {
                 Text("How did it feel?").font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.textGreen)
                     .frame(minHeight: 44, alignment: .leading)

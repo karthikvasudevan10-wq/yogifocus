@@ -12,6 +12,7 @@ enum WatchScreen {
     case passed(RoutineSnapshot)
     case ask(RoutineSnapshot)
     case kept(RoutineSnapshot)
+    case notToday(RoutineSnapshot)
 
     /// Identity for transitions.
     var key: String {
@@ -24,6 +25,7 @@ enum WatchScreen {
         case .passed(let r): return "passed-\(r.id)"
         case .ask(let r): return "ask-\(r.id)"
         case .kept(let r): return "kept-\(r.id)"
+        case .notToday(let r): return "not-\(r.id)"
         }
     }
 }
@@ -59,6 +61,7 @@ final class WatchModel {
             case "passed": return .passed(r)
             case "ask": return .ask(r)
             case "kept": return .kept(r)
+            case "notToday": return .notToday(r)
             default: return .newDay(r)
             }
         }
@@ -72,6 +75,7 @@ final class WatchModel {
         case .soon(let m): return .soon(r, minutes: m)
         case .itsTime: return .itsTime(r)
         case .passed: return .passed(r)
+        case .notToday: return .notToday(r)
         case .kept:
             // Done was tapped (widget, phone or here) and the question has not been answered yet.
             if r.dayNumber(on: now) >= 1, r.feelings[DayKey.key(now)] == nil, !askDeclined(r) { return .ask(r) }
@@ -86,6 +90,14 @@ final class WatchModel {
         YogiStore.shared.markKept(r.id, on: now)
         WatchLink.shared.sendKept(r.id, dayKey: DayKey.key(now), feeling: nil)
         asking = r.id
+        refresh()
+    }
+
+    /// "Not today": closes the day here and on the phone. No haptic.
+    func notToday(_ r: RoutineSnapshot) {
+        YogiStore.shared.markNotToday(r.id, on: now)
+        Nudges.cancelToday(r.id, now: now)
+        WatchLink.shared.sendNotToday(r.id, dayKey: DayKey.key(now))
         refresh()
     }
 

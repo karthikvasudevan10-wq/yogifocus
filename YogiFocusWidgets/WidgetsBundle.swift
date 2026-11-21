@@ -63,6 +63,26 @@ struct DoneIntent: AppIntent {
     }
 }
 
+/// "Not today", tapped on the widget: closes the day and stops its nudges.
+struct NotTodayIntent: AppIntent {
+    static var title: LocalizedStringResource = "Not today"
+    static var description = IntentDescription("Closes today for this routine, with no more reminders today.")
+    static var isDiscoverable = false
+
+    @Parameter(title: "Routine") var routineID: String
+
+    init() {}
+    init(routineID: UUID) { self.routineID = routineID.uuidString }
+
+    func perform() async throws -> some IntentResult {
+        if let id = UUID(uuidString: routineID) {
+            YogiStore.shared.markNotToday(id)
+            Nudges.cancelToday(id)
+        }
+        return .result()
+    }
+}
+
 struct YogiWidgetView: View {
     @Environment(\.widgetFamily) private var family
     let entry: YogiEntry
@@ -76,10 +96,12 @@ struct YogiWidgetView: View {
     }
 
     var body: some View {
-        YogiWidgetContent(model: entry.model, size: size) { label in
+        YogiWidgetContent(model: entry.model, size: size) { answer, label in
             if let id = entry.model.routineID {
-                Button(intent: DoneIntent(routineID: id)) { label }
-                    .buttonStyle(.plain)
+                switch answer {
+                case .done: Button(intent: DoneIntent(routineID: id)) { label }.buttonStyle(.plain)
+                case .notToday: Button(intent: NotTodayIntent(routineID: id)) { label }.buttonStyle(.plain)
+                }
             } else {
                 label
             }

@@ -119,6 +119,8 @@ public final class Routine {
     public var mandalaNumber: Int = 1
     /// Mandalas the person chose to begin again before finishing. They don't count as completed.
     public var restartedMandalas: Int = 0
+    /// The day the person answered "Not today" (a day key), so that day closes early. Empty when never.
+    public var notTodayKey: String = ""
     /// The mandala for which the Day 30 reveal has been shown.
     public var day30SeenMandala: Int = 0
     /// The mandala for which the finishing screen has been shown.

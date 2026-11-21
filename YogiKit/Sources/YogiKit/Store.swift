@@ -107,7 +107,8 @@ public final class YogiStore: @unchecked Sendable {
                 createdAt: r.createdAt, updatedAt: r.updatedAt,
                 keptDayKeys: Array(Set(current.map(\.dayKey))).sorted(),
                 recentKeptDayKeys: Array(Set(mine.map(\.dayKey).filter { $0 >= recentFloor })).sorted(),
-                feelings: feelings, restartedMandalas: r.restartedMandalas))
+                feelings: feelings, restartedMandalas: r.restartedMandalas,
+                notTodayKey: r.notTodayKey.isEmpty ? nil : r.notTodayKey))
         }
         return Routines.sorted(out)
     }
@@ -231,6 +232,13 @@ public final class YogiStore: @unchecked Sendable {
         finish(c)
     }
 
+    /// "Not today": closes the day early and stops its nudges. Nothing is shown about it before day 30,
+    /// and from day 30 the day is a missed petal, as any day without Done is. Done later the same day still counts.
+    public func markNotToday(_ id: UUID, on date: Date = Date()) {
+        let key = DayKey.key(date)
+        updateRoutine(id) { r in if r.notTodayKey < key { r.notTodayKey = key } }
+    }
+
     // MARK: Days kept
 
     /// Records that the routine was kept on a day. A day counts once; a later call only adds the feeling or note.
@@ -271,7 +279,9 @@ public final class YogiStore: @unchecked Sendable {
             r.place = s.place; r.things = s.things; r.chimeEnabled = s.chimeEnabled; r.isPaused = s.isPaused
             r.pausedSince = s.pausedSince; r.skippedDayKeys = s.skippedDayKeys; r.startedOn = s.startedOn
             r.mandalaNumber = s.mandalaNumber; r.day30SeenMandala = s.day30SeenMandala
-            r.completeSeenMandala = s.completeSeenMandala; r.restartedMandalas = s.restartedMandalas ?? r.restartedMandalas; r.createdAt = s.createdAt; r.updatedAt = s.updatedAt
+            r.completeSeenMandala = s.completeSeenMandala; r.restartedMandalas = s.restartedMandalas ?? r.restartedMandalas
+            if let k = s.notTodayKey, k > r.notTodayKey { r.notTodayKey = k }
+            r.createdAt = s.createdAt; r.updatedAt = s.updatedAt
             mergeKept(c, s)
         }
         if removingMissing {

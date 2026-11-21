@@ -17,9 +17,17 @@ final class WatchLink: NSObject, WCSessionDelegate, @unchecked Sendable {
 
     /// Sent at once when the phone is reachable; otherwise queued and delivered later.
     func sendKept(_ routineID: UUID, dayKey: String, feeling: Feeling?) {
-        guard WCSession.isSupported(), WCSession.default.activationState == .activated else { return }
         var info: [String: Any] = ["kept": routineID.uuidString, "dayKey": dayKey]
         if let feeling { info["feeling"] = feeling.rawValue }
+        send(info)
+    }
+
+    func sendNotToday(_ routineID: UUID, dayKey: String) {
+        send(["notToday": routineID.uuidString, "dayKey": dayKey])
+    }
+
+    private func send(_ info: [String: Any]) {
+        guard WCSession.isSupported(), WCSession.default.activationState == .activated else { return }
         let session = WCSession.default
         if session.isReachable {
             session.sendMessage(info, replyHandler: nil) { _ in session.transferUserInfo(info) }

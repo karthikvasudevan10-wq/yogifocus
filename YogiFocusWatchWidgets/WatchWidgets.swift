@@ -36,7 +36,7 @@ struct YogiEntry: TimelineEntry {
         case .earlier:
             let near = model.hourDate.map { $0.timeIntervalSince(date) < 3600 } ?? false
             score = near ? 30 : 10
-        case .kept: score = 5
+        case .kept, .notToday: score = 5
         case .paused, .empty: score = 0
         }
         return TimelineEntryRelevance(score: score)

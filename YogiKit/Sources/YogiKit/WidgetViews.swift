@@ -80,15 +80,18 @@ public struct YogiWidgetBackground: View {
     }
 }
 
-/// The widget's content. `done` is the Done button, supplied by the widget so it can run an App Intent.
+/// The two answers a widget can give at the hour.
+public enum WidgetAnswer: Sendable { case done, notToday }
+
+/// The widget's content. `answer` makes the Done and Not today buttons tappable, supplied by the widget so it can run App Intents.
 public struct YogiWidgetContent<Done: View>: View {
     let model: WidgetModel
     let size: YogiWidgetSize
-    let done: (AnyView) -> Done
+    let answer: (WidgetAnswer, AnyView) -> Done
 
-    /// - done: wraps the button label in whatever makes it tappable (a `Button(intent:)` on a widget).
-    public init(model: WidgetModel, size: YogiWidgetSize, @ViewBuilder done: @escaping (AnyView) -> Done) {
-        self.model = model; self.size = size; self.done = done
+    /// - answer: wraps a button label in whatever makes it tappable (a `Button(intent:)` on a widget).
+    public init(model: WidgetModel, size: YogiWidgetSize, @ViewBuilder answer: @escaping (WidgetAnswer, AnyView) -> Done) {
+        self.model = model; self.size = size; self.answer = answer
     }
 
     public var body: some View {
@@ -147,12 +150,32 @@ public struct YogiWidgetContent<Done: View>: View {
     }
 
     private func doneButton(_ u: CGFloat, height: CGFloat, font: CGFloat) -> some View {
-        done(AnyView(
+        answer(.done, AnyView(
             Text("Done")
                 .font(YFFont.fixedBody(font * u, .semibold))
                 .foregroundStyle(YF.onAccent)
                 .frame(maxWidth: .infinity, minHeight: height * u)
                 .background(YF.leaf, in: Capsule())
+        ))
+    }
+
+    /// Outlined, in the card's own text colour: a quiet second answer, never red.
+    private func notTodayButton(_ u: CGFloat, height: CGFloat, font: CGFloat) -> some View {
+        answer(.notToday, AnyView(
+            Text("Not today")
+                .font(YFFont.fixedBody(font * u, .semibold))
+                .foregroundStyle(model.tone.text)
+                .frame(maxWidth: .infinity, minHeight: height * u)
+                .overlay(Capsule().strokeBorder(model.tone.text.opacity(0.45), lineWidth: 1.2 * u))
+        ))
+    }
+
+    private func notTodayLink(_ u: CGFloat) -> some View {
+        answer(.notToday, AnyView(
+            Text("Not today")
+                .font(YFFont.fixedBody(14 * u, .semibold)).underline()
+                .foregroundStyle(model.tone.text)
+                .frame(maxWidth: .infinity, minHeight: 30 * u)
         ))
     }
 
@@ -180,7 +203,10 @@ public struct YogiWidgetContent<Done: View>: View {
                 .id(model.mediumLine).transition(.opacity)
             Spacer(minLength: 0)
             if model.showsDone {
-                doneButton(u, height: 44, font: 14)
+                HStack(spacing: 8 * u) {
+                    doneButton(u, height: 44, font: 14)
+                    if model.showsNotToday { notTodayButton(u, height: 44, font: 14) }
+                }
             } else {
                 VStack(alignment: .leading, spacing: 1 * u) {
                     ForEach(model.mediumFoot, id: \.self) { Text($0).lineLimit(1).minimumScaleFactor(0.8) }
@@ -212,6 +238,7 @@ public struct YogiWidgetContent<Done: View>: View {
             Spacer(minLength: 0)
             if model.showsDone {
                 doneButton(u, height: 48, font: 15)
+                if model.showsNotToday { notTodayLink(u).padding(.top, 6 * u) }
             } else if !model.largeFoot.isEmpty {
                 Text(model.largeFoot).font(YFFont.fixedBody(14 * u, .medium)).foregroundStyle(model.tone.secondary)
             }
@@ -236,7 +263,7 @@ public struct YogiWidgetCard: View {
     public var body: some View {
         ZStack {
             YogiWidgetBackground(model: model, size: size)
-            YogiWidgetContent(model: model, size: size) { $0 }
+            YogiWidgetContent(model: model, size: size) { _, label in label }
         }
         .aspectRatio(size.reference.width / size.reference.height, contentMode: .fit)
         .clipShape(RoundedRectangle(cornerRadius: size.cornerRadius, style: .continuous))

@@ -9,6 +9,7 @@ public enum Nudges {
     public static let hourCategory = "YF_HOUR"
     public static let askCategory = "YF_ASK"
     public static let doneAction = "YF_DONE"
+    public static let notTodayAction = "YF_NOT_TODAY"
     public static let feelingPrefix = "YF_FEEL_"
     public static let routineKey = "routineID"
     public static let dayKey = "dayKey"
@@ -17,9 +18,10 @@ public enum Nudges {
 
     public static func registerCategories() {
         let done = UNNotificationAction(identifier: doneAction, title: "Done", options: [])
+        let notToday = UNNotificationAction(identifier: notTodayAction, title: "Not today", options: [])
         let feelings = Feeling.allCases.map { UNNotificationAction(identifier: feelingPrefix + $0.rawValue, title: $0.title, options: []) }
         UNUserNotificationCenter.current().setNotificationCategories([
-            UNNotificationCategory(identifier: hourCategory, actions: [done], intentIdentifiers: []),
+            UNNotificationCategory(identifier: hourCategory, actions: [done, notToday], intentIdentifiers: []),
             UNNotificationCategory(identifier: askCategory, actions: feelings, intentIdentifiers: []),
         ])
     }
@@ -42,7 +44,7 @@ public enum Nudges {
             for r in active {
                 for offset in 0..<days {
                     guard let day = cal.date(byAdding: .day, value: offset, to: cal.startOfDay(for: now)) else { continue }
-                    if offset == 0 && r.keptToday(now) { continue }
+                    if offset == 0 && (r.keptToday(now) || r.saidNotToday(now)) { continue }
                     let n = r.dayNumber(on: day)
                     guard n >= 1 else { continue }
                     let phase = Phase.forDay(n)
@@ -102,13 +104,15 @@ public enum Nudges {
                                          trigger: UNCalendarNotificationTrigger(dateMatching: comps, repeats: false)))
     }
 
-    /// Handles a tap on a notification button. Returns true if a day was recorded.
+    /// Handles a tap on a notification button. Returns true if the day was answered.
     @discardableResult
     public static func handle(action: String, userInfo: [AnyHashable: Any]) -> Bool {
         guard let raw = userInfo[routineKey] as? String, let id = UUID(uuidString: raw) else { return false }
         let day = (userInfo[dayKey] as? String).flatMap { DayKey.date($0) } ?? Date()
         if action == doneAction {
             YogiStore.shared.markKept(id, on: day)
+        } else if action == notTodayAction {
+            YogiStore.shared.markNotToday(id, on: day)
         } else if action.hasPrefix(feelingPrefix), let f = Feeling(rawValue: String(action.dropFirst(feelingPrefix.count))) {
             YogiStore.shared.markKept(id, on: day, feeling: f)
         } else {

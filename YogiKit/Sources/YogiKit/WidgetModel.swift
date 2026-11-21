@@ -4,7 +4,7 @@ import Foundation
 /// Copy is from `docs/03-widgets.md`. Nothing here shows progress before day 30, and nothing ever mentions a miss.
 public struct WidgetModel: Hashable, Sendable {
     public enum Tone: String, Sendable { case paper, softYellow, sunny, softGreen }
-    public enum State: String, Sendable { case empty, paused, earlier, soon, itsTime, passed, kept }
+    public enum State: String, Sendable { case empty, paused, earlier, soon, itsTime, passed, kept, notToday }
 
     public static let reminder = "Remember: same place, same time, same things."
 
@@ -16,6 +16,8 @@ public struct WidgetModel: Hashable, Sendable {
     public var dot = false
     public var check = false
     public var showsDone = false
+    /// "Not today" beside Done: medium and large only, where there is room for two answers.
+    public var showsNotToday = false
     /// Small: one or two short lines.
     public var small1 = ""
     public var small2 = ""
@@ -78,6 +80,17 @@ public struct WidgetModel: Hashable, Sendable {
         let anchor = "\(time) · \(place)"
 
         switch r.moment(at: now) {
+        case .notToday:
+            // Calm, never red, and no count: the answer is not mentioned anywhere until day 30.
+            m.state = .notToday
+            m.label = "Tomorrow"
+            m.small1 = "Tomorrow is a new day."
+            m.small2 = time
+            m.mediumLine = "Tomorrow is a new day."
+            m.mediumFoot = ["Tomorrow, \(anchor)"]
+            m.largeLine = "That's all right. Tomorrow is a new day."
+            m.largeFoot = "Tomorrow, \(time)"
+
         case .paused:
             m.state = .paused
             m.label = "Paused"
@@ -142,6 +155,7 @@ public struct WidgetModel: Hashable, Sendable {
             m.label = "It's time"
             m.dot = true
             m.showsDone = true
+            m.showsNotToday = true
             switch phase {
             case .boringMiddle:
                 m.small1 = "Don't decide. Just start."
@@ -161,6 +175,7 @@ public struct WidgetModel: Hashable, Sendable {
             m.state = .passed
             m.label = "Still today"
             m.showsDone = true
+            m.showsNotToday = true
             m.small1 = "Just start when you can."
             m.mediumLine = "Just start when you can."
             m.largeLine = "Still today. Just start when you can."

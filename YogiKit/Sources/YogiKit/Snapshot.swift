@@ -7,6 +7,8 @@ public enum PetalState: String, Codable, Sendable {
 public enum DayMoment: Equatable, Sendable {
     case paused
     case kept
+    /// The person said "Not today": the day is closed and no more nudges come.
+    case notToday
     case earlier
     case soon(minutes: Int)
     case itsTime
@@ -33,6 +35,8 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
     public var completeSeenMandala: Int
     /// Mandalas begun again before finishing. Optional so snapshots from 1.0 (watch, widget cache) still decode.
     public var restartedMandalas: Int?
+    /// The day key of the last "Not today" answer. Optional so 1.0 snapshots still decode.
+    public var notTodayKey: String?
     public var createdAt: Date
     public var updatedAt: Date
     /// Days kept in the current mandala.
@@ -47,7 +51,7 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
                 chimeEnabled: Bool = true, isPaused: Bool = false, pausedSince: Date? = nil, skippedDayKeys: [String] = [],
                 startedOn: Date = Date(), mandalaNumber: Int = 1, day30SeenMandala: Int = 0, completeSeenMandala: Int = 0,
                 createdAt: Date = Date(), updatedAt: Date = Date(), keptDayKeys: [String] = [], recentKeptDayKeys: [String] = [],
-                feelings: [String: String] = [:], restartedMandalas: Int = 0) {
+                feelings: [String: String] = [:], restartedMandalas: Int = 0, notTodayKey: String? = nil) {
         self.id = id; self.name = name; self.kind = kind; self.hour = hour; self.minute = minute
         self.durationMinutes = durationMinutes; self.place = place; self.things = things
         self.chimeEnabled = chimeEnabled; self.isPaused = isPaused; self.pausedSince = pausedSince
@@ -56,6 +60,7 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
         self.createdAt = createdAt; self.updatedAt = updatedAt
         self.keptDayKeys = keptDayKeys; self.recentKeptDayKeys = recentKeptDayKeys; self.feelings = feelings
         self.restartedMandalas = restartedMandalas
+        self.notTodayKey = notTodayKey
     }
 
     public var routineKind: RoutineKind { RoutineKind(rawValue: kind) ?? .own }
@@ -150,12 +155,18 @@ public struct RoutineSnapshot: Codable, Identifiable, Hashable, Sendable {
     public func moment(at now: Date) -> DayMoment {
         if isPaused { return .paused }
         if keptToday(now) || dayNumber(on: now) < 1 { return .kept }
+        if saidNotToday(now) { return .notToday }
         let h = hourDate(on: now)
         let before = h.addingTimeInterval(-Double(Mandala.nudgeBeforeMinutes) * 60)
         if now < before { return .earlier }
         if now < h { return .soon(minutes: max(1, Int((h.timeIntervalSince(now) / 60).rounded(.up)))) }
         if now < h.addingTimeInterval(Double(Mandala.hourWindowMinutes) * 60) { return .itsTime }
         return .passed
+    }
+
+    /// "Not today" was the answer for this day, and it hasn't been kept since. A kept day always wins.
+    public func saidNotToday(_ now: Date) -> Bool {
+        notTodayKey == DayKey.key(now) && !keptToday(now)
     }
 
     /// The morning after a missed day. Never mentioned as a miss: the screen only says "A new day."
@@ -286,7 +297,8 @@ public enum Routines {
     public static func current(_ all: [RoutineSnapshot], at now: Date) -> RoutineSnapshot? {
         let list = sorted(all)
         let active = list.filter { !$0.isPaused }
-        if let next = active.first(where: { $0.moment(at: now) != .kept }) { return next }
+        // A routine answered today (kept, or "Not today") steps aside for one still waiting.
+        if let next = active.first(where: { ![.kept, .notToday].contains($0.moment(at: now)) }) { return next }
         return active.last ?? list.first
     }
 }
