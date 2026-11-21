@@ -47,13 +47,18 @@ struct Day30Screen: View {
 struct MandalaScreen: View {
     @Environment(\.duoPose) private var pose
     var body: some View {
-        if pose == .phone { phoneBody } else { duoBody }
+        Group {
+            if pose == .phone { phoneBody } else { duoBody }
+        }
+        // Apple's rating prompt, once, on first seeing the mandala at day 30 (v2 item 29).
+        .onAppear { RatingMoment.askIfDue(requestReview) }
     }
     @Environment(AppModel.self) private var model
     let routineID: UUID
     let onBack: () -> Void
     let onEdit: () -> Void
     @State private var askRestart = false
+    @Environment(\.requestReview) private var requestReview
 
     @ViewBuilder var phoneBody: some View {
         let now = Date()
@@ -173,6 +178,7 @@ struct MandalaCompleteScreen: View {
     let routineID: UUID
     let onNewMandala: () -> Void
     let onAddRoutine: () -> Void
+    @State private var sharing = false
 
     var body: some View {
         let now = Date()
@@ -203,16 +209,34 @@ struct MandalaCompleteScreen: View {
                     .accessibilityLabel("A yogi floating above a slowly turning lotus")
             } content: {
                 VStack(alignment: .leading, spacing: 0) {
+                    // v2 item 6: which mandala this is, and how rare it is to get here.
+                    Chip(text: "Your \(ordinal) mandala · \(r?.name ?? "")", background: YF.ink, foreground: YF.sunny)
+                        .padding(.top, 6)
                     H1("One mandala.", size: 46).padding(.top, 6)
-                    Para(missed <= 0
-                         ? "Out of 48 days, you practised all 48. Yogis say a practice held this long is yours for life."
-                         : "Out of 48 days, you practised \(practised) and missed \(missed). Yogis say a practice held this long is yours for life.")
+                    Para((missed <= 0
+                          ? "Out of 48 days, you practised all 48."
+                          : "Out of 48 days, you practised \(practised).")
+                         + " Very few people ever keep a practice this long. This is a special place to be.")
                         .padding(.top, 4)
                 }
             } bottom: {
-                PrimaryButton("Begin a new mandala", kind: .hero, action: onNewMandala)
-                // The only place a second routine is offered to a beginner.
-                GhostButton("Add another routine", color: YF.ink, action: onAddRoutine)
+                Button { sharing = true } label: {
+                    Label("Share my mandala", systemImage: "square.and.arrow.up")
+                        .font(YFFont.body(17, .semibold))
+                        .foregroundStyle(YF.heroButtonText)
+                        .frame(maxWidth: .infinity, minHeight: 56)
+                        .background(YF.heroButtonFill, in: Capsule())
+                }
+                .buttonStyle(PressStyle())
+                HStack(spacing: 10) {
+                    GhostButton("New mandala", color: YF.ink, action: onNewMandala)
+                    // The only place a second routine is offered to a beginner.
+                    GhostButton("Add a routine", color: YF.ink, action: onAddRoutine)
+                }
+                ShareLink(item: AppLinks.store, message: Text(AppLinks.shareMessage)) {
+                    Text("Share Yogi Focus with a friend").font(YFFont.body(15, .medium)).underline().foregroundStyle(YF.ink)
+                        .frame(maxWidth: .infinity, minHeight: 40)
+                }
             }
             // In the reference the petals fall for ever so they can be seen; in the app they fall for a few seconds and stop.
             PetalDrift(count: 28, colors: [.white, YF.sunny, YF.daySky, YF.saffron, Color(hex: 0xFFB3C7), YF.sunny, .white],
@@ -220,7 +244,15 @@ struct MandalaCompleteScreen: View {
                 .ignoresSafeArea()
         }
         .sensoryFeedback(.success, trigger: routineID)
+        .fullScreenCover(isPresented: $sharing) {
+            debugFramed(ShareMandalaScreen(routineID: routineID, routineName: model.routine(routineID)?.name ?? "",
+                                           mandalaNumber: completedNumber) { sharing = false })
+        }
     }
+
+    /// The mandala just completed, counting only finished ones (a restart doesn't count).
+    private var completedNumber: Int { (model.routine(routineID)?.completedMandalas ?? 0) + 1 }
+    private var ordinal: String { completedNumber == 1 ? "first" : String(Clip.kicker(completedNumber).dropFirst(3).dropLast(8)) }
 }
 
 /// The yogi levitating above a large open lotus seen at an angle; the lotus turns slowly and its rings breathe.

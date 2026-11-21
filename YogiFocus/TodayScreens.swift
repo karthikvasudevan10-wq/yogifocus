@@ -87,6 +87,7 @@ struct TodayScreen: View {
             debugFramed(Day30Screen(routineID: box.id) {
                 YogiStore.shared.markDay30Seen(box.id)
                 reveal = nil
+                RatingMoment.pending = true
                 path.append(.mandala(box.id))
             })
         }

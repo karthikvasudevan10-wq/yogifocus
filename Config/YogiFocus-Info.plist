@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
 <key>NSAlarmKitUsageDescription</key><string>Yogi Focus rings a gentle alarm at your routine's hour, only if you turn it on for that routine.</string>
+<key>LSApplicationQueriesSchemes</key><array><string>instagram-stories</string></array>
+<key>NSPhotoLibraryAddUsageDescription</key><string>Save your mandala video to Photos.</string>
 <key>NSSupportsLiveActivities</key><true/>
 <key>UIBackgroundModes</key><array><string>remote-notification</string></array>
 </dict></plist>

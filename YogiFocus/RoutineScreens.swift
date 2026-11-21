@@ -26,6 +26,8 @@ struct RoutinesScreen: View {
             .padding(.top, 16)
             Para("Add slowly. Give each routine a full mandala before you start the next.", size: 14, color: YF.muted)
                 .padding(.top, 12)
+            Divider1().padding(.top, 22)
+            ShareAndRate().padding(.top, 8)
         }
     }
 
@@ -151,6 +153,7 @@ struct RoutineEditScreen: View {
         .confirmationDialog("Remove \(model.routine(routineID)?.name ?? "this routine")?", isPresented: $confirmRemove, titleVisibility: .visible) {
             Button("Remove", role: .destructive) {
                 YogiStore.shared.removeRoutine(routineID)
+                MandalaClipMaker.removeCache(for: routineID)
                 model.refresh()
                 onBack()
             }
